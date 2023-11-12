@@ -51,4 +51,9 @@ public class MyPageFragment extends Fragment {
         binding = FragmentMyPageBinding.inflate(inflater,container,false);
         return binding.getRoot();
     }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }

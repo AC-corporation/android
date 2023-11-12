@@ -53,4 +53,9 @@ public class TimeTableFragment extends Fragment {
         binding = FragmentTimeTableBinding.inflate(inflater,container,false);
         return binding.getRoot();
     }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }

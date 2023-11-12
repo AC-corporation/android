@@ -49,4 +49,10 @@ public class GradeFragment extends Fragment {
         binding = FragmentGradeBinding.inflate(inflater,container,false);
         return binding.getRoot();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }
