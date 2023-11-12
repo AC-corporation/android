@@ -4,11 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class EditTimeTableActivity extends AppCompatActivity {
+import com.example.allclear.databinding.ActivityEditTimeTableBinding;
+import com.example.allclear.databinding.ActivityMainPageBinding;
 
+public class EditTimeTableActivity extends AppCompatActivity {
+    private ActivityEditTimeTableBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_time_table);
+        binding = ActivityEditTimeTableBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
     }
 }

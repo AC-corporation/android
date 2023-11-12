@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class MakeTimeTableActivity extends AppCompatActivity {
+import com.example.allclear.databinding.ActivityMakeTimeTableBinding;
 
+public class MakeTimeTableActivity extends AppCompatActivity {
+    private ActivityMakeTimeTableBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_make_time_table);
+        binding = ActivityMakeTimeTableBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
     }
 }
