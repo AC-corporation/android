@@ -13,7 +13,22 @@
         android:theme="@style/Theme.AllClear"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".MakeTimeTableActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ListTimeTableActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditTimeTableActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddTimeTableActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
