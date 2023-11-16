@@ -6,13 +6,56 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-    <TextView
+    <ImageView
+        android:id="@+id/login_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:src="@drawable/allclear_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/login_stuedntid_et"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toBottomOf="@id/login_logo"
+        android:layout_marginTop="60dp"
+        android:layout_marginHorizontal="30dp"
+        android:hint="학번"
+        android:paddingStart="20dp"
+        android:textColorHint="#B1B8C0"
+        android:textSize="13dp"
+        android:background="@drawable/edittext_round"
+        />
+    <EditText
+        android:id="@+id/login_password_et"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toBottomOf="@id/login_stuedntid_et"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="30dp"
+        android:hint="비밀번호"
+        android:paddingStart="20dp"
+        android:textColorHint="#B1B8C0"
+        android:textSize="13dp"
+        android:background="@drawable/edittext_round"
+        />
+    <android.widget.Button
+        android:id="@+id/login_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toBottomOf="@id/login_password_et"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="30dp"
+        android:text="로그인"
+        android:textColor="#006E93"
+        android:textSize="14dp"
+        android:paddingLeft="120dp"
+        android:paddingRight="130dp"
+        android:background="@drawable/login_btn"
+        android:drawableLeft="@drawable/soongsil"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

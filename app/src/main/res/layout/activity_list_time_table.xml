@@ -11,6 +11,7 @@
             android:layout_marginTop="26dp">
 
             <TextView
+                android:id="@+id/list_timetable_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -19,9 +20,11 @@
                 android:textStyle="bold" />
 
             <ImageButton
+                android:id="@+id/list_timetable_back_btn"
                 android:layout_marginLeft="29dp"
                 android:layout_width="37dp"
                 android:layout_height="37dp"
+                android:layout_alignBottom="@+id/list_timetable_title"
                 android:background="@android:color/transparent"
                 android:src="@drawable/baseline_arrow_back_ios_new_24" />
         </RelativeLayout>
@@ -352,8 +355,4 @@
         </androidx.cardview.widget.CardView>
     </LinearLayout>
     </ScrollView>
-
-
-
-
 </LinearLayout>
