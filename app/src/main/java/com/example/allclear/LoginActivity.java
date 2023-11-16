@@ -74,7 +74,10 @@ public class LoginActivity extends AppCompatActivity {
         return binding.loginPasswordEt.getText().toString().equals("")||binding.loginStuedntidEt.getText().toString().equals("");
     }
     private boolean loginCheck(){
-        if (binding.loginStuedntidEt.getText().toString().length() != 8) return false;
+        if (binding.loginStuedntidEt.getText().toString().length() != 8){
+            Toast.makeText(this, "학번은 8자리를 입력해야합니다.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         else return true;
         //비활성화가 아닌 Toast 띄우기일경우
 //        if (emptyCheck()){

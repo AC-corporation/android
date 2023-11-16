@@ -1,5 +1,8 @@
 package com.example.allclear;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -47,11 +50,36 @@ public class TimeTableFragment extends Fragment {
         }
     }
     private FragmentTimeTableBinding binding;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentTimeTableBinding.inflate(inflater,container,false);
+        btnClick();
         return binding.getRoot();
+    }
+    private void btnClick(){
+        binding.imgAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),AddTimeTableActivity.class);
+                startActivity(intent);
+            }
+        });
+        binding.imgEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),EditTimeTableActivity.class);
+                startActivity(intent);
+            }
+        });
+        binding.imgMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),ListTimeTableActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     @Override
     public void onDestroyView() {
