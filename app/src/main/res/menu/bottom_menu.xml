@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/timeTable"
+        android:enabled="true"
+        android:title=""
+        android:icon="@drawable/timetable_click"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/gr"
+        android:enabled="true"
+        android:title=""
+        android:icon="@drawable/gr"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/credit"
+        android:enabled="true"
+        android:title=""
+        android:icon="@drawable/credit"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/myPage"
+        android:enabled="true"
+        android:title=""
+        android:icon="@drawable/my_page"
+        app:showAsAction="always" />
+</menu>
