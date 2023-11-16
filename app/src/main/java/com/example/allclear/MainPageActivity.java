@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class MainPageActivity extends AppCompatActivity {
+import com.example.allclear.databinding.ActivityMainPageBinding;
 
+public class MainPageActivity extends AppCompatActivity {
+    private ActivityMainPageBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_page);
+        binding = ActivityMainPageBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
     }
 }

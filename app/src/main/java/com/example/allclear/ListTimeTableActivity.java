@@ -4,11 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class ListTimeTableActivity extends AppCompatActivity {
+import com.example.allclear.databinding.ActivityListTimeTableBinding;
+import com.example.allclear.databinding.ActivityMainPageBinding;
 
+public class ListTimeTableActivity extends AppCompatActivity {
+    private ActivityListTimeTableBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_time_table);
+        binding = ActivityListTimeTableBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
     }
 }

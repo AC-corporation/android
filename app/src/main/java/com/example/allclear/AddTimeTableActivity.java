@@ -4,11 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class AddTimeTableActivity extends AppCompatActivity {
+import com.example.allclear.databinding.ActivityAddTimeTableBinding;
+import com.example.allclear.databinding.ActivityMainPageBinding;
 
+public class AddTimeTableActivity extends AppCompatActivity {
+    private ActivityAddTimeTableBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_time_table);
+        binding = ActivityAddTimeTableBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
     }
 }
