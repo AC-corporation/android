@@ -20,6 +20,7 @@ public class MainPageActivity extends AppCompatActivity {
     }
     private void initBottomNavigation(){
         NavigationBarView navigationBarView = binding.bottomNavigationview;
+        getSupportFragmentManager().beginTransaction().replace(R.id.containers, new TimeTableFragment()).commit();
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
