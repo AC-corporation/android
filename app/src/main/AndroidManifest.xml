@@ -12,7 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AllClear"
         tools:targetApi="31">
-
+        <activity
+            android:name=".maketimetable.SaveTimeTableActivity"
+            android:exported="false" />
+        <activity
+            android:name=".maketimetable.EssentialSubjectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".maketimetable.SelfAddOneActivity"
+            android:exported="false" />
         <activity
             android:name=".ListTimeTableActivity"
             android:exported="true" />
