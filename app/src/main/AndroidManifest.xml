@@ -37,6 +37,9 @@
             android:name=".maketimetable.SelfAddOneActivity"
             android:exported="false" />
         <activity
+            android:name=".maketimetable.SelfAddTwoActivity"
+            android:exported="false" />
+        <activity
             android:name=".ListTimeTableActivity"
             android:exported="true" />
         <activity
