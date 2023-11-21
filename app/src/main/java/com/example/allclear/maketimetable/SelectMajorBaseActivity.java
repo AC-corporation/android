@@ -27,5 +27,12 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }
