@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.allclear.databinding.FragmentGradeBinding;
 import com.example.allclear.databinding.FragmentTimeTableBinding;
+import com.example.allclear.maketimetable.SelectSemesterActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,7 +63,7 @@ public class TimeTableFragment extends Fragment {
         binding.imgAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),AddTimeTableActivity.class);
+                Intent intent = new Intent(getActivity(),SelectSemesterActivity.class);
                 startActivity(intent);
             }
         });
@@ -76,7 +77,7 @@ public class TimeTableFragment extends Fragment {
         binding.imgMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),ListTimeTableActivity.class);
+                Intent intent = new Intent(getActivity(), SelectSemesterActivity.class);
                 startActivity(intent);
             }
         });
