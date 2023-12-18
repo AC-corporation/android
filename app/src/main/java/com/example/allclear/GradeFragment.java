@@ -42,11 +42,13 @@ public class GradeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     private FragmentGradeBinding binding;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentGradeBinding.inflate(inflater,container,false);
+        binding = FragmentGradeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

@@ -27,6 +27,7 @@ public class MyPageFragment extends Fragment {
     public MyPageFragment() {
         // Required empty public constructor
     }
+
     public static MyPageFragment newInstance(String param1, String param2) {
         MyPageFragment fragment = new MyPageFragment();
         Bundle args = new Bundle();
@@ -44,13 +45,16 @@ public class MyPageFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     private FragmentMyPageBinding binding;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentMyPageBinding.inflate(inflater,container,false);
+        binding = FragmentMyPageBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

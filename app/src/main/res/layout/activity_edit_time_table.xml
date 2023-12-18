@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,20 +20,23 @@
 
         <ImageButton
             android:id="@+id/edit_timetable_back_btn"
-            android:layout_marginLeft="29dp"
             android:layout_width="37dp"
             android:layout_height="37dp"
             android:layout_alignBottom="@+id/edit_timetable_title"
+            android:layout_marginLeft="29dp"
             android:background="@android:color/transparent"
             android:src="@drawable/baseline_arrow_back_ios_new_24" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="시간표 1"
-            android:textSize="16dp"
             android:layout_below="@id/edit_timetable_title"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:text="시간표 1"
+            android:textSize="16dp" />
+
     </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

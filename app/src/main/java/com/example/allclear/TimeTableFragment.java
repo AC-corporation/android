@@ -50,27 +50,29 @@ public class TimeTableFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     private FragmentTimeTableBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentTimeTableBinding.inflate(inflater,container,false);
+        binding = FragmentTimeTableBinding.inflate(inflater, container, false);
         btnClick();
         return binding.getRoot();
     }
-    private void btnClick(){
+
+    private void btnClick() {
         binding.imgAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),SelectSemesterActivity.class);
+                Intent intent = new Intent(getActivity(), SelectSemesterActivity.class);
                 startActivity(intent);
             }
         });
         binding.imgEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),EditTimeTableActivity.class);
+                Intent intent = new Intent(getActivity(), EditTimeTableActivity.class);
                 startActivity(intent);
             }
         });
@@ -82,6 +84,7 @@ public class TimeTableFragment extends Fragment {
             }
         });
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
