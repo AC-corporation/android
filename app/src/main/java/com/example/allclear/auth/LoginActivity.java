@@ -1,4 +1,4 @@
-package com.example.allclear;
+package com.example.allclear.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.allclear.MainPageActivity;
+import com.example.allclear.R;
 import com.example.allclear.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
@@ -29,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
 
         editChanged();
         setupTitleColor();
+        signUpBtnListener();
 
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +128,17 @@ public class LoginActivity extends AppCompatActivity {
                 2,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         binding.loginLogo.setText(spannableEventSecond);
+    }
+
+    // 회원가입 버튼 눌렀을 시 동작하는 함수
+    private void signUpBtnListener(){
+        binding.loginSignupBtnTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }
