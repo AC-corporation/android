@@ -7,7 +7,7 @@
     tools:context=".auth.SignUpActivity">
 
     <ImageView
-        android:id="@+id/signup_back_btn"
+        android:id="@+id/iv_signup_back_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/signup_title_tv"
+        android:id="@+id/tv_signup_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <EditText
-            android:id="@+id/login_email_et"
+            android:id="@+id/et_login_email"
             android:layout_width="280dp"
             android:layout_height="100dp"
             android:background="@null"
@@ -76,12 +76,12 @@
         android:layout_marginBottom="11dp"
         android:background="@drawable/round_btn"
         android:backgroundTint="#F2F2F2"
-        app:layout_constraintBottom_toTopOf="@id/signup_agreement_tv"
+        app:layout_constraintBottom_toTopOf="@id/tv_signup_agreement"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <EditText
-            android:id="@+id/login_password_et"
+            android:id="@+id/et_login_password"
             android:layout_width="280dp"
             android:layout_height="100dp"
             android:background="@null"
@@ -108,24 +108,24 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/signup_agreement_tv"
+        android:id="@+id/tv_signup_agreement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="개인정보 이용에 돤한 동의"
-        app:layout_constraintBottom_toBottomOf="@id/signup_agreement_cb"
-        app:layout_constraintEnd_toStartOf="@id/signup_agreement_cb"
-        app:layout_constraintTop_toTopOf="@id/signup_agreement_cb" />
+        app:layout_constraintBottom_toBottomOf="@id/cb_signup_agreement"
+        app:layout_constraintEnd_toStartOf="@id/cb_signup_agreement"
+        app:layout_constraintTop_toTopOf="@id/cb_signup_agreement" />
 
     <CheckBox
-        android:id="@+id/signup_agreement_cb"
+        android:id="@+id/cb_signup_agreement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="11dp"
-        app:layout_constraintBottom_toTopOf="@id/signup_btn"
-        app:layout_constraintEnd_toEndOf="@id/signup_btn" />
+        app:layout_constraintBottom_toTopOf="@id/btn_signup_next"
+        app:layout_constraintEnd_toEndOf="@id/btn_signup_next" />
 
     <android.widget.Button
-        android:id="@+id/signup_btn"
+        android:id="@+id/btn_signup_next"
         android:layout_width="match_parent"
         android:layout_height="63dp"
         android:layout_marginHorizontal="27dp"

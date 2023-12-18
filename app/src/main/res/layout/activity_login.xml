@@ -7,7 +7,7 @@
     tools:context=".auth.LoginActivity">
 
     <TextView
-        android:id="@+id/login_logo"
+        android:id="@+id/tv_login_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
@@ -32,7 +32,7 @@
         app:layout_constraintBottom_toTopOf="@id/layout_password_text">
 
         <EditText
-            android:id="@+id/login_email_et"
+            android:id="@+id/et_login_email"
             android:layout_width="280dp"
             android:layout_height="100dp"
             android:background="@null"
@@ -66,12 +66,12 @@
         android:layout_marginBottom="14dp"
         android:background="@drawable/round_btn"
         android:backgroundTint="#F2F2F2"
-       app:layout_constraintBottom_toTopOf="@id/login_btn"
+       app:layout_constraintBottom_toTopOf="@id/btn_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <EditText
-            android:id="@+id/login_password_et"
+            android:id="@+id/et_login_password"
             android:layout_width="280dp"
             android:layout_height="100dp"
             android:background="@null"
@@ -98,7 +98,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <android.widget.Button
-        android:id="@+id/login_btn"
+        android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="63dp"
         android:layout_marginHorizontal="27dp"
@@ -109,10 +109,10 @@
         android:textColor="@color/white"
         android:textSize="16sp"
         android:layout_marginBottom="14dp"
-        app:layout_constraintBottom_toTopOf="@id/login_signup_btn_tv"/>
+        app:layout_constraintBottom_toTopOf="@id/tv_login_signup_btn"/>
 
     <TextView
-        android:id="@+id/login_signup_btn_tv"
+        android:id="@+id/tv_login_signup_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="회원가입"
@@ -120,11 +120,11 @@
         android:textSize="12sp"
         android:layout_marginBottom="71dp"
         android:layout_marginStart="110dp"
-        app:layout_constraintStart_toStartOf="@id/login_btn"
+        app:layout_constraintStart_toStartOf="@id/btn_login"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
-        android:id="@+id/login_edit_password_tv"
+        android:id="@+id/tv_login_edit_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="비밀번호 변경"
@@ -132,7 +132,7 @@
         android:textSize="12sp"
         android:layout_marginBottom="71dp"
         android:textColor="@color/text_gray"
-        app:layout_constraintEnd_toEndOf="@id/login_btn"
+        app:layout_constraintEnd_toEndOf="@id/btn_login"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
