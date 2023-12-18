@@ -9,6 +9,7 @@ import com.example.allclear.databinding.ActivityMainPageBinding;
 
 public class EditTimeTableActivity extends AppCompatActivity {
     private ActivityEditTimeTableBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

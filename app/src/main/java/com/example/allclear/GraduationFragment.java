@@ -27,6 +27,7 @@ public class GraduationFragment extends Fragment {
     public GraduationFragment() {
         // Required empty public constructor
     }
+
     public static GraduationFragment newInstance(String param1, String param2) {
         GraduationFragment fragment = new GraduationFragment();
         Bundle args = new Bundle();
@@ -44,13 +45,16 @@ public class GraduationFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     private FragmentGraduationBinding binding;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentGraduationBinding.inflate(inflater,container,false);
+        binding = FragmentGraduationBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

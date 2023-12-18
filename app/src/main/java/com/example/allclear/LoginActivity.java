@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //학번, 비밀번호 비어있을때 버튼 비활성화
     private void editChanged() {
-        binding.loginStuedntidEt.addTextChangedListener(new TextWatcher() {
+        binding.loginEmailEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 setBtnEnabled();
@@ -84,12 +84,12 @@ public class LoginActivity extends AppCompatActivity {
 
     //학번, 비밀번호 공백 체크하는 함수
     private boolean emptyCheck() {
-        return binding.loginPasswordEt.getText().toString().equals("") || binding.loginStuedntidEt.getText().toString().equals("");
+        return binding.loginPasswordEt.getText().toString().equals("") || binding.loginEmailEt.getText().toString().equals("");
     }
 
     //학번 8자리인지 체크하는 함수
     private boolean loginCheck() {
-        if (binding.loginStuedntidEt.getText().toString().length() != 8) {
+        if (binding.loginEmailEt.getText().toString().length() != 8) {
             Toast.makeText(this, "학번은 8자리를 입력해야합니다.", Toast.LENGTH_SHORT).show();
             return false;
         } else return true;
@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), MainPageActivity.class);
         //토큰을 받아올경우 넣어주기
         //intent.putExtra("token",);
-        Log.i("id", binding.loginStuedntidEt.getText().toString());
+        Log.i("id", binding.loginEmailEt.getText().toString());
         Log.i("password", binding.loginPasswordEt.getText().toString());
         finish();
         startActivity(intent);

@@ -11,6 +11,7 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class MainPageActivity extends AppCompatActivity {
     private ActivityMainPageBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,10 +19,11 @@ public class MainPageActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         initBottomNavigation();
     }
-    private void initBottomNavigation(){
+
+    private void initBottomNavigation() {
         NavigationBarView navigationBarView = binding.bottomNavigationview;
         getSupportFragmentManager().beginTransaction().replace(R.id.containers, new TimeTableFragment()).commit();
-        navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener(){
+        navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.timeTable) {

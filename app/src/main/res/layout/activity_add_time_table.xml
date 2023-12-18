@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,27 +20,29 @@
 
         <ImageButton
             android:id="@+id/add_timetable_back_btn"
-            android:layout_marginLeft="29dp"
             android:layout_width="37dp"
             android:layout_height="37dp"
             android:layout_alignBottom="@+id/add_timetable_title"
+            android:layout_marginLeft="29dp"
             android:background="@android:color/transparent"
             android:src="@drawable/baseline_arrow_back_ios_new_24" />
 
     </RelativeLayout>
+
     <NumberPicker
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_gravity="center"
         android:layout_marginHorizontal="100dp"
-        android:layout_gravity="center"/>
+        android:layout_weight="1" />
+
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:buttonTint="#76A8F6"
         android:text="빈 시간표 만들기"
-        android:textSize="12dp"/>
+        android:textSize="12dp" />
 
 
     <Button
