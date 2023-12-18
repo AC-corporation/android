@@ -19,6 +19,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         signUpBtnNextListener();
+        backBtnListener();
     }
 
     // 이메일 인증으로 가는 버튼 눌렀을 시 동작하는 함수
@@ -28,6 +29,16 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EmailAuthActivity.class);
                 startActivity(intent);
+            }
+        });
+    }
+
+    // 뒤로가기 버튼
+    private void backBtnListener(){
+        binding.ivSignupBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
