@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.allclear.R;
 import com.example.allclear.databinding.ActivitySignUpBinding;
@@ -27,8 +28,14 @@ public class SignUpActivity extends AppCompatActivity {
         binding.btnSignupNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), EmailAuthActivity.class);
-                startActivity(intent);
+                if(binding.cbSignupAgreement.isChecked()){
+                    Intent intent = new Intent(getApplicationContext(), EmailAuthActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(v.getContext(),"개인정보 이용에 관한 약관에 동의해 주세요",Toast.LENGTH_SHORT).show();
+                    return;
+                };
             }
         });
     }
