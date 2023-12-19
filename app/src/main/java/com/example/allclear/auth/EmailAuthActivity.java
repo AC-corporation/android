@@ -23,6 +23,7 @@ public class EmailAuthActivity extends AppCompatActivity {
 
         emailSendBtnListener();
         emailCodeButtonListener();
+        signupBtnListener();
         backBtnListener();
     }
 
