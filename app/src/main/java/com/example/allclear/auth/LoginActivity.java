@@ -90,12 +90,12 @@ public class LoginActivity extends AppCompatActivity {
         return binding.etLoginPassword.getText().toString().equals("") || binding.etLoginEmail.getText().toString().equals("");
     }
 
-    //학번 8자리인지 체크하는 함수
+    //이메일과 비밀번호가 비어있는지 체크하는 함수
     private boolean loginCheck() {
-        if (binding.etLoginEmail.getText().toString().length() != 8) {
-            Toast.makeText(this, "학번은 8자리를 입력해야합니다.", Toast.LENGTH_SHORT).show();
+        if (binding.etLoginEmail.getText().toString().length() == 0 || binding.etLoginPassword.getText().toString().length() == 0) {
             return false;
-        } else return true;
+        }
+        else return true;
     }
 
     //백엔드와 통신하는 함수
