@@ -13,6 +13,9 @@
         android:theme="@style/Theme.AllClear"
         tools:targetApi="31">
         <activity
+            android:name=".auth.UsaintLoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".auth.EmailAuthActivity"
             android:exported="false" />
         <activity
