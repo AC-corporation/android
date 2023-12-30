@@ -3,8 +3,11 @@ package com.example.allclear;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +66,7 @@ public class TimeTableFragment extends Fragment{
             ScheduleDay.TUESDAY,  // ScheduleDay object (MONDAY ~ SUNDAY)
             "8:20",               // startTime format: "HH:mm"
             "10:30",              // endTime format: "HH:mm"
-            "#73fcae68",          // backgroundColor (optional)
+            "#fffcae68",          // backgroundColor (optional)
             "#000000"             // textColor (optional)
     );
     public void setTimeTable(){
@@ -127,7 +130,8 @@ public class TimeTableFragment extends Fragment{
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
+        Log.i("Fragment","onDestroyView()");
         binding = null;
+        super.onDestroyView();
     }
 }
