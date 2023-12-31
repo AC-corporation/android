@@ -64,7 +64,7 @@ public class MainPageActivity extends AppCompatActivity {
                     return true;
                 } else if (item.getItemId() == R.id.myPage) {
                     if(myPage == null) {
-                        myPage = new GraduationFragment();
+                        myPage = new MyPageFragment();
                         fragmentManager.beginTransaction().add(R.id.containers, myPage).commit();
                     }
                     if(myPage != null) fragmentManager.beginTransaction().show(myPage).commit();

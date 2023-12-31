@@ -122,7 +122,7 @@ public class TimeTableFragment extends Fragment{
         binding.imgMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SelectSemesterActivity.class);
+                Intent intent = new Intent(getActivity(), ListTimeTableActivity.class);
                 startActivity(intent);
             }
         });
