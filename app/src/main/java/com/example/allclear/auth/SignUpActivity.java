@@ -35,14 +35,8 @@ public class SignUpActivity extends AppCompatActivity {
         binding.btnSignupNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(binding.cbSignupAgreement.isChecked()){
-                    Intent intent = new Intent(getApplicationContext(), MainPageActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), UsaintLoginActivity.class);
                     startActivity(intent);
-                }
-                else {
-                    Toast.makeText(v.getContext(),"개인정보 이용에 관한 약관에 동의해 주세요",Toast.LENGTH_SHORT).show();
-                    return;
-                };
             }
         });
     }

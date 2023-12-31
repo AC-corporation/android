@@ -90,6 +90,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
+
             <ImageView
                 android:id="@+id/img_email"
                 android:layout_width="30dp"
@@ -102,19 +104,32 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/tv_email_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:text="학교 이메일을 입력해 주세요 (@soongsil.ac.kr)"
+            android:textSize="12sp"
+            android:fontFamily="@font/poppins_bold"
+            android:textColor="@color/first_blue"
+            app:layout_constraintStart_toStartOf="@id/layout_email_text"
+            app:layout_constraintTop_toBottomOf="@id/layout_email_text" />
+
         <Button
             android:id="@+id/btn_email_send"
             android:layout_width="match_parent"
             android:layout_height="63dp"
             android:layout_marginHorizontal="27dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/round_btn"
             android:backgroundTint="@color/first_blue"
             android:fontFamily="@font/poppins_bold"
             android:text="전송하기"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/layout_email_text" />
+            app:layout_constraintTop_toBottomOf="@id/tv_email_info" />
 
         <TextView
             android:id="@+id/tv_email_code"
