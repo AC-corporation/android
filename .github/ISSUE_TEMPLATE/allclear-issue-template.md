@@ -1,5 +1,5 @@
 ---
-name: allClear issue template
+name: AllClear issue template
 about: Issues
 title: ''
 labels: ''
