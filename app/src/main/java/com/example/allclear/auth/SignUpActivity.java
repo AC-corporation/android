@@ -30,7 +30,6 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     //유세인트 로그인으로 가는 버튼 눌렀을 시 동작하는 함수
-    //유세인트 로그인이 아직 구현이 안되서 메인으로 가게 해놓음
     private void signUpBtnNextListener(){
         binding.btnSignupNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +93,6 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
-
 
     // 뒤로가기 버튼
     private void backBtnListener(){
