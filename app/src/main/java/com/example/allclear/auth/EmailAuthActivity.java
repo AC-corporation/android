@@ -57,7 +57,7 @@ public class EmailAuthActivity extends AppCompatActivity {
         });
     }
 
-    //인증코드 확인
+    //인증코드 확인리스너
     private void emailCodeButtonListener(){
         binding.btnEmailCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +77,6 @@ public class EmailAuthActivity extends AppCompatActivity {
                     binding.btnSignupBtn.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.first_blue));
                     //아이콘 변경
                     binding.imgCheck.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_checked));
-
                 }
                 else{
                     Toast.makeText(v.getContext(),"인증코드가 일치 하지 않습니다! 개발용 인증코드: 1111",Toast.LENGTH_SHORT).show();
@@ -98,8 +97,9 @@ public class EmailAuthActivity extends AppCompatActivity {
     }
 
     //이메일 형식 검사
+    //숭실 이메일 경우 : true
     private boolean isValidEmail(String email) {
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        String emailPattern = "[a-zA-Z0-9._-]+@soongsil\\.ac\\.kr";
         return email.matches(emailPattern);
     }
 }

@@ -19,10 +19,12 @@ public class UsaintLoginActivity extends AppCompatActivity {
         binding = ActivityUsaintLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        signUpBtnNextListener();
+        logInBtnListener();
     }
 
-    private void signUpBtnNextListener(){
+    //로그인 버튼을 클릭했을때 리스너
+    //약관에 동의했는지 검사
+    private void logInBtnListener(){
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
