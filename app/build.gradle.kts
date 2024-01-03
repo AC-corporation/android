@@ -60,4 +60,10 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
     implementation ("com.github.islandparadise14:Mintable:1.5.1")
     implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.0.0")
+    // Retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-moshi:2.9.0'")
+    // OkHttp
+    implementation ("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.10.0")
 }
