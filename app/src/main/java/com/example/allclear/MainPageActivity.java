@@ -9,6 +9,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.allclear.databinding.ActivityMainPageBinding;
+import com.example.allclear.grade.GradeFragment;
+import com.example.allclear.graduation.GraduationFragment;
+import com.example.allclear.mypage.MyPageFragment;
+import com.example.allclear.timetable.TimeTableFragment;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MainPageActivity extends AppCompatActivity {

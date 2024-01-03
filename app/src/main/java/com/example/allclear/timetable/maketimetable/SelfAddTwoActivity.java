@@ -1,4 +1,4 @@
-package com.example.allclear.maketimetable;
+package com.example.allclear.timetable.maketimetable;
 
 import androidx.appcompat.app.AppCompatActivity;
 

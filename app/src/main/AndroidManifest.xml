@@ -23,40 +23,40 @@
             android:name=".auth.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".maketimetable.SelectGaneralElectiveActivity"
+            android:name=".timetable.maketimetable.SelectGaneralElectiveActivity"
             android:exported="false" />
         <activity
-            android:name=".maketimetable.SelectMajorActivity"
+            android:name=".timetable.maketimetable.SelectMajorActivity"
             android:exported="false" />
         <activity
-            android:name=".maketimetable.SelectEssentialGeneralElectiveActivity"
+            android:name=".timetable.maketimetable.SelectEssentialGeneralElectiveActivity"
             android:exported="false" />
         <activity
-            android:name=".maketimetable.SelectMajorBaseActivity"
+            android:name=".timetable.maketimetable.SelectMajorBaseActivity"
             android:exported="false" />
         <activity
-            android:name=".maketimetable.SelectSemesterActivity"
+            android:name=".timetable.maketimetable.SelectSemesterActivity"
             android:exported="false" />
         <activity
-            android:name=".maketimetable.SaveTimeTableActivity"
+            android:name=".timetable.maketimetable.SaveTimeTableActivity"
             android:exported="false" />
         <activity
-            android:name=".maketimetable.EssentialSubjectActivity"
+            android:name=".timetable.maketimetable.EssentialSubjectActivity"
             android:exported="false" />
         <activity
-            android:name=".maketimetable.SelfAddOneActivity"
+            android:name=".timetable.maketimetable.SelfAddOneActivity"
             android:exported="false" />
         <activity
-            android:name=".maketimetable.SelfAddTwoActivity"
+            android:name=".timetable.maketimetable.SelfAddTwoActivity"
             android:exported="false" />
         <activity
-            android:name=".ListTimeTableActivity"
+            android:name=".timetable.ListTimeTableActivity"
             android:exported="true" />
         <activity
-            android:name=".EditTimeTableActivity"
+            android:name=".timetable.EditTimeTableActivity"
             android:exported="true" />
         <activity
-            android:name=".AddTimeTableActivity"
+            android:name=".timetable.AddTimeTableActivity"
             android:exported="true" />
         <activity
             android:name=".MainPageActivity"

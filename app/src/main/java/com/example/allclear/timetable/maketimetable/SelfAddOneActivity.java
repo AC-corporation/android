@@ -1,4 +1,4 @@
-package com.example.allclear.maketimetable;
+package com.example.allclear.timetable.maketimetable;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.allclear.R;
 import com.example.allclear.databinding.ActivitySelfAddOneBinding;
 
 public class SelfAddOneActivity extends AppCompatActivity {
