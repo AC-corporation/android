@@ -10,11 +10,6 @@ import android.view.ViewGroup;
 
 import com.example.allclear.databinding.FragmentMyPageBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MyPageFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MyPageFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";

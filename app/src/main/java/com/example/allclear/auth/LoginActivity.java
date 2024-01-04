@@ -12,11 +12,10 @@ import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-
 import com.example.allclear.MainPageActivity;
 import com.example.allclear.R;
 import com.example.allclear.databinding.ActivityLoginBinding;
+
 
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
@@ -29,10 +28,14 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         binding.btnLogin.setEnabled(false);
 
+        initLoginBtnListener();
         editChanged();
         setupTitleColor();
         signUpBtnListener();
 
+    }
+
+    private void initLoginBtnListener(){
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
