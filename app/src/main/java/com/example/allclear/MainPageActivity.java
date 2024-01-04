@@ -2,6 +2,8 @@ package com.example.allclear;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -11,6 +13,8 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class MainPageActivity extends AppCompatActivity {
     private ActivityMainPageBinding binding;
+    private FragmentManager fragmentManager;
+    private Fragment timeTable, gr, credit, myPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,21 +26,51 @@ public class MainPageActivity extends AppCompatActivity {
 
     private void initBottomNavigation() {
         NavigationBarView navigationBarView = binding.bottomNavigationview;
-        getSupportFragmentManager().beginTransaction().replace(R.id.containers, new TimeTableFragment()).commit();
+        fragmentManager = getSupportFragmentManager();
+        timeTable = new TimeTableFragment();
+        fragmentManager.beginTransaction().replace(R.id.containers, timeTable).commit();
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.timeTable) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.containers, new TimeTableFragment()).commit();
+                    if(timeTable == null) {
+                        timeTable = new TimeTableFragment();
+                        fragmentManager.beginTransaction().add(R.id.containers, timeTable).commit();
+                    }
+                    if(timeTable != null) fragmentManager.beginTransaction().show(timeTable).commit();
+                    if(gr != null) fragmentManager.beginTransaction().hide(gr).commit();
+                    if(credit != null) fragmentManager.beginTransaction().hide(credit).commit();
+                    if(myPage != null) fragmentManager.beginTransaction().hide(myPage).commit();
                     return true;
                 } else if (item.getItemId() == R.id.gr) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.containers, new GradeFragment()).commit();
+                    if(gr == null) {
+                        gr = new GradeFragment();
+                        fragmentManager.beginTransaction().add(R.id.containers, gr).commit();
+                    }
+                    if(gr != null) fragmentManager.beginTransaction().show(gr).commit();
+                    if(timeTable != null) fragmentManager.beginTransaction().hide(timeTable).commit();
+                    if(credit != null) fragmentManager.beginTransaction().hide(credit).commit();
+                    if(myPage != null) fragmentManager.beginTransaction().hide(myPage).commit();
                     return true;
                 } else if (item.getItemId() == R.id.credit) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.containers, new GraduationFragment()).commit();
+                    if(credit == null) {
+                        credit = new GraduationFragment();
+                        fragmentManager.beginTransaction().add(R.id.containers, credit).commit();
+                    }
+                    if(credit != null) fragmentManager.beginTransaction().show(credit).commit();
+                    if(timeTable != null) fragmentManager.beginTransaction().hide(timeTable).commit();
+                    if(gr != null) fragmentManager.beginTransaction().hide(gr).commit();
+                    if(myPage != null) fragmentManager.beginTransaction().hide(myPage).commit();
                     return true;
                 } else if (item.getItemId() == R.id.myPage) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.containers, new MyPageFragment()).commit();
+                    if(myPage == null) {
+                        myPage = new MyPageFragment();
+                        fragmentManager.beginTransaction().add(R.id.containers, myPage).commit();
+                    }
+                    if(myPage != null) fragmentManager.beginTransaction().show(myPage).commit();
+                    if(timeTable != null) fragmentManager.beginTransaction().hide(timeTable).commit();
+                    if(gr != null) fragmentManager.beginTransaction().hide(gr).commit();
+                    if(credit != null) fragmentManager.beginTransaction().hide(credit).commit();
                     return true;
                 }
                 return false;

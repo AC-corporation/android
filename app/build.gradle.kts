@@ -1,5 +1,8 @@
+import org.jetbrains.kotlin.cli.jvm.main
+
 plugins {
     id("com.android.application")
+    "kotlin-android"
 }
 
 android {
@@ -28,9 +31,18 @@ android {
             viewBinding = true
         }
     }
+    sourceSets["main"].java {
+        srcDir("src/main/kotlin")
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    repositories {
+        maven {
+            url =uri("https://jitpack.io")
+        }
     }
     dataBinding {
         enable = true
@@ -46,4 +58,6 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+    implementation ("com.github.islandparadise14:Mintable:1.5.1")
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.0.0")
 }
