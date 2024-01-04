@@ -25,8 +25,8 @@
 
         <ImageView
             android:id="@+id/img_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginEnd="10dp"
             android:src="@drawable/add_circle_24"
             app:layout_constraintBottom_toBottomOf="@id/tv_graduation_title"
@@ -35,8 +35,8 @@
 
         <ImageView
             android:id="@+id/img_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginEnd="10dp"
             android:src="@drawable/edit_24"
             app:layout_constraintBottom_toBottomOf="@id/tv_graduation_title"
@@ -45,8 +45,8 @@
 
         <ImageView
             android:id="@+id/img_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginEnd="30dp"
             android:src="@drawable/menu_24"
             app:layout_constraintBottom_toBottomOf="@id/tv_graduation_title"
