@@ -31,13 +31,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
+    <EditText
         android:id="@+id/tv_SubTextOne"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:background="@color/transparent"
-        android:text="이름"
+        android:hint="이름"
         android:textColor="@color/secondary"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -53,13 +53,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_SubTextOne" />
 
-    <TextView
+    <EditText
         android:id="@+id/tv_professor_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@color/transparent"
-        android:text="교수명"
+        android:hint="교수명"
         android:textColor="@color/secondary"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -75,54 +75,77 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_professor_name" />
 
-    <TextView
+    <Spinner
         android:id="@+id/tv_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@color/transparent"
-        android:text="월요일"
+        android:entries="@array/day"
         android:textColor="@color/gray"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/btn_add"
         app:layout_constraintTop_toBottomOf="@id/iv_line2" />
 
-    <ImageButton
-        android:id="@+id/ib_down_arrow1"
-        android:layout_width="11dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="10dp"
-        android:background="@color/transparent"
-        android:src="@drawable/down_arrow"
-        app:layout_constraintBottom_toBottomOf="@id/tv_day"
-        app:layout_constraintStart_toEndOf="@id/tv_day"
-        app:layout_constraintTop_toTopOf="@id/tv_day" />
-
-    <TextView
-        android:id="@+id/tv_time"
+<!--    <ImageButton-->
+<!--        android:id="@+id/ib_down_arrow1"-->
+<!--        android:layout_width="11dp"-->
+<!--        android:layout_height="18dp"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:background="@color/transparent"-->
+<!--        android:src="@drawable/down_arrow"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/tv_day"-->
+<!--        app:layout_constraintStart_toEndOf="@id/tv_day"-->
+<!--        app:layout_constraintTop_toTopOf="@id/tv_day" />-->
+    <Spinner
+        android:id="@+id/tv_startTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:background="@color/transparent"
-        android:text="9:00 ~ 10:30"
+        android:text="9:00"
         android:textColor="@color/gray"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/tv_day"
-        app:layout_constraintStart_toEndOf="@id/ib_down_arrow1"
-        app:layout_constraintTop_toTopOf="@id/tv_day" />
-
-    <ImageButton
-        android:id="@+id/ib_down_arrow2"
-        android:layout_width="11dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/tv_day"
+        app:layout_constraintTop_toTopOf="@id/tv_day"/>
+    <TextView
+        android:id="@+id/tv_middleTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
         android:background="@color/transparent"
-        android:src="@drawable/down_arrow"
+        android:text="~"
+        android:textColor="@color/gray"
+        android:textSize="15sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/tv_day"
-        app:layout_constraintStart_toEndOf="@id/tv_time"
+        app:layout_constraintStart_toEndOf="@id/tv_startTime"
         app:layout_constraintTop_toTopOf="@id/tv_day" />
+    <Spinner
+        android:id="@+id/tv_endTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:background="@color/transparent"
+        android:textColor="@color/gray"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/tv_day"
+        app:layout_constraintStart_toEndOf="@id/tv_middleTime"
+        app:layout_constraintTop_toTopOf="@id/tv_day"/>
+<!--    <ImageButton-->
+<!--        android:id="@+id/ib_down_arrow2"-->
+<!--        android:layout_width="11dp"-->
+<!--        android:layout_height="18dp"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:background="@color/transparent"-->
+<!--        android:src="@drawable/down_arrow"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/tv_day"-->
+<!--        app:layout_constraintStart_toEndOf="@id/tv_time"-->
+<!--        app:layout_constraintTop_toTopOf="@id/tv_day" />-->
 
     <ImageView
         android:id="@+id/iv_line3"
@@ -133,7 +156,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_day" />
 
-    <TextView
+    <EditText
         android:id="@+id/tv_place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
