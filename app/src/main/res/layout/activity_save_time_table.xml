@@ -549,7 +549,7 @@
         android:layout_height="70dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/big_button"
-        android:backgroundTint="@color/skyblue"
+        android:backgroundTint="@color/first_blue"
         android:gravity="center"
         android:scaleType="fitCenter"
         android:text="저장"

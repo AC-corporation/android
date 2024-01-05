@@ -40,6 +40,14 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    // 비밀번호 정규식 체크 함수
+    private boolean isValidPassword(String password) {
+        // 비밀번호 정규식 패턴
+        String passwordPattern = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=\\S+$).{8,}$";
+        // 비밀번호가 정규식 패턴에 맞는지 확인
+        return password.matches(passwordPattern);
+    }
+
     //입력한 비밀번호가 일치하는지 체크하는 함수
     private void passwordMatchingCheck() {
         binding.etPassword.addTextChangedListener(new TextWatcher() {
@@ -52,7 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String password = binding.etPassword.getText().toString();
                 String confirmPassword = binding.etPasswordCheck.getText().toString();
 
-                if (!password.isEmpty() && password.equals(confirmPassword)) {
+                if (isValidPassword(password) && password.equals(confirmPassword)) {
                     binding.btnSignupNext.setEnabled(true);
                     binding.imgCheck.setImageResource(R.drawable.ic_checked);
                     binding.btnSignupNext.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.first_blue)));
@@ -77,7 +85,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String password = binding.etPassword.getText().toString();
                 String confirmPassword = binding.etPasswordCheck.getText().toString();
-                if (!password.isEmpty() && password.equals(confirmPassword)) {
+                if (isValidPassword(password) && password.equals(confirmPassword)) {
                     binding.btnSignupNext.setEnabled(true);
                     binding.imgCheck.setImageResource(R.drawable.ic_checked);
                     binding.btnSignupNext.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.first_blue)));
