@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.example.allclear.R;
 import com.example.allclear.databinding.ActivitySelectMajorBaseBinding;
-import com.example.allclear.databinding.ActivitySelectSemesterBinding;
+//import com.example.allclear.databinding.ActivitySelectSemesterBinding;
 
 public class SelectMajorBaseActivity extends AppCompatActivity {
     private ActivitySelectMajorBaseBinding binding;
