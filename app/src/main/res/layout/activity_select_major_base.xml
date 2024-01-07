@@ -14,6 +14,8 @@
         android:gravity="center"
         android:text="전공기초/필수"
         android:textSize="28sp"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -93,7 +95,7 @@
                 android:layout_height="70dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/big_button"
-                android:backgroundTint="@color/skyblue"
+                android:backgroundTint="@color/first_blue"
                 android:gravity="center"
                 android:scaleType="fitCenter"
                 android:text="다음"
