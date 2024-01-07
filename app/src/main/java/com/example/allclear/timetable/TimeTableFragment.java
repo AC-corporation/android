@@ -1,10 +1,8 @@
-package com.example.allclear;
+package com.example.allclear.timetable;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -14,17 +12,12 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.example.allclear.databinding.FragmentTimeTableBinding;
-import com.example.allclear.maketimetable.SelectSemesterActivity;
+import com.example.allclear.timetable.maketimetable.SelectSemesterActivity;
 import com.islandparadise14.mintable.model.ScheduleDay;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TimeTableFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TimeTableFragment extends Fragment{
 
     private static final String ARG_PARAM1 = "param1";

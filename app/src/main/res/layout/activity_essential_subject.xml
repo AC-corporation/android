@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".maketimetable.EssentialSubjectActivity">
+    tools:context=".timetable.maketimetable.EssentialSubjectActivity">
 
     <TextView
         android:id="@+id/tv_title"
@@ -13,8 +13,9 @@
         android:layout_marginTop="35dp"
         android:gravity="center"
         android:text="필수 수강 과목"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/black"
         android:textSize="28sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="꼭 듣고 싶은 과목을 선택해주세요!"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/tv_title"
         app:layout_constraintStart_toStartOf="@id/tv_title"

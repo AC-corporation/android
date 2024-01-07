@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".maketimetable.SelectEssentialGeneralElectiveActivity">
+    tools:context=".timetable.maketimetable.SelectEssentialGeneralElectiveActivity">
 
     <TextView
         android:id="@+id/tv_title"
@@ -14,6 +14,8 @@
         android:gravity="center"
         android:text="교양 필수"
         android:textSize="28sp"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -52,7 +54,7 @@
                 android:text="16/16"
                 android:textSize="25sp"
                 app:layout_constraintStart_toStartOf="@+id/btn_next"
-                app:layout_constraintTop_toTopOf="parent"></TextView>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_SubTextOne"
@@ -62,7 +64,7 @@
                 android:text="학부-교양필수 16"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@+id/btn_next"
-                app:layout_constraintTop_toBottomOf="@+id/tv_ScoreOne"></TextView>
+                app:layout_constraintTop_toBottomOf="@+id/tv_ScoreOne" />
 
             <Button
                 android:id="@+id/btn_next"

@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".maketimetable.SelectMajorActivity">
+    tools:context=".timetable.maketimetable.SelectMajorActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".maketimetable.SelectEssentialGeneralElectiveActivity">
+        tools:context=".timetable.maketimetable.SelectEssentialGeneralElectiveActivity">
 
         <TextView
             android:id="@+id/tv_title"
@@ -19,6 +19,8 @@
             android:gravity="center"
             android:text="전공 선택"
             android:textSize="28sp"
+            android:fontFamily="@font/poppins_bold"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -1,4 +1,4 @@
-package com.example.allclear;
+package com.example.allclear.mypage;
 
 import android.os.Bundle;
 
@@ -8,25 +8,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.allclear.databinding.FragmentGradeBinding;
+import com.example.allclear.databinding.FragmentMyPageBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GradeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class GradeFragment extends Fragment {
+public class MyPageFragment extends Fragment {
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
     private String mParam1;
     private String mParam2;
 
-    public GradeFragment() {
+    public MyPageFragment() {
         // Required empty public constructor
     }
 
-    public static GradeFragment newInstance(String param1, String param2) {
-        GradeFragment fragment = new GradeFragment();
+    public static MyPageFragment newInstance(String param1, String param2) {
+        MyPageFragment fragment = new MyPageFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -43,12 +40,12 @@ public class GradeFragment extends Fragment {
         }
     }
 
-    private FragmentGradeBinding binding;
+    private FragmentMyPageBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentGradeBinding.inflate(inflater, container, false);
+        binding = FragmentMyPageBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
