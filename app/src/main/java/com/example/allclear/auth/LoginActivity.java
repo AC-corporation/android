@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkServer(){
+        // 서버 통신
         ServicePool.testService.getListFromServer()
                 .enqueue(new Callback<List<TestResponseDto>>() {
                     @Override
