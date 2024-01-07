@@ -15,17 +15,19 @@
             android:id="@+id/list_timetable_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_bold"
             android:gravity="center"
             android:text="시간표 목록"
-            android:textSize="28dp"
+            android:textColor="@color/black"
+            android:textSize="36sp"
             android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/list_timetable_back_btn"
             android:layout_width="37dp"
             android:layout_height="37dp"
-            android:layout_alignBottom="@+id/list_timetable_title"
             android:layout_marginLeft="29dp"
+            android:layout_marginTop="10dp"
             android:background="@android:color/transparent"
             android:src="@drawable/baseline_arrow_back_ios_new_24" />
 

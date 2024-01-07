@@ -19,6 +19,8 @@
             android:gravity="center"
             android:text="교양 선택"
             android:textSize="28sp"
+            android:fontFamily="@font/poppins_bold"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
