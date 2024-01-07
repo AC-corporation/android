@@ -12,9 +12,20 @@ import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
 import com.example.allclear.MainPageActivity;
 import com.example.allclear.R;
+import com.example.allclear.data.ServicePool;
+import com.example.allclear.data.TestResponseDto;
+import com.example.allclear.data.TestService;
 import com.example.allclear.databinding.ActivityLoginBinding;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -28,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         binding.btnLogin.setEnabled(false);
 
+        checkServer();
+
         initLoginBtnListener();
         editChanged();
         setupTitleColor();
@@ -35,8 +48,24 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private void checkServer(){
+        ServicePool.testService.getListFromServer()
+                .enqueue(new Callback<List<TestResponseDto>>() {
+                    @Override
+                    public void onResponse(Call<List<TestResponseDto>> call, Response<List<TestResponseDto>> response) {
+                        Toast.makeText(LoginActivity.this, "서버 통신 성공", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<TestResponseDto>> call, Throwable t) {
+                        Toast.makeText(LoginActivity.this, "서버 통신 실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     private void initLoginBtnListener(){
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 if (!loginCheck()) return;
