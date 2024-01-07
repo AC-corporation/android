@@ -2,6 +2,8 @@ package com.example.allclear.data;
 
 import android.util.Log;
 
+import com.example.allclear.BuildConfig;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -25,7 +27,7 @@ public class ApiClient {
                 .build();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("BASE_URL")
+                .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
