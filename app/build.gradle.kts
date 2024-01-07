@@ -8,8 +8,9 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.20"
 }
 
-var properties = Properties()
-properties.load(FileInputStream("local.properties"))
+var properties:Properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
+var serverURl = properties.getProperty("BASE_URL")
 
 android {
     namespace = "com.example.allclear"
@@ -24,7 +25,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "BASE_URL", properties.getProperty("base.url"))
+        buildConfigField("String", "BASE_URL", serverURl)
     }
 
     buildTypes {
