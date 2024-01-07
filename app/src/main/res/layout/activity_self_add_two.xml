@@ -32,13 +32,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
-        android:id="@+id/tv_SubTextOne"
+    <EditText
+        android:id="@+id/et_SubTextOne"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:background="@color/transparent"
-        android:text="이름"
+        android:inputType="text"
+        android:hint="이름"
+        android:textColorHint="@color/secondary"
         android:textColor="@color/secondary"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -52,15 +54,17 @@
         android:src="@drawable/ic_line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_SubTextOne" />
+        app:layout_constraintTop_toBottomOf="@id/et_SubTextOne" />
 
-    <TextView
-        android:id="@+id/tv_professor_name"
+    <EditText
+        android:id="@+id/et_professor_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@color/transparent"
-        android:text="교수명"
+        android:hint="교수명"
+        android:inputType="text"
+        android:textColorHint="@color/secondary"
         android:textColor="@color/secondary"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -74,45 +78,58 @@
         android:src="@drawable/ic_line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_professor_name" />
+        app:layout_constraintTop_toBottomOf="@id/et_professor_name" />
 
-    <TextView
-        android:id="@+id/tv_day"
+    <Spinner
+        android:id="@+id/day_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@color/transparent"
-        android:text="월요일"
-        android:textColor="@color/gray"
-        android:textSize="15sp"
-        android:textStyle="bold"
+        android:background="@null"
         app:layout_constraintStart_toStartOf="@+id/btn_add"
-        app:layout_constraintTop_toBottomOf="@id/iv_line2" />
+        app:layout_constraintTop_toBottomOf="@id/iv_line2"/>
 
-    <ImageButton
-        android:id="@+id/ib_down_arrow1"
-        android:layout_width="11dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="10dp"
-        android:background="@color/transparent"
-        android:src="@drawable/down_arrow"
-        app:layout_constraintBottom_toBottomOf="@id/tv_day"
-        app:layout_constraintStart_toEndOf="@id/tv_day"
-        app:layout_constraintTop_toTopOf="@id/tv_day" />
-
-    <TextView
-        android:id="@+id/tv_time"
+    <EditText
+        android:id="@+id/et_starttime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:background="@color/transparent"
-        android:text="9:00 ~ 10:30"
+        android:layout_marginStart="20sp"
+        android:text="9:00"
         android:textColor="@color/gray"
         android:textSize="15sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/tv_day"
-        app:layout_constraintStart_toEndOf="@id/ib_down_arrow1"
-        app:layout_constraintTop_toTopOf="@id/tv_day" />
+        android:inputType="datetime"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/day_spinner"
+        app:layout_constraintStart_toEndOf="@id/day_spinner"
+        app:layout_constraintTop_toTopOf="@id/day_spinner"/>
+
+    <TextView
+        android:id="@+id/tv_tilde"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="~"
+        android:textColor="@color/gray"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/day_spinner"
+        app:layout_constraintStart_toEndOf="@id/et_starttime"
+        app:layout_constraintTop_toTopOf="@id/day_spinner"/>
+
+    <EditText
+        android:id="@+id/et_endtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10:30"
+        android:textColor="@color/gray"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:inputType="datetime"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/day_spinner"
+        app:layout_constraintStart_toEndOf="@id/tv_tilde"
+        app:layout_constraintTop_toTopOf="@id/day_spinner"/>
 
     <ImageButton
         android:id="@+id/ib_down_arrow2"
@@ -121,9 +138,9 @@
         android:layout_marginStart="10dp"
         android:background="@color/transparent"
         android:src="@drawable/down_arrow"
-        app:layout_constraintBottom_toBottomOf="@id/tv_day"
-        app:layout_constraintStart_toEndOf="@id/tv_time"
-        app:layout_constraintTop_toTopOf="@id/tv_day" />
+        app:layout_constraintBottom_toBottomOf="@id/day_spinner"
+        app:layout_constraintStart_toEndOf="@id/et_endtime"
+        app:layout_constraintTop_toTopOf="@id/day_spinner" />
 
     <ImageView
         android:id="@+id/iv_line3"
@@ -132,15 +149,17 @@
         android:src="@drawable/ic_line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_day" />
+        app:layout_constraintTop_toBottomOf="@id/day_spinner" />
 
-    <TextView
-        android:id="@+id/tv_place"
+    <EditText
+        android:id="@+id/et_place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@color/transparent"
-        android:text="장소"
+        android:hint="장소"
+        android:textColorHint="@color/secondary"
+        android:inputType="text"
         android:textColor="@color/secondary"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -154,7 +173,7 @@
         android:src="@drawable/ic_line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_place" />
+        app:layout_constraintTop_toBottomOf="@id/et_place" />
 
     <TextView
         android:id="@+id/tv_add_place_time"
