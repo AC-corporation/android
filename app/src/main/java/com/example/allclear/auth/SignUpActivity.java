@@ -17,12 +17,17 @@ import com.example.allclear.databinding.ActivitySignUpBinding;
 
 public class SignUpActivity extends AppCompatActivity {
     private ActivitySignUpBinding binding;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        //인텐트에서 데이터 전달 받기
+        Intent intent = getIntent();
+        email = intent.getStringExtra("email");
 
         signUpBtnNextListener();
         backBtnListener();
@@ -35,6 +40,8 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), UsaintLoginActivity.class);
+                    intent.putExtra("email", email);
+                    intent.putExtra("password", binding.etPassword.getText().toString());
                     startActivity(intent);
             }
         });
