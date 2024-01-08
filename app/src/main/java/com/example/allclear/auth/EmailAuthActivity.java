@@ -57,7 +57,7 @@ public class EmailAuthActivity extends AppCompatActivity {
         });
     }
 
-    //인증코드 확인리스너
+    //인증 코드 확인 리스너
     private void emailCodeButtonListener(){
         binding.btnEmailCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +91,8 @@ public class EmailAuthActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                //이메일을 인텐트로 전달
+                intent.putExtra("email",binding.etEmailEmail.getText().toString());
                 startActivity(intent);
             }
         });
