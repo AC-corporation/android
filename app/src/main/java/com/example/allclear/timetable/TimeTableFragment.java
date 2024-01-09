@@ -58,7 +58,7 @@ public class TimeTableFragment extends Fragment{
             "IT Building 301",    // roomInfo
             ScheduleDay.TUESDAY,  // ScheduleDay object (MONDAY ~ SUNDAY)
             "8:20",               // startTime format: "HH:mm"
-            "10:30",              // endTime format: "HH:mm"
+            "17:30",              // endTime format: "HH:mm"
             "#fffcae68",          // backgroundColor (optional)
             "#000000"             // textColor (optional)
     );
