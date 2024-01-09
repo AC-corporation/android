@@ -10,7 +10,11 @@ import com.example.allclear.data.ApiClient;
 import com.example.allclear.data.MemberSignupRequestDto;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.SignUpService;
+import com.example.allclear.data.TestResponseDto;
 import com.example.allclear.databinding.ActivityUsaintLoginBinding;
+
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -66,10 +70,10 @@ public class UsaintLoginActivity extends AppCompatActivity {
         memberSignupRequestDto.setUsaintId(binding.etStudentId.getText().toString());
         memberSignupRequestDto.setUsaintPassword(binding.etUsaintPassword.getText().toString());
 
-        Call<Void> call = signUpService.signUp(memberSignupRequestDto);
-        call.enqueue(new Callback<Void>() {
+        Call<List<TestResponseDto>> call = signUpService.signUp(memberSignupRequestDto);
+        call.enqueue(new Callback<List<TestResponseDto>>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<List<TestResponseDto>> call, Response<List<TestResponseDto>> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), MainPageActivity.class);
@@ -80,7 +84,7 @@ public class UsaintLoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<List<TestResponseDto>> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "서버와의 통신이 중단되었습니다.", Toast.LENGTH_SHORT).show();
             }
         });
