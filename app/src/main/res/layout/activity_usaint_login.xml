@@ -51,7 +51,7 @@
         app:layout_constraintBottom_toTopOf="@id/layout_password_text">
 
         <EditText
-            android:id="@+id/et_login_email"
+            android:id="@+id/et_student_id"
             android:layout_width="280dp"
             android:layout_height="100dp"
             android:background="@null"
@@ -80,7 +80,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <EditText
-            android:id="@+id/et_login_password"
+            android:id="@+id/et_usaint_password"
             android:layout_width="280dp"
             android:layout_height="100dp"
             android:background="@null"

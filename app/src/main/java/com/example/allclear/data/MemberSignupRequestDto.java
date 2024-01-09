@@ -1,10 +1,19 @@
 package com.example.allclear.data;
 
+import com.google.gson.annotations.SerializedName;
+
 //회원가입을 위한 user 객체
-public class User {
+public class MemberSignupRequestDto {
+    @SerializedName("email")
     private String email;
+
+    @SerializedName("password")
     private String password;
+
+    @SerializedName("usaintId")
     private String usaintId;
+
+    @SerializedName("usaintPassword")
     private String usaintPassword;
 
     public String getEmail() {
@@ -39,4 +48,3 @@ public class User {
         this.usaintPassword = usaintPassword;
     }
 }
-
