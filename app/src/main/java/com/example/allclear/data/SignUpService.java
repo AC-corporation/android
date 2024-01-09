@@ -4,7 +4,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-public interface UserAPI {
+public interface SignUpService {
     @POST("user/signup")
-    Call<Void> signUp(@Body User user);
+    Call<Void> signUp(@Body MemberSignupRequestDto memberSignupRequestDto);
 }
