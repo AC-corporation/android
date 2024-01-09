@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //학번, 비밀번호 비어있을때 버튼 비활성화
     private void editChanged() {
-        binding.etLoginEmail.addTextChangedListener(new TextWatcher() {
+        binding.etStudentId.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 setBtnEnabled();
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 setBtnEnabled();
             }
         });
-        binding.etLoginPassword.addTextChangedListener(new TextWatcher() {
+        binding.etUsaintPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 setBtnEnabled();
@@ -120,12 +120,12 @@ public class LoginActivity extends AppCompatActivity {
 
     //학번, 비밀번호 공백 체크하는 함수
     private boolean emptyCheck() {
-        return binding.etLoginPassword.getText().toString().equals("") || binding.etLoginEmail.getText().toString().equals("");
+        return binding.etUsaintPassword.getText().toString().equals("") || binding.etStudentId.getText().toString().equals("");
     }
 
     //이메일과 비밀번호가 비어있는지 체크하는 함수
     private boolean loginCheck() {
-        if (binding.etLoginEmail.getText().toString().length() == 0 || binding.etLoginPassword.getText().toString().length() == 0) {
+        if (binding.etStudentId.getText().toString().length() == 0 || binding.etUsaintPassword.getText().toString().length() == 0) {
             return false;
         }
         else return true;
@@ -141,8 +141,8 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), MainPageActivity.class);
         //토큰을 받아올경우 넣어주기
         //intent.putExtra("token",);
-        Log.i("id", binding.etLoginEmail.getText().toString());
-        Log.i("password", binding.etLoginPassword.getText().toString());
+        Log.i("id", binding.etStudentId.getText().toString());
+        Log.i("password", binding.etUsaintPassword.getText().toString());
         finish();
         startActivity(intent);
     }

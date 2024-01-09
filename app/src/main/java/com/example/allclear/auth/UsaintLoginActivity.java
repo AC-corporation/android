@@ -7,8 +7,9 @@ import android.view.View;
 import android.widget.Toast;
 import com.example.allclear.MainPageActivity;
 import com.example.allclear.data.ApiClient;
-import com.example.allclear.data.User;
-import com.example.allclear.data.UserAPI;
+import com.example.allclear.data.MemberSignupRequestDto;
+import com.example.allclear.data.ServicePool;
+import com.example.allclear.data.SignUpService;
 import com.example.allclear.databinding.ActivityUsaintLoginBinding;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,7 +19,7 @@ public class UsaintLoginActivity extends AppCompatActivity {
     private ActivityUsaintLoginBinding binding;
     private String email;
     private String password;
-    private UserAPI userAPI;
+    private SignUpService signUpService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class UsaintLoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Retrofit 객체를 ApiClient 클래스를 통해 가져옵니다.
-        userAPI = ApiClient.create(UserAPI.class);
+        signUpService = ServicePool.signUpService;
 
         //인텐트에서 데이터 가져오기
         Intent intent = getIntent();
@@ -59,13 +60,13 @@ public class UsaintLoginActivity extends AppCompatActivity {
 
     //서버에 회원가입 요청
     private void signUpRequest(){
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setUsaintId(binding.etLoginEmail.getText().toString());
-        user.setUsaintPassword(binding.etLoginPassword.getText().toString());
+        MemberSignupRequestDto memberSignupRequestDto = new MemberSignupRequestDto();
+        memberSignupRequestDto.setEmail(email);
+        memberSignupRequestDto.setPassword(password);
+        memberSignupRequestDto.setUsaintId(binding.etStudentId.getText().toString());
+        memberSignupRequestDto.setUsaintPassword(binding.etUsaintPassword.getText().toString());
 
-        Call<Void> call = userAPI.signUp(user);
+        Call<Void> call = signUpService.signUp(memberSignupRequestDto);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
