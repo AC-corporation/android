@@ -6,10 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.allclear.EditTimeTableTwoActivity;
 import com.example.allclear.databinding.ActivityEditTimeTableBinding;
 import com.example.allclear.databinding.ActivityMainPageBinding;
-import com.example.allclear.maketimetable.SelectGaneralElectiveActivity;
-import com.example.allclear.maketimetable.SelectMajorActivity;
+import com.example.allclear.timetable.maketimetable.SelectGaneralElectiveActivity;
+import com.example.allclear.timetable.maketimetable.SelectMajorActivity;
 import com.islandparadise14.mintable.model.ScheduleDay;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 

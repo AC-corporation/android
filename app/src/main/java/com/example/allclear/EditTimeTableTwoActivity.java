@@ -2,10 +2,12 @@ package com.example.allclear;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.allclear.databinding.ActivityEditTimeTableTwoBinding;
+import com.example.allclear.timetable.EditTimeTableActivity;
 import com.islandparadise14.mintable.model.ScheduleDay;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 public class EditTimeTableTwoActivity extends AppCompatActivity {
 private ActivityEditTimeTableTwoBinding binding;
     private String[] day = {"Mon", "Tue", "Wen", "Thu", "Fri"};
-    private ArrayList<ScheduleEntity> scheduleList = new ArrayList<>();
+    public ArrayList<ScheduleEntity> scheduleList = new ArrayList<>();
     ScheduleEntity schedule = new ScheduleEntity(
             32,                  // originId
             "Database",          // scheduleName
@@ -35,6 +37,13 @@ private ActivityEditTimeTableTwoBinding binding;
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        binding.tvSelfadd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EditTimeTableTwoActivity.this,SelfAddTwoEditActivity.class);
+                startActivity(intent);
             }
         });
     }
