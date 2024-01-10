@@ -2,6 +2,7 @@ package com.example.allclear;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import com.example.allclear.databinding.ActivitySelfAddTwoBinding;
 import com.example.allclear.databinding.ActivitySelfAddTwoEditBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;
+import com.islandparadise14.mintable.model.ScheduleDay;
+import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
 
@@ -24,6 +27,12 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
 
     private SpinnerCustomBinding spinnerCustomBinding;
 
+    String subtext;
+    String professor;
+    String  dayspinner;
+    String start_time;
+    String end_time;
+    String place;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +57,6 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
         day.add("토요일");
         day.add("일요일");
         //ArrayList에 내가 스피너에 보여주고싶은 값 셋팅
-
-
         adapterDaySpinner = new AdapterDaySpinner(this, day); //그 값을 넣어줌
         spinner.setAdapter(adapterDaySpinner); //어댑터연결
         spinnerCustomBinding=SpinnerCustomBinding.inflate(getLayoutInflater());
@@ -69,16 +76,12 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
                 });
             }
         });
-        EditText subtext=binding.etSubTextOne;
-        EditText professor=binding.etProfessorName;
-        Spinner dayspinner=binding.daySpinner;
-        EditText place=binding.etPlace;
-        EditText starttime=binding.etStarttime;
-        EditText endtime=binding.etEndtime;
+
+
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (subtext.getText().toString().isEmpty())
+                if (binding.etSubTextOne.getText().toString().isEmpty())
                     Toast.makeText(SelfAddTwoEditActivity.this, "이름을 입력해주세요", Toast.LENGTH_SHORT).show();
                 else
                     addscheduletotimetable();
@@ -86,6 +89,20 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
         });
     }
     public void addscheduletotimetable(){
-
+        subtext=binding.etSubTextOne.getText().toString();
+        professor=binding.etProfessorName.getText().toString();
+        dayspinner=binding.daySpinner.getSelectedItem().toString();
+        start_time=binding.etStarttime.getText().toString();
+        end_time=binding.etEndtime.getText().toString();
+        place=binding.etPlace.getText().toString();
+        Intent intent=getIntent();
+        intent.putExtra("subtext",subtext);
+        intent.putExtra("professor",professor);
+        intent.putExtra("place",place);
+        intent.putExtra("day",dayspinner);
+        intent.putExtra("starttime",start_time);
+        intent.putExtra("endtime",end_time);
+        setResult(RESULT_OK,intent);
+        finish();
     }
 }
