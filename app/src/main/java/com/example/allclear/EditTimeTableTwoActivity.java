@@ -16,23 +16,25 @@ import java.util.ArrayList;
 public class EditTimeTableTwoActivity extends AppCompatActivity {
 private ActivityEditTimeTableTwoBinding binding;
     private String[] day = {"Mon", "Tue", "Wen", "Thu", "Fri"};
-    public ArrayList<ScheduleEntity> scheduleList = new ArrayList<>();
-    ScheduleEntity schedule = new ScheduleEntity(
-            32,                  // originId
-            "Database",          // scheduleName
-            "IT Building 301",    // roomInfo
-            ScheduleDay.TUESDAY,  // ScheduleDay object (MONDAY ~ SUNDAY)
-            "8:20",               // startTime format: "HH:mm"
-            "17:30",              // endTime format: "HH:mm"
-            "#73fcae68",          // backgroundColor (optional)
-            "#000000"             // textColor (optional)
-    );
+    Intent intent=getIntent();
+    public ArrayList<ScheduleEntity> scheduleList=(ArrayList<ScheduleEntity>) intent.getSerializableExtra("schedulelist");
+//    public ArrayList<ScheduleEntity> scheduleList = new ArrayList<>();
+//    ScheduleEntity schedule = new ScheduleEntity(
+//            32,                  // originId
+//            "Database",          // scheduleName
+//            "IT Building 301",    // roomInfo
+//            ScheduleDay.TUESDAY,  // ScheduleDay object (MONDAY ~ SUNDAY)
+//            "8:20",               // startTime format: "HH:mm"
+//            "17:30",              // endTime format: "HH:mm"
+//            "#73fcae68",          // backgroundColor (optional)
+//            "#000000"             // textColor (optional)
+//    );
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding=ActivityEditTimeTableTwoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        scheduleList.add(schedule);
+//        scheduleList.add(schedule);
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

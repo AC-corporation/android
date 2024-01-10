@@ -48,6 +48,7 @@ public class EditTimeTableActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(EditTimeTableActivity.this, EditTimeTableTwoActivity.class);
+                intent.putExtra("schedulelist",scheduleList);
                 startActivity(intent);
             }
         });
