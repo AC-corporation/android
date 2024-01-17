@@ -92,17 +92,43 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
         subtext=binding.etSubTextOne.getText().toString();
         professor=binding.etProfessorName.getText().toString();
         dayspinner=binding.daySpinner.getSelectedItem().toString();
+        int day=getday(dayspinner);
         start_time=binding.etStarttime.getText().toString();
         end_time=binding.etEndtime.getText().toString();
         place=binding.etPlace.getText().toString();
+
+        Schedule schedule=new Schedule();
+        schedule.setOriginId(32);
+        schedule.setScheduleName(subtext);
+        schedule.setProfessor(professor);
+        schedule.setScheduleDay(day);
+        schedule.setStartTime(start_time);
+        schedule.setEndTime(end_time);
+        schedule.setRoomInfo(place);
         Intent intent=getIntent();
-        intent.putExtra("subtext",subtext);
-        intent.putExtra("professor",professor);
-        intent.putExtra("place",place);
-        intent.putExtra("day",dayspinner);
-        intent.putExtra("starttime",start_time);
-        intent.putExtra("endtime",end_time);
+//        intent.putExtra("subtext",subtext);
+//        intent.putExtra("professor",professor);
+//        intent.putExtra("place",place);
+//        intent.putExtra("day",dayspinner);
+//        intent.putExtra("starttime",start_time);
+//        intent.putExtra("endtime",end_time);
+        intent.putExtra("schedule",schedule);
         setResult(RESULT_OK,intent);
         finish();
+    }
+    protected int getday(String day) {
+        if (day.equals("월요일"))
+            return 0;
+        else if (day.equals("화요일"))
+            return 1;
+        else if (day.equals("수요일"))
+            return 2;
+        else if (day.equals("목요일"))
+            return 3;
+        else if (day.equals("금요일"))
+            return 4;
+        else if (day.equals("토요일"))
+            return 5;
+        else return 6;
     }
 }

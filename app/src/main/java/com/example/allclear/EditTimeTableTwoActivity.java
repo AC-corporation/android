@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.allclear.databinding.ActivityEditTimeTableTwoBinding;
 import com.example.allclear.timetable.EditTimeTableActivity;
@@ -20,27 +21,27 @@ private ActivityEditTimeTableTwoBinding binding;
     String subtext;
     String professor;
     String place;
-    String selectedDay;
+    int selectedDay;
     String starttime;
     String endtime;
     ScheduleEntity added_schedule;
     public ArrayList<ScheduleEntity> scheduleList = new ArrayList<>();
-    ScheduleEntity schedule = new ScheduleEntity(
-            32,                  // originId
-            "Database",          // scheduleName
-            "IT Building 301",    // roomInfo
-            ScheduleDay.TUESDAY,  // ScheduleDay object (MONDAY ~ SUNDAY)
-            "8:20",               // startTime format: "HH:mm"
-            "17:30",              // endTime format: "HH:mm"
-            "#73fcae68",          // backgroundColor (optional)
-            "#000000"             // textColor (optional)
-    );
+//    ScheduleEntity schedule = new ScheduleEntity(
+//            32,                  // originId
+//            "Database",          // scheduleName
+//            "IT Building 301",    // roomInfo
+//            ScheduleDay.TUESDAY,  // ScheduleDay object (MONDAY ~ SUNDAY)
+//            "8:20",               // startTime format: "HH:mm"
+//            "17:30",              // endTime format: "HH:mm"
+//            "#73fcae68",          // backgroundColor (optional)
+//            "#000000"             // textColor (optional)
+//    );
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding=ActivityEditTimeTableTwoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        scheduleList.add(schedule);
+//        scheduleList.add(schedule);
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,17 +66,18 @@ private ActivityEditTimeTableTwoBinding binding;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == 10 && resultCode == RESULT_OK) {
-            subtext=data.getStringExtra("subtext");
-            professor=data.getStringExtra("professor");
-            place=data.getStringExtra("place");
-            selectedDay=data.getStringExtra("dayspinner");
-            starttime=data.getStringExtra("starttime");
-            endtime=data.getStringExtra("endtime");
+            Schedule schedule= (Schedule) data.getSerializableExtra("schedule");
+            subtext=schedule.getScheduleName();
+            professor=schedule.getProfessor();
+            place=schedule.getRoomInfo();
+            selectedDay=schedule.getScheduleDay();
+            starttime=schedule.getStartTime();
+            endtime=schedule.getEndTime();
             added_schedule = new ScheduleEntity(
                     32,                  // originId
                     subtext,          // scheduleName
                     place,    // roomInfo
-                    ScheduleDay.WEDNESDAY,  // ScheduleDay object (MONDAY ~ SUNDAY)
+                    selectedDay,  // ScheduleDay object (MONDAY ~ SUNDAY)
                     starttime,               // startTime format: "HH:mm"
                     endtime,              // endTime format: "HH:mm"
                     "#73fcae68",          // backgroundColor (optional)
@@ -84,5 +86,4 @@ private ActivityEditTimeTableTwoBinding binding;
             scheduleList.add(added_schedule);
         }
     }
-
 }
