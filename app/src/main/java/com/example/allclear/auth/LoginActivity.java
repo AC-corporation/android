@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.example.allclear.MainPageActivity;
 import com.example.allclear.R;
+import com.example.allclear.data.LoginRequestDto;
+import com.example.allclear.data.LoginResponseDto;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.TestResponseDto;
 import com.example.allclear.data.TestService;
@@ -51,15 +53,18 @@ public class LoginActivity extends AppCompatActivity {
     private void checkServer(){
         // 서버 통신
         ServicePool.testService.getListFromServer()
-                .enqueue(new Callback<List<TestResponseDto>>() {
+                .enqueue(new Callback<TestResponseDto>() {
                     @Override
-                    public void onResponse(Call<List<TestResponseDto>> call, Response<List<TestResponseDto>> response) {
+                    public void onResponse(Call<TestResponseDto> call, Response<TestResponseDto> response) {
                         Toast.makeText(LoginActivity.this, "서버 통신 성공", Toast.LENGTH_SHORT).show();
+                        Log.i("test",response.body().getMessage());
                     }
 
                     @Override
-                    public void onFailure(Call<List<TestResponseDto>> call, Throwable t) {
+                    public void onFailure(Call<TestResponseDto> call, Throwable t) {
                         Toast.makeText(LoginActivity.this, "서버 통신 실패", Toast.LENGTH_SHORT).show();
+                        Log.i("test",call.toString());
+                        Log.i("test",t.getMessage().toString());
                     }
                 });
     }
@@ -71,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!loginCheck()) return;
                 loginRequest();
-                login();
+//                login();
             }
         });
     }
@@ -133,7 +138,28 @@ public class LoginActivity extends AppCompatActivity {
 
     //백엔드와 통신하는 함수
     private void loginRequest() {
-
+        String email = binding.etLoginEmail.toString();
+        String password = binding.etLoginPassword.toString();
+        LoginRequestDto loginRequestDto = new LoginRequestDto();
+        loginRequestDto.init(email,password);
+        ServicePool.testService.Login(loginRequestDto)
+                .enqueue(new Callback<LoginResponseDto>() {
+                    @Override
+                    public void onResponse(Call<LoginResponseDto> call, Response<LoginResponseDto> response) {
+                        if(response.isSuccessful()){
+                            System.out.println("서버 통신 성공");
+                            Log.i("Login",response.toString());
+                            Log.i("Login",response.body().getMessage());
+                        }else{
+                            Log.i("Login", String.valueOf(response.code()));
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<LoginResponseDto> call, Throwable t) {
+                        System.out.println("서버 통신 실패");
+                        Log.i("Login",t.getMessage().toString());
+                    }
+                });
     }
 
     //로그인 후 MainPageActivity로 넘어가는 함수
