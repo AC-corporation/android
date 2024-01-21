@@ -70,10 +70,10 @@ public class UsaintLoginActivity extends AppCompatActivity {
         memberSignupRequestDto.setUsaintId(binding.etStudentId.getText().toString());
         memberSignupRequestDto.setUsaintPassword(binding.etUsaintPassword.getText().toString());
 
-        Call<List<TestResponseDto>> call = signUpService.signUp(memberSignupRequestDto);
-        call.enqueue(new Callback<List<TestResponseDto>>() {
+        Call<TestResponseDto> call = signUpService.signUp(memberSignupRequestDto);
+        call.enqueue(new Callback<TestResponseDto>() {
             @Override
-            public void onResponse(Call<List<TestResponseDto>> call, Response<List<TestResponseDto>> response) {
+            public void onResponse(Call<TestResponseDto> call, Response<TestResponseDto> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), MainPageActivity.class);
@@ -84,7 +84,7 @@ public class UsaintLoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<TestResponseDto>> call, Throwable t) {
+            public void onFailure(Call<TestResponseDto> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "서버와의 통신이 중단되었습니다.", Toast.LENGTH_SHORT).show();
             }
         });

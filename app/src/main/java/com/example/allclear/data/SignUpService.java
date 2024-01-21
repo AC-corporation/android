@@ -8,5 +8,5 @@ import retrofit2.http.POST;
 
 public interface SignUpService {
     @POST("user/signup")
-    Call<List<TestResponseDto>> signUp(@Body MemberSignupRequestDto memberSignupRequestDto);
+    Call<TestResponseDto> signUp(@Body MemberSignupRequestDto memberSignupRequestDto);
 }

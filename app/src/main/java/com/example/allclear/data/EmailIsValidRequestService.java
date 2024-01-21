@@ -8,5 +8,5 @@ import retrofit2.http.POST;
 
 public interface EmailIsValidRequestService {
     @POST("user/signup/emailIsValid")
-    Call<List<TestResponseDto>> emailIsValid(@Body EmailIsValidRequestDto emailIsValidRequestDto);
+    Call<TestResponseDto> emailIsValid(@Body EmailIsValidRequestDto emailIsValidRequestDto);
 }

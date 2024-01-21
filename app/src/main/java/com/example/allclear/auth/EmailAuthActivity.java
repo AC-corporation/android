@@ -2,6 +2,7 @@ package com.example.allclear.auth;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -41,21 +42,12 @@ public class EmailAuthActivity extends AppCompatActivity {
         emailIsValidRequestService = ServicePool.emailIsValidRequestService;
 
         emailSendBtnListener();
-        emailCodeButtonListener();
         signupBtnListener();
+        authCodeListener();
         backBtnListener();
         resendBtnListener();
     }
 
-    // 뒤로가기 버튼
-    private void backBtnListener(){
-        binding.ivSignupBackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
 
     //인증 이메일 전송 버튼
     private void emailSendBtnListener(){
@@ -80,56 +72,6 @@ public class EmailAuthActivity extends AppCompatActivity {
         });
     }
 
-    //인증 코드 확인 리스너
-    private void emailCodeButtonListener(){
-        binding.btnEmailCodeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = binding.etEmailEmail.getText().toString(); //입력한 이메일
-                String yourCode = binding.etEmailCode.getText().toString(); //입력한 코드
-
-                //인증코드 일치검사: if(is_email_auth_code_match(email, yourCode))
-                //개발을 위해 임시로 true로 해놓음
-                if(true){
-                    //인증확인 버튼 비활성화
-                    binding.btnEmailCodeBtn.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.disabled_blue));
-                    binding.btnEmailCodeBtn.setEnabled(false);
-                    binding.btnEmailCodeBtn.setText("확인됨");
-                    //인증코드 입력 비활성화
-                    binding.etEmailCode.setEnabled(false);
-                    //회원가입 버튼 활성화
-                    binding.btnSignupBtn.setEnabled(true);
-                    binding.btnSignupBtn.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.first_blue));
-                    //아이콘 변경
-                    binding.imgCheck.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_checked));
-                    // 인증 코드가 일치하면 타이머를 중지합니다.
-                    if (countDownTimer != null) {
-                        countDownTimer.cancel();
-                    }
-                    //타이머, 인증안내 문구 숨기기
-                    binding.tvAuthCodeInfo.setVisibility(View.INVISIBLE);
-                    binding.tvTimer.setVisibility(View.INVISIBLE);
-                }
-                //인증코드 불일치
-                else{
-                    Toast.makeText(v.getContext(),"인증코드가 일치 하지 않습니다!",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    //회원가입 완료 버튼
-    private void signupBtnListener(){
-        binding.btnSignupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-                //이메일을 인텐트로 전달
-                intent.putExtra("email",binding.etEmailEmail.getText().toString());
-                startActivity(intent);
-            }
-        });
-    }
 
     //이메일 형식 검사 메서드
     //숭실 이메일 경우 : true
@@ -137,6 +79,7 @@ public class EmailAuthActivity extends AppCompatActivity {
         String emailPattern = "[a-zA-Z0-9._-]+@soongsil\\.ac\\.kr";
         return email.matches(emailPattern);
     }
+
 
     //타이머 시작 메서드
     private void startTimer() {
@@ -167,6 +110,7 @@ public class EmailAuthActivity extends AppCompatActivity {
         }.start();
     }
 
+
     //재전송 버튼 리스너
     private void resendBtnListener(){
         binding.btnResend.setOnClickListener(new View.OnClickListener() {
@@ -187,46 +131,120 @@ public class EmailAuthActivity extends AppCompatActivity {
         });
     }
 
+
     //이메일 인증코드를 발송하는 메서드
     private void email_auth_request(String email){
         EmailAuthRequestDto emailAuthRequestDto = new EmailAuthRequestDto();
         emailAuthRequestDto.setEmail(email);
 
-        Call<List<TestResponseDto>> call = emailAuthRequestService.emailAuth(emailAuthRequestDto);
+        Call<TestResponseDto> call = emailAuthRequestService.emailAuth(emailAuthRequestDto);
 
-        call.enqueue(new Callback<List<TestResponseDto>>() {
+        call.enqueue(new Callback<TestResponseDto>() {
             @Override
-            public void onResponse(Call<List<TestResponseDto>> call, Response<List<TestResponseDto>> response) {
+            public void onResponse(Call<TestResponseDto> call, Response<TestResponseDto> response) {
 
             }
 
             @Override
-            public void onFailure(Call<List<TestResponseDto>> call, Throwable t) {
-
+            public void onFailure(Call<TestResponseDto> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "인증코드 발송에 실패했어요",Toast.LENGTH_SHORT);
+                reloadActivity();
             }
         });
     }
 
+    //액티비티를 재시작하는 함수
+    public void reloadActivity() {
+        this.recreate();
+    }
+
+
+    //인증코드 확인 버튼의 리스너
+    private void authCodeListener(){
+        binding.btnEmailCodeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String YourCode = binding.etEmailCode.getText().toString();
+                String email = binding.etEmailEmail.getText().toString();
+                if(YourCode != null){
+                    EmailIsValidRequest(email, YourCode);
+                }
+            }
+        });
+    }
+
+
     //이메일 인증번호가 맞는지 확인 함수
-    private boolean is_email_auth_code_match(String email, String code){
+    private void EmailIsValidRequest(String email, String code){
         EmailIsValidRequestDto emailIsValidRequestDto = new EmailIsValidRequestDto();
         emailIsValidRequestDto.setEmail(email);
         emailIsValidRequestDto.setCode(code);
 
-        Call<List<TestResponseDto>> call = emailIsValidRequestService.emailIsValid(emailIsValidRequestDto);
+        Call<TestResponseDto> call = emailIsValidRequestService.emailIsValid(emailIsValidRequestDto);
 
-        call.enqueue(new Callback<List<TestResponseDto>>() {
+        call.enqueue(new Callback<TestResponseDto>() {
             @Override
-            public void onResponse(Call<List<TestResponseDto>> call, Response<List<TestResponseDto>> response) {
-
+            public void onResponse(Call<TestResponseDto> call, Response<TestResponseDto> response) {
+                if(response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "이메일 인증 성공!", Toast.LENGTH_SHORT).show();
+                    handleSuccess();
+                } else {
+                    Toast.makeText(getApplicationContext(), "인증 코드가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+                }
             }
-
             @Override
-            public void onFailure(Call<List<TestResponseDto>> call, Throwable t) {
-
+            public void onFailure(Call<TestResponseDto> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "요청이 실패했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
-        return false;
+    }
+
+
+    // 인증코드 일치시 수행할 작업
+    private void handleSuccess() {
+        //인증확인 버튼 비활성화
+        binding.btnEmailCodeBtn.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.disabled_blue));
+        binding.btnEmailCodeBtn.setEnabled(false);
+        binding.btnEmailCodeBtn.setText("확인됨");
+        //인증코드 입력 비활성화
+        binding.etEmailCode.setEnabled(false);
+        //회원가입 버튼 활성화
+        binding.btnSignupBtn.setEnabled(true);
+        binding.btnSignupBtn.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.first_blue));
+        //아이콘 변경
+        binding.imgCheck.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_checked));
+        // 인증 코드가 일치하면 타이머를 중지합니다.
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+        //타이머, 인증안내 문구 숨기기
+        binding.tvAuthCodeInfo.setVisibility(View.INVISIBLE);
+        binding.tvTimer.setVisibility(View.INVISIBLE);
+    }
+
+
+    //회원가입 완료 버튼
+    private void signupBtnListener(){
+        binding.btnSignupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                //이메일을 인텐트로 전달
+                intent.putExtra("email",binding.etEmailEmail.getText().toString());
+                startActivity(intent);
+            }
+        });
+    }
+
+
+    // 뒤로가기 버튼
+    private void backBtnListener(){
+        binding.ivSignupBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 }
