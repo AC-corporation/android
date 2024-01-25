@@ -1,12 +1,15 @@
 package com.example.allclear.timetable;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.allclear.ChangeSchedule;
 import com.example.allclear.EditTimeTableTwoActivity;
+import com.example.allclear.Schedule;
 import com.example.allclear.databinding.ActivityEditTimeTableBinding;
 import com.example.allclear.databinding.ActivityMainPageBinding;
 import com.example.allclear.timetable.maketimetable.SelectGaneralElectiveActivity;
@@ -20,24 +23,14 @@ public class EditTimeTableActivity extends AppCompatActivity {
     private ActivityEditTimeTableBinding binding;
 
     private String[] day = {"Mon", "Tue", "Wen", "Thu", "Fri"};
-    private ArrayList<ScheduleEntity> scheduleList = new ArrayList<>();
-    ScheduleEntity schedule = new ScheduleEntity(
-            32,                  // originId
-            "Database",          // scheduleName
-            "IT Building 301",    // roomInfo
-            ScheduleDay.TUESDAY,  // ScheduleDay object (MONDAY ~ SUNDAY)
-            "8:20",               // startTime format: "HH:mm"
-            "17:30",              // endTime format: "HH:mm"
-            "#73fcae68",          // backgroundColor (optional)
-            "#000000"             // textColor (optional)
-    );
+    private ArrayList<Schedule> ScheduleList=new ArrayList<Schedule>();
+    public ArrayList<ScheduleEntity> scheduleList= new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityEditTimeTableBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        scheduleList.add(schedule);
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,7 +41,8 @@ public class EditTimeTableActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(EditTimeTableActivity.this, EditTimeTableTwoActivity.class);
-                startActivity(intent);
+                intent.putExtra("schedulelist",ScheduleList);
+                startActivityForResult(intent,1);
             }
         });
     }
@@ -59,5 +53,11 @@ public class EditTimeTableActivity extends AppCompatActivity {
         binding.table.updateSchedules(scheduleList);
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 1 && resultCode == RESULT_OK){
+            ScheduleList=(ArrayList<Schedule>)data.getSerializableExtra("schedulelist");
+            scheduleList= ChangeSchedule.getInstance().Change_scheduleEntity(ScheduleList);
+        }
+    }
 }
