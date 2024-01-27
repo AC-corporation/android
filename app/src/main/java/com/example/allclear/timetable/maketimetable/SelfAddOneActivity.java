@@ -1,16 +1,21 @@
 package com.example.allclear.timetable.maketimetable;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.allclear.Schedule;
 import com.example.allclear.databinding.ActivitySelfAddOneBinding;
+
+import java.util.ArrayList;
 
 public class SelfAddOneActivity extends AppCompatActivity {
 
     private ActivitySelfAddOneBinding binding;
+    private ArrayList<Schedule> ScheduleList=new ArrayList<Schedule>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivitySelfAddOneBinding.inflate(getLayoutInflater());
@@ -21,7 +26,8 @@ public class SelfAddOneActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SelfAddOneActivity.this, SelfAddTwoActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,100);
+
             }
         });
 
@@ -38,5 +44,13 @@ public class SelfAddOneActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode==100&&resultCode==RESULT_OK){
+            Schedule schedule=(Schedule)data.getSerializableExtra("schedule");
+            ScheduleList.add(schedule);
+        }
     }
 }

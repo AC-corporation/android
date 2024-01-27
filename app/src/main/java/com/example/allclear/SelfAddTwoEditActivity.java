@@ -105,13 +105,8 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
         schedule.setStartTime(start_time);
         schedule.setEndTime(end_time);
         schedule.setRoomInfo(place);
+
         Intent intent=getIntent();
-//        intent.putExtra("subtext",subtext);
-//        intent.putExtra("professor",professor);
-//        intent.putExtra("place",place);
-//        intent.putExtra("day",dayspinner);
-//        intent.putExtra("starttime",start_time);
-//        intent.putExtra("endtime",end_time);
         intent.putExtra("schedule",schedule);
         setResult(RESULT_OK,intent);
         finish();

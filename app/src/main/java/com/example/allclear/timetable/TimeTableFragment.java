@@ -106,6 +106,7 @@ public class TimeTableFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), EditTimeTableActivity.class);
+                intent.putExtra("schedulelist",ScheduleList);
                 startActivity(intent);
             }
         });

@@ -32,6 +32,10 @@ public class EditTimeTableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityEditTimeTableBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        Intent intent=getIntent();
+        if(intent != null && intent.hasExtra("schedulelist")){
+        ScheduleList=(ArrayList<Schedule>)intent.getSerializableExtra("schedulelist");
+        scheduleList= ChangeSchedule.getInstance().Change_scheduleEntity(ScheduleList);}
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
