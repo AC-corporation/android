@@ -1,6 +1,8 @@
 package com.example.allclear.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -63,7 +65,12 @@ public class UsaintLoginActivity extends AppCompatActivity {
     }
 
     //서버에 회원가입 요청
-    private void signUpRequest(){
+    private void signUpRequest() {
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("회원가입 요청 중...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
         MemberSignupRequestDto memberSignupRequestDto = new MemberSignupRequestDto();
         memberSignupRequestDto.setEmail(email);
         memberSignupRequestDto.setPassword(password);
@@ -74,6 +81,7 @@ public class UsaintLoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<TestResponseDto>() {
             @Override
             public void onResponse(Call<TestResponseDto> call, Response<TestResponseDto> response) {
+                progressDialog.dismiss();
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), MainPageActivity.class);
@@ -85,8 +93,10 @@ public class UsaintLoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<TestResponseDto> call, Throwable t) {
+                progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), "서버와의 통신이 중단되었습니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 }
