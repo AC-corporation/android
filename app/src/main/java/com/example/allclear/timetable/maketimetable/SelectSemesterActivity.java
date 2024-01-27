@@ -22,7 +22,7 @@ public class SelectSemesterActivity extends AppCompatActivity {
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SelectSemesterActivity.this, SelectMajorBaseActivity.class);
+                Intent intent = new Intent(SelectSemesterActivity.this, SelfAddOneActivity.class);
                 startActivity(intent);
             }
         });

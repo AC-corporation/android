@@ -18,7 +18,7 @@ public class SelectGaneralElectiveActivity extends AppCompatActivity {
 
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Intent intent = new Intent(SelectGaneralElectiveActivity.this, SelfAddOneActivity.class);
+                Intent intent = new Intent(SelectGaneralElectiveActivity.this, EssentialSubjectActivity.class);
                 startActivity(intent);
             }
         });
