@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.example.allclear.BuildConfig;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -23,6 +25,9 @@ public class ApiClient {
         });
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(100, TimeUnit.SECONDS)
+                .readTimeout(100,TimeUnit.SECONDS)
+                .writeTimeout(100, TimeUnit.SECONDS)
                 .addInterceptor(loggingInterceptor)
                 .build();
 
