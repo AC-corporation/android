@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
+import com.example.allclear.ChangeSchedule;
+import com.example.allclear.Schedule;
 import com.example.allclear.databinding.FragmentTimeTableBinding;
 import com.example.allclear.timetable.maketimetable.SelectSemesterActivity;
 import com.islandparadise14.mintable.model.ScheduleDay;
@@ -42,7 +44,6 @@ public class TimeTableFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        scheduleList.add(schedule);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -51,17 +52,8 @@ public class TimeTableFragment extends Fragment{
 
     private FragmentTimeTableBinding binding;
     private String[] day = {"Mon", "Tue", "Wen", "Thu", "Fri"};
+    private ArrayList<Schedule> ScheduleList=new ArrayList<Schedule>();
     private ArrayList<ScheduleEntity> scheduleList = new ArrayList<>();
-    ScheduleEntity schedule = new ScheduleEntity(
-            32,                  // originId
-            "Database",          // scheduleName
-            "IT Building 301",    // roomInfo
-            ScheduleDay.TUESDAY,  // ScheduleDay object (MONDAY ~ SUNDAY)
-            "8:20",               // startTime format: "HH:mm"
-            "17:30",              // endTime format: "HH:mm"
-            "#fffcae68",          // backgroundColor (optional)
-            "#000000"             // textColor (optional)
-    );
     public void setTimeTable(){
         binding.timetable.initTable(day);
         binding.timetable.updateSchedules(scheduleList);
@@ -69,6 +61,11 @@ public class TimeTableFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Intent intent=getActivity().getIntent();
+        if(intent != null && intent.hasExtra("schedulelist")){
+        ScheduleList=(ArrayList<Schedule>)intent.getSerializableExtra("schedulelist");
+        scheduleList= ChangeSchedule.getInstance().Change_scheduleEntity(ScheduleList);
+        }
         binding = FragmentTimeTableBinding.inflate(inflater, container, false);
         binding.timetable.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override

@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.example.allclear.ChangeSchedule;
 import com.example.allclear.EditTimeTableTwoActivity;
+import com.example.allclear.MainPageActivity;
 import com.example.allclear.Schedule;
 import com.example.allclear.databinding.ActivityEditTimeTableBinding;
 import com.example.allclear.databinding.ActivityMainPageBinding;
@@ -45,6 +46,15 @@ public class EditTimeTableActivity extends AppCompatActivity {
                 startActivityForResult(intent,1);
             }
         });
+        binding.btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(EditTimeTableActivity.this, MainPageActivity.class);
+                intent.putExtra("schedulelist",ScheduleList);
+                startActivity(intent);
+
+            }
+        });
     }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -59,5 +69,14 @@ public class EditTimeTableActivity extends AppCompatActivity {
             ScheduleList=(ArrayList<Schedule>)data.getSerializableExtra("schedulelist");
             scheduleList= ChangeSchedule.getInstance().Change_scheduleEntity(ScheduleList);
         }
+        binding.btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EditTimeTableActivity.this, EditTimeTableTwoActivity.class);
+                intent.putExtra("schedulelist",ScheduleList);
+                startActivityForResult(intent,1);
+            }
+        });
+
     }
 }

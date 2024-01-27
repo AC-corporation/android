@@ -25,7 +25,7 @@ private ActivityEditTimeTableTwoBinding binding;
     String starttime;
     String endtime;
     ScheduleEntity added_schedule;
-    Intent intent=getIntent();
+
     private ArrayList<Schedule> ScheduleList=new ArrayList<Schedule>();
 
     private ArrayList<ScheduleEntity> scheduleList=new ArrayList<>();
@@ -36,7 +36,8 @@ private ActivityEditTimeTableTwoBinding binding;
         super.onCreate(savedInstanceState);
         binding=ActivityEditTimeTableTwoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        if(intent != null && intent.hasExtra("schedule")){
+        Intent intent=getIntent();
+        if(intent != null && intent.hasExtra("schedulelist")){
         ScheduleList= (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");}
         scheduleList=ChangeSchedule.getInstance().Change_scheduleEntity(ScheduleList);
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
