@@ -53,7 +53,7 @@
             <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/cv_graduation_1"
                 android:layout_width="0dp"
-                android:layout_height="180dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -78,16 +78,131 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tv_grade_total_1"
+                        android:id="@+id/tv_total_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="4dp"
-                        android:text="학부 교양 필수 16"
                         android:textColor="@color/text_gray"
                         android:textSize="13sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_grade_total_title" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_grade_total_title"
+                        tools:text="학부 교양 필수 16" />
+
+                    <TextView
+                        android:id="@+id/tv_total_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/text_gray"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_total_1"
+                        tools:text="학부-요이수 지정과목" />
+
+                    <TextView
+                        android:id="@+id/tv_total_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/text_gray"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_total_2"
+                        tools:text="학부-졸업논문/졸업시험 이수" />
+
+                    <TextView
+                        android:id="@+id/tv_total_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/text_gray"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_total_3"
+                        tools:text="학부-기독교과목 4학점 이상 (09 이후)" />
+
+                    <TextView
+                        android:id="@+id/tv_total_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="20dp"
+                        android:textColor="@color/text_gray"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_total_4"
+                        card_view:layout_constraintBottom_toBottomOf="parent"
+                        tools:text="학부-졸업확정신고 여부" />
+
+                    <TextView
+                        android:id="@+id/tv_total_result_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/gray"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_grade_total_title"
+                        card_view:layout_constraintEnd_toEndOf="parent"
+                        tools:text="@string/graduation_result" />
+
+                    <TextView
+                        android:id="@+id/tv_total_result_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/gray"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_total_1"
+                        card_view:layout_constraintEnd_toEndOf="parent"
+                        tools:text="@string/graduation_result" />
+
+                    <TextView
+                        android:id="@+id/tv_total_result_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/gray"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_total_2"
+                        card_view:layout_constraintEnd_toEndOf="parent"
+                        tools:text="@string/graduation_result" />
+
+                    <TextView
+                        android:id="@+id/tv_total_result_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/gray"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_total_3"
+                        card_view:layout_constraintEnd_toEndOf="parent"
+                        tools:text="@string/graduation_result" />
+
+                    <TextView
+                        android:id="@+id/tv_total_result_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/gray"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_total_4"
+                        card_view:layout_constraintEnd_toEndOf="parent"
+                        tools:text="@string/graduation_result" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -96,7 +211,7 @@
             <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/cv_graduation_2"
                 android:layout_width="0dp"
-                android:layout_height="180dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -109,6 +224,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:id="@+id/tv_grade_general_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
@@ -119,6 +235,132 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <TextView
+                        android:id="@+id/tv_general_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/text_gray"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_grade_general_title"
+                        tools:text="학부 교양 필수 16" />
+
+                    <TextView
+                        android:id="@+id/tv_general_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/text_gray"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_general_1"
+                        tools:text="학부-요이수 지정과목" />
+
+                    <TextView
+                        android:id="@+id/tv_general_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/text_gray"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_general_2"
+                        tools:text="학부-졸업논문/졸업시험 이수" />
+
+                    <TextView
+                        android:id="@+id/tv_general_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/text_gray"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_general_3"
+                        tools:text="학부-기독교과목 4학점 이상 (09 이후)" />
+
+                    <TextView
+                        android:id="@+id/tv_general_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="20dp"
+                        android:textColor="@color/text_gray"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_general_4"
+                        card_view:layout_constraintBottom_toBottomOf="parent"
+                        tools:text="학부-졸업확정신고 여부" />
+
+                    <TextView
+                        android:id="@+id/tv_general_result_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/gray"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_grade_general_title"
+                        card_view:layout_constraintEnd_toEndOf="parent"
+                        tools:text="@string/graduation_result" />
+
+                    <TextView
+                        android:id="@+id/tv_general_result_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/gray"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_general_1"
+                        card_view:layout_constraintEnd_toEndOf="parent"
+                        tools:text="@string/graduation_result" />
+
+                    <TextView
+                        android:id="@+id/tv_general_result_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/gray"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_general_2"
+                        card_view:layout_constraintEnd_toEndOf="parent"
+                        tools:text="@string/graduation_result" />
+
+                    <TextView
+                        android:id="@+id/tv_general_result_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/gray"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_general_3"
+                        card_view:layout_constraintEnd_toEndOf="parent"
+                        tools:text="@string/graduation_result" />
+
+                    <TextView
+                        android:id="@+id/tv_general_result_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/gray"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_general_4"
+                        card_view:layout_constraintEnd_toEndOf="parent"
+                        tools:text="@string/graduation_result" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -127,7 +369,7 @@
             <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/cv_graduation_3"
                 android:layout_width="0dp"
-                android:layout_height="180dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -140,6 +382,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:id="@+id/tv_graduate_major_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
@@ -150,6 +393,82 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <TextView
+                        android:id="@+id/tv_major_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/text_gray"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_graduate_major_title"
+                        tools:text="학부-전기-컴퓨터 18" />
+
+                    <TextView
+                        android:id="@+id/tv_major_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/text_gray"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_major_1"
+                        tools:text="학부-09 이후-전필-컴퓨터 15" />
+
+                    <TextView
+                        android:id="@+id/tv_major_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="20dp"
+                        android:textColor="@color/text_gray"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_major_2"
+                        card_view:layout_constraintBottom_toBottomOf="parent"
+                        tools:text="학부-전필+전선 컴학 66" />
+
+                    <TextView
+                        android:id="@+id/tv_major_result_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/gray"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_graduate_major_title"
+                        card_view:layout_constraintEnd_toEndOf="parent"
+                        tools:text="@string/graduation_result" />
+
+                    <TextView
+                        android:id="@+id/tv_major_result_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/gray"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_major_1"
+                        card_view:layout_constraintEnd_toEndOf="parent"
+                        tools:text="@string/graduation_result" />
+
+                    <TextView
+                        android:id="@+id/tv_major_result_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/gray"
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_major_2"
+                        card_view:layout_constraintEnd_toEndOf="parent"
+                        tools:text="@string/graduation_result" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
