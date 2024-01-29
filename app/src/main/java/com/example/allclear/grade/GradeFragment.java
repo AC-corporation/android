@@ -26,7 +26,6 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.util.ArrayList;
 
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,15 +38,22 @@ public class GradeFragment extends Fragment {
     long semesterGradeId = 1;
     private FragmentGradeBinding binding;
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentGradeBinding.inflate(inflater, container, false);
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         checkTotal(userId);
         checkSemester(semesterGradeId);
+        makeGraph();
 
-        return binding.getRoot();
     }
 
     private void checkTotal(int userId) {
@@ -66,7 +72,7 @@ public class GradeFragment extends Fragment {
                 });
     }
 
-    private void checkSemester(long semesterGradeId){
+    private void checkSemester(long semesterGradeId) {
         ServicePool.semesterGradeService.getSemesterGradeList(semesterGradeId)
                 .enqueue(new Callback<SemesterGradeDto>() {
                     @Override
@@ -82,19 +88,7 @@ public class GradeFragment extends Fragment {
                 });
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        makeGraph();
-    }
-
-    private void makeGraph(){
+    private void makeGraph() {
         LineChart chart = (LineChart) binding.chart;
 
         // 학점 데이터를 생성합니다.
@@ -135,6 +129,12 @@ public class GradeFragment extends Fragment {
 
         // 차트를 새로 고침합니다.
         chart.invalidate();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
 }

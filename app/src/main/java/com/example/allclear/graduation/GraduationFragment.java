@@ -2,6 +2,8 @@ package com.example.allclear.graduation;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -21,14 +23,21 @@ public class GraduationFragment extends Fragment {
     private FragmentGraduationBinding binding;
     int userId = 1;
 
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentGraduationBinding.inflate(inflater, container, false);
 
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         checkServer(userId);
 
-        return binding.getRoot();
     }
 
     private void checkServer(int userId) {
@@ -53,4 +62,5 @@ public class GraduationFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
 }
