@@ -1,10 +1,8 @@
-package com.example.allclear.data;
+package com.example.allclear.data.responese;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-
-public class TestResponseDto {
+public class SemesterGradeDto {
     @SerializedName("isSuccess")
     private boolean isSuccess;
     @SerializedName("code")
@@ -12,5 +10,5 @@ public class TestResponseDto {
     @SerializedName("message")
     private String message;
     @SerializedName("data")
-    private String data;
+    private SemesterResponseDto data;
 }
