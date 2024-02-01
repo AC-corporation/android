@@ -3,4 +3,7 @@
     <string name="logo">올클</string>
     <string name="add_timetable_title">시간표 만들기</string>
     <string name="graduation_result">%d/%d</string>
+    <string name="graduation_total">졸업필수 요건</string>
+    <string name="graduation_general">교양</string>
+    <string name="graduation_major">전공</string>
 </resources>
