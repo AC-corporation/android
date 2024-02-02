@@ -50,6 +50,7 @@ private ActivityEditTimeTableTwoBinding binding;
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(EditTimeTableTwoActivity.this,SelfAddTwoEditActivity.class);
+                intent.putExtra("schedulelist",ScheduleList);
                 startActivityForResult(intent,10);
             }
         });
