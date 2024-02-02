@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.responese.GradeDto;
+import com.example.allclear.data.responese.GraduationDto;
 import com.example.allclear.data.responese.SemesterGradeDto;
 import com.example.allclear.databinding.FragmentGradeBinding;
 import com.github.mikephil.charting.charts.LineChart;
@@ -33,6 +35,7 @@ import retrofit2.Response;
 public class GradeFragment extends Fragment {
 
     private LineChart chart;
+    private GradeAdapter adapter;
 
     int userId = 1;
     long semesterGradeId = 1;
@@ -50,9 +53,15 @@ public class GradeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        getUserId();
         checkTotal(userId);
-//        checkSemester(semesterGradeId);
+        initAdapter();
+        // checkSemester(semesterGradeId);
         makeGraph();
+
+    }
+
+    private void getUserId(){
 
     }
 
@@ -63,6 +72,15 @@ public class GradeFragment extends Fragment {
                     public void onResponse(Call<GradeDto> call, Response<GradeDto> response) {
                         Toast.makeText(requireActivity(), "서버 통신 성공", Toast.LENGTH_SHORT).show();
 
+                        GradeDto gradeDto = response.body();
+
+                        if (gradeDto != null && gradeDto.data != null) {
+                            ArrayList<GradeDto.GradeResponseDto.SemesterGradeDtoList.SemesterSubjectDtoList> subjectList = new ArrayList<>();
+                            for (GradeDto.GradeResponseDto.SemesterGradeDtoList semester : gradeDto.data.getSemesterGradeDtoList()) {
+                                subjectList.addAll(semester.getSemesterSubjectDtoList());
+                            }
+                            adapter.setItems(subjectList);
+                        }
                     }
 
                     @Override
@@ -70,6 +88,12 @@ public class GradeFragment extends Fragment {
                         Toast.makeText(requireActivity(), "서버 통신 실패", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void initAdapter() {
+        adapter = new GradeAdapter(new ArrayList<>());
+        binding.rvGrade.setAdapter(adapter);
+        binding.rvGrade.setLayoutManager(new LinearLayoutManager(requireActivity()));
     }
 
     private void checkSemester(long semesterGradeId) {

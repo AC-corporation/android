@@ -39,8 +39,10 @@ public class GraduationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         getUserId();
         checkServer(userId);
+
     }
 
     // 로그인이 되면 id 가져오는 것으로 하겠습니다.
