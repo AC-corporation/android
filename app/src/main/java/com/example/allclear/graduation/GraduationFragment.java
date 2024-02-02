@@ -1,18 +1,24 @@
 package com.example.allclear.graduation;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.example.allclear.R;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.responese.GraduationDto;
 import com.example.allclear.databinding.FragmentGraduationBinding;
+
 import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,8 +44,8 @@ public class GraduationFragment extends Fragment {
     }
 
     // 로그인이 되면 id 가져오는 것으로 하겠습니다.
-    private void getUserId(){
-        // 로그인 시 userId를 설정하는 코드를 작성해 주세요.
+    private void getUserId() {
+
     }
 
     private void checkServer(int userId) {
@@ -49,14 +55,30 @@ public class GraduationFragment extends Fragment {
                     public void onResponse(Call<GraduationDto> call, Response<GraduationDto> response) {
                         Toast.makeText(requireActivity(), "서버 통신 성공", Toast.LENGTH_SHORT).show();
 
-                        // 서버에서 받아온 GraduationDto
                         GraduationDto graduationDto = response.body();
 
-                        // GraduationDto에서 RequirementComponentDto의 리스트를 가져옵니다.
-                        requirementComponentDtoList = graduationDto.data.getRequirementComponentList();
+                        if (graduationDto != null && graduationDto.data != null) {
+                            ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> totalList = new ArrayList<>();
+                            ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> generalList = new ArrayList<>();
+                            ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> majorList = new ArrayList<>();
 
-                        // 어댑터를 초기화합니다.
-                        initTotalAdapter();
+                            for (GraduationDto.RequirementResponseDto.RequirementComponentDto dto : graduationDto.data.getRequirementComponentList()) {
+                                if (requireActivity().getString(R.string.graduation_total).equals(dto.getRequirementCategory())) {
+                                    totalList.add(dto);
+                                } else if (requireActivity().getString(R.string.graduation_general).equals(dto.getRequirementCategory())) {
+                                    generalList.add(dto);
+                                } else if (requireActivity().getString(R.string.graduation_major).equals(dto.getRequirementCategory())) {
+                                    majorList.add(dto);
+                                }
+                            }
+
+                            initTotalAdapter(totalList);
+                            initGeneralAdapter(generalList);
+                            initMajorAdapter(majorList);
+
+                        } else {
+                            Toast.makeText(requireActivity(), "서버에서 데이터를 받지 못함", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
@@ -66,10 +88,22 @@ public class GraduationFragment extends Fragment {
                 });
     }
 
-    private void initTotalAdapter(){
-        GraduationAdapter graduationAdapter = new GraduationAdapter(requirementComponentDtoList);
+    private void initTotalAdapter(ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> totalList) {
+        GraduationAdapter graduationAdapter = new GraduationAdapter(totalList);
         binding.rvGraduationTotal.setAdapter(graduationAdapter);
         binding.rvGraduationTotal.setLayoutManager(new LinearLayoutManager(requireActivity()));
+    }
+
+    private void initGeneralAdapter(ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> generalList) {
+        GraduationAdapter graduationAdapter = new GraduationAdapter(generalList);
+        binding.rvGraduationGeneral.setAdapter(graduationAdapter);
+        binding.rvGraduationGeneral.setLayoutManager(new LinearLayoutManager((requireActivity())));
+    }
+
+    private void initMajorAdapter(ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> majorList) {
+        GraduationAdapter graduationAdapter = new GraduationAdapter(majorList);
+        binding.rvGraduationMajor.setAdapter(graduationAdapter);
+        binding.rvGraduationMajor.setLayoutManager(new LinearLayoutManager(requireActivity()));
     }
 
     @Override

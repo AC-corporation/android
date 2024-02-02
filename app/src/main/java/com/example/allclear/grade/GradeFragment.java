@@ -51,7 +51,7 @@ public class GradeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         checkTotal(userId);
-        checkSemester(semesterGradeId);
+//        checkSemester(semesterGradeId);
         makeGraph();
 
     }

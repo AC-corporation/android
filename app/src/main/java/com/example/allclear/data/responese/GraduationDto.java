@@ -38,6 +38,10 @@ public class GraduationDto {
             @SerializedName("requirementResult")
             private String requirementResult;
 
+            public String getRequirementCategory() {
+                return this.requirementCategory;
+            }
+
             public String getRequirementArgument() {
                 return this.requirementArgument;
             }
@@ -49,6 +53,7 @@ public class GraduationDto {
             public int getRequirementComplete() {
                 return this.requirementComplete;
             }
+
         }
     }
 }
