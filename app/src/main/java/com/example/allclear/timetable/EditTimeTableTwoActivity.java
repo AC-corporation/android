@@ -1,4 +1,4 @@
-package com.example.allclear;
+package com.example.allclear.timetable;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,11 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.allclear.databinding.ActivityEditTimeTableTwoBinding;
-import com.example.allclear.timetable.EditTimeTableActivity;
-import com.islandparadise14.mintable.model.ScheduleDay;
+import com.example.allclear.schedule.ChangeSchedule;
+import com.example.allclear.schedule.Schedule;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
@@ -36,6 +35,7 @@ private ActivityEditTimeTableTwoBinding binding;
         super.onCreate(savedInstanceState);
         binding=ActivityEditTimeTableTwoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        //스케줄데이터를 전달받아 타임테이블에 보여지는 요소로 전환
         Intent intent=getIntent();
         if(intent != null && intent.hasExtra("schedulelist")){
         ScheduleList= (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");}
@@ -46,6 +46,7 @@ private ActivityEditTimeTableTwoBinding binding;
                 onBackPressed();
             }
         });
+        //SelfAddTwoEditActivity로 ScheduleList전달
         binding.tvSelfadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,28 +65,14 @@ private ActivityEditTimeTableTwoBinding binding;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        //SelfAddTwoEditActivity에서 액티비티가 전환되었을 때
         if (requestCode == 10 && resultCode == RESULT_OK) {
+            //사용자가 직접추가한 스케줄데이터를 ScheduleList에 추가
             Schedule schedule= (Schedule) data.getSerializableExtra("schedule");
             ScheduleList.add(schedule);
-            subtext=schedule.getScheduleName();
-            professor=schedule.getProfessor();
-            place=schedule.getRoomInfo();
-            selectedDay=schedule.getScheduleDay();
-            starttime=schedule.getStartTime();
-            endtime=schedule.getEndTime();
-
-            added_schedule = new ScheduleEntity(
-                    32,                  // originId
-                    subtext,          // scheduleName
-                    place,    // roomInfo
-                    selectedDay,  // ScheduleDay object (MONDAY ~ SUNDAY)
-                    starttime,               // startTime format: "HH:mm"
-                    endtime,              // endTime format: "HH:mm"
-                    "#73fcae68",          // backgroundColor (optional)
-                    "#000000"             // textColor (optional)
-            );
-            scheduleList.add(added_schedule);
+            scheduleList=ChangeSchedule.getInstance().Change_scheduleEntity(ScheduleList);
         }
+        //갱신된 ScheduleList를 EditTimeTableActivity로 전달
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

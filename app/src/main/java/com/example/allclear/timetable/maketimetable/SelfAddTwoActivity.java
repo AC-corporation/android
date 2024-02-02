@@ -1,23 +1,19 @@
 package com.example.allclear.timetable.maketimetable;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.allclear.AdapterDaySpinner;
-import com.example.allclear.R;
-import com.example.allclear.Schedule;
-import com.example.allclear.SelfAddTwoEditActivity;
 import com.example.allclear.databinding.ActivitySelfAddTwoBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;
+import com.example.allclear.schedule.AdapterDaySpinner;
+import com.example.allclear.schedule.Schedule;
 
 import java.util.ArrayList;
 
@@ -28,18 +24,29 @@ public class SelfAddTwoActivity extends AppCompatActivity {
     private ActivitySelfAddTwoBinding binding;
 
     private SpinnerCustomBinding spinnerCustomBinding;
+
     String subtext;
     String professor;
     String  dayspinner;
     String start_time;
     String end_time;
     String place;
+    int day;
+    int size;
+    ArrayList<Schedule> ScheduleList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivitySelfAddTwoBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
+        Intent intent=getIntent();
+        ScheduleList= (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");
+        if(ScheduleList!=null){
+            size=ScheduleList.size();
+        } else if (ScheduleList==null) {
+            size=0;
+        }
 
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,16 +56,16 @@ public class SelfAddTwoActivity extends AppCompatActivity {
         });
 
         spinner = binding.daySpinner;
-        ArrayList<String> day = new ArrayList<>();
-        day.add("월요일");
-        day.add("화요일");
-        day.add("수요일");
-        day.add("목요일");
-        day.add("금요일");
-        day.add("토요일");
-        day.add("일요일");
+        ArrayList<String> days = new ArrayList<>();
+        days.add("월요일");
+        days.add("화요일");
+        days.add("수요일");
+        days.add("목요일");
+        days.add("금요일");
+        days.add("토요일");
+        days.add("일요일");
         //ArrayList에 내가 스피너에 보여주고싶은 값 셋팅
-        adapterDaySpinner = new AdapterDaySpinner(this, day); //그 값을 넣어줌
+        adapterDaySpinner = new AdapterDaySpinner(this, days); //그 값을 넣어줌
         spinner.setAdapter(adapterDaySpinner); //어댑터연결
         spinnerCustomBinding=SpinnerCustomBinding.inflate(getLayoutInflater());
 
@@ -80,36 +87,44 @@ public class SelfAddTwoActivity extends AppCompatActivity {
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (binding.etSubTextOne.getText().toString().isEmpty())
+                subtext=binding.etSubTextOne.getText().toString();
+                professor=binding.etProfessorName.getText().toString();
+                dayspinner=binding.daySpinner.getSelectedItem().toString();
+                day=getday(dayspinner);
+                start_time=binding.etStarttime.getText().toString();
+                end_time=binding.etEndtime.getText().toString();
+                place=binding.etPlace.getText().toString();
+                if (subtext.isEmpty())
                     Toast.makeText(SelfAddTwoActivity.this, "이름을 입력해주세요", Toast.LENGTH_SHORT).show();
                 else
-                    addscheduletotimetable();
+                    //시간이 겹치는 지 확인하는 함수
+                    checkconflict();
             }
         });
     }
-    public void addscheduletotimetable(){
-        subtext=binding.etSubTextOne.getText().toString();
-        professor=binding.etProfessorName.getText().toString();
-        dayspinner=binding.daySpinner.getSelectedItem().toString();
-        int day=getday(dayspinner);
-        start_time=binding.etStarttime.getText().toString();
-        end_time=binding.etEndtime.getText().toString();
-        place=binding.etPlace.getText().toString();
+    public void checkconflict(){
 
-        Schedule schedule=new Schedule();
-        schedule.setOriginId(32);
-        schedule.setScheduleName(subtext);
-        schedule.setProfessor(professor);
-        schedule.setScheduleDay(day);
-        schedule.setStartTime(start_time);
-        schedule.setEndTime(end_time);
-        schedule.setRoomInfo(place);
-
-        Intent intent=new Intent(SelfAddTwoActivity.this,SelfAddOneActivity.class);
-        intent.putExtra("schedule",schedule);
-        setResult(RESULT_OK,intent);
-        finish();
+        if(size==0){
+            //스케줄데이터를 SelfAddOneActivity로 전달하는 함수
+            addschedule();
+        }
+        else {
+            for(int i=0;i<size;i++){
+                if(day==ScheduleList.get(i).getScheduleDay()){
+                    int addstart=timeToMinutes(start_time);
+                    int addend=timeToMinutes(end_time);
+                    int liststart=timeToMinutes(ScheduleList.get(i).getStartTime());
+                    int listend=timeToMinutes(ScheduleList.get(i).getEndTime());
+                    if((addstart<listend)&&(addend>liststart)){
+                        Toast.makeText(SelfAddTwoActivity.this, "시간이 겹치는 일정이 존재합니다", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+            }
+            addschedule();
+        }
     }
+    //선택요일을 정수로 변환해주는 함수
     protected int getday(String day) {
         if (day.equals("월요일"))
             return 0;
@@ -124,5 +139,26 @@ public class SelfAddTwoActivity extends AppCompatActivity {
         else if (day.equals("토요일"))
             return 5;
         else return 6;
+    }
+    //시간문자열을 숫자로 변환해주는 함수
+    private static int timeToMinutes(String time) {
+        String[] parts = time.split(":");
+        int hours = Integer.parseInt(parts[0]);
+        int minutes = Integer.parseInt(parts[1]);
+        return hours * 60 + minutes;
+    }
+    void addschedule(){
+        Schedule schedule=new Schedule();
+        schedule.setOriginId(32);
+        schedule.setScheduleName(subtext);
+        schedule.setProfessor(professor);
+        schedule.setScheduleDay(day);
+        schedule.setStartTime(start_time);
+        schedule.setEndTime(end_time);
+        schedule.setRoomInfo(place);
+        Intent intent=new Intent(SelfAddTwoActivity.this,SelfAddOneActivity.class);
+        intent.putExtra("schedule",schedule);
+        setResult(RESULT_OK,intent);
+        finish();
     }
 }

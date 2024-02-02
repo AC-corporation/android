@@ -11,11 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
-import com.example.allclear.ChangeSchedule;
-import com.example.allclear.Schedule;
+import com.example.allclear.schedule.ChangeSchedule;
+import com.example.allclear.schedule.Schedule;
 import com.example.allclear.databinding.FragmentTimeTableBinding;
 import com.example.allclear.timetable.maketimetable.SelectSemesterActivity;
-import com.islandparadise14.mintable.model.ScheduleDay;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
@@ -61,6 +60,7 @@ public class TimeTableFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //스케줄데이터를 전달받아 타임테이블에 보여지는 요소로 전환
         Intent intent=getActivity().getIntent();
         if(intent != null && intent.hasExtra("schedulelist")){
         ScheduleList=(ArrayList<Schedule>)intent.getSerializableExtra("schedulelist");

@@ -1,4 +1,4 @@
-package com.example.allclear;
+package com.example.allclear.timetable;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,18 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.allclear.databinding.ActivitySelfAddTwoBinding;
+import com.example.allclear.schedule.AdapterDaySpinner;
+import com.example.allclear.schedule.Schedule;
 import com.example.allclear.databinding.ActivitySelfAddTwoEditBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;
-import com.example.allclear.timetable.maketimetable.SelfAddOneActivity;
-import com.example.allclear.timetable.maketimetable.SelfAddTwoActivity;
-import com.islandparadise14.mintable.model.ScheduleDay;
-import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
 
@@ -60,16 +56,16 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
         });
 
         spinner = binding.daySpinner;
-        ArrayList<String> day = new ArrayList<>();
-        day.add("월요일");
-        day.add("화요일");
-        day.add("수요일");
-        day.add("목요일");
-        day.add("금요일");
-        day.add("토요일");
-        day.add("일요일");
+        ArrayList<String> days = new ArrayList<>();
+        days.add("월요일");
+        days.add("화요일");
+        days.add("수요일");
+        days.add("목요일");
+        days.add("금요일");
+        days.add("토요일");
+        days.add("일요일");
         //ArrayList에 내가 스피너에 보여주고싶은 값 셋팅
-        adapterDaySpinner = new AdapterDaySpinner(this, day); //그 값을 넣어줌
+        adapterDaySpinner = new AdapterDaySpinner(this, days); //그 값을 넣어줌
         spinner.setAdapter(adapterDaySpinner); //어댑터연결
         spinnerCustomBinding=SpinnerCustomBinding.inflate(getLayoutInflater());
 
@@ -93,35 +89,26 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (binding.etSubTextOne.getText().toString().isEmpty())
+                subtext=binding.etSubTextOne.getText().toString();
+                professor=binding.etProfessorName.getText().toString();
+                dayspinner=binding.daySpinner.getSelectedItem().toString();
+                day=getday(dayspinner);
+                start_time=binding.etStarttime.getText().toString();
+                end_time=binding.etEndtime.getText().toString();
+                place=binding.etPlace.getText().toString();
+                if (subtext.isEmpty())
                     Toast.makeText(SelfAddTwoEditActivity.this, "이름을 입력해주세요", Toast.LENGTH_SHORT).show();
                 else
-                    addscheduletotimetable();
+                    //시간이 겹치는 지 확인하는 함수
+                    checkconflict();
             }
         });
     }
-    public void addscheduletotimetable(){
-        subtext=binding.etSubTextOne.getText().toString();
-        professor=binding.etProfessorName.getText().toString();
-        dayspinner=binding.daySpinner.getSelectedItem().toString();
-        day=getday(dayspinner);
-        start_time=binding.etStarttime.getText().toString();
-        end_time=binding.etEndtime.getText().toString();
-        place=binding.etPlace.getText().toString();
-        if(size==0){
-            Schedule schedule=new Schedule();
-            schedule.setOriginId(32);
-            schedule.setScheduleName(subtext);
-            schedule.setProfessor(professor);
-            schedule.setScheduleDay(day);
-            schedule.setStartTime(start_time);
-            schedule.setEndTime(end_time);
-            schedule.setRoomInfo(place);
 
-            Intent intent=new Intent(SelfAddTwoEditActivity.this,EditTimeTableTwoActivity.class);
-            intent.putExtra("schedule",schedule);
-            setResult(RESULT_OK,intent);
-            finish();
+    public void checkconflict(){
+        if(size==0){
+            //스케줄데이터를 EditTimeTableTwoActivity로 전달하는 함수
+            addschedule();
         }
         else {
             for(int i=0;i<size;i++){
@@ -136,22 +123,11 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
                     }
                 }
             }
+            addschedule();
         }
 
-        Schedule schedule=new Schedule();
-        schedule.setOriginId(32);
-        schedule.setScheduleName(subtext);
-        schedule.setProfessor(professor);
-        schedule.setScheduleDay(day);
-        schedule.setStartTime(start_time);
-        schedule.setEndTime(end_time);
-        schedule.setRoomInfo(place);
-
-        Intent intent=new Intent(SelfAddTwoEditActivity.this,EditTimeTableTwoActivity.class);
-        intent.putExtra("schedule",schedule);
-        setResult(RESULT_OK,intent);
-        finish();
     }
+    //선택요일을 정수로 변환해주는 함수
     protected int getday(String day) {
         if (day.equals("월요일"))
             return 0;
@@ -167,10 +143,26 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
             return 5;
         else return 6;
     }
+    //시간문자열을 숫자로 변환해주는 함수
     private static int timeToMinutes(String time) {
         String[] parts = time.split(":");
         int hours = Integer.parseInt(parts[0]);
         int minutes = Integer.parseInt(parts[1]);
         return hours * 60 + minutes;
     }
+    void addschedule() {
+        Schedule schedule = new Schedule();
+        schedule.setOriginId(32);
+        schedule.setScheduleName(subtext);
+        schedule.setProfessor(professor);
+        schedule.setScheduleDay(day);
+        schedule.setStartTime(start_time);
+        schedule.setEndTime(end_time);
+        schedule.setRoomInfo(place);
+        Intent intent = new Intent(SelfAddTwoEditActivity.this, EditTimeTableTwoActivity.class);
+        intent.putExtra("schedule", schedule);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.example.allclear;
+package com.example.allclear.schedule;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.List;
+import com.example.allclear.R;
 
+import java.util.List;
+//요일 스피너 어뎁터
 public class AdapterDaySpinner extends BaseAdapter {
     Context mContext;
     List<String> Data;

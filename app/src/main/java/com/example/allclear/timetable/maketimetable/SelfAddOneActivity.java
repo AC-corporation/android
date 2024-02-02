@@ -2,18 +2,15 @@ package com.example.allclear.timetable.maketimetable;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.allclear.Schedule;
+import com.example.allclear.schedule.Schedule;
 import com.example.allclear.databinding.ActivitySelfAddOneBinding;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SelfAddOneActivity extends AppCompatActivity {
 
