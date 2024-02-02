@@ -2,11 +2,14 @@ package com.example.allclear.timetable.maketimetable;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.allclear.SelfAddAdapter;
 import com.example.allclear.schedule.Schedule;
 import com.example.allclear.databinding.ActivitySelfAddOneBinding;
 
@@ -52,12 +55,13 @@ public class SelfAddOneActivity extends AppCompatActivity {
         if(requestCode==100&&resultCode==RESULT_OK){
             Schedule schedule=(Schedule)data.getSerializableExtra("schedule");
             ScheduleList.add(schedule);
+            displayDataInRecyclerView(ScheduleList);
         }
     }
     private void displayDataInRecyclerView(ArrayList<Schedule> Schedulelist) {
-//        RecyclerView recyclerView = binding.rvSelfaddschedule;
-//        UserwriteAdapter adapter = new UserwriteAdapter(UserwriteList,this);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(adapter);
+        RecyclerView recyclerView = binding.rvSelfaddschedule;
+        SelfAddAdapter adapter = new SelfAddAdapter(ScheduleList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 }
