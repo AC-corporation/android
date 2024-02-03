@@ -25,9 +25,9 @@ private ActivityEditTimeTableTwoBinding binding;
     String endtime;
     ScheduleEntity added_schedule;
 
-    private ArrayList<Schedule> ScheduleList=new ArrayList<Schedule>();
+    private ArrayList<Schedule> scheduleDataList=new ArrayList<Schedule>();
 
-    private ArrayList<ScheduleEntity> scheduleList=new ArrayList<>();
+    private ArrayList<ScheduleEntity> scheduleEntityList=new ArrayList<>();
 
 
     @Override
@@ -38,8 +38,8 @@ private ActivityEditTimeTableTwoBinding binding;
         //스케줄데이터를 전달받아 타임테이블에 보여지는 요소로 전환
         Intent intent=getIntent();
         if(intent != null && intent.hasExtra("schedulelist")){
-        ScheduleList= (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");}
-        scheduleList=ChangeSchedule.getInstance().Change_scheduleEntity(ScheduleList);
+            scheduleDataList= (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");}
+        scheduleEntityList=ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +51,7 @@ private ActivityEditTimeTableTwoBinding binding;
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(EditTimeTableTwoActivity.this,SelfAddTwoEditActivity.class);
-                intent.putExtra("schedulelist",ScheduleList);
+                intent.putExtra("schedulelist",scheduleDataList);
                 startActivityForResult(intent,10);
             }
         });
@@ -60,7 +60,7 @@ private ActivityEditTimeTableTwoBinding binding;
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         binding.table.initTable(day);
-        binding.table.updateSchedules(scheduleList);
+        binding.table.updateSchedules(scheduleEntityList);
     }
 
     @Override
@@ -69,15 +69,15 @@ private ActivityEditTimeTableTwoBinding binding;
         if (requestCode == 10 && resultCode == RESULT_OK) {
             //사용자가 직접추가한 스케줄데이터를 ScheduleList에 추가
             Schedule schedule= (Schedule) data.getSerializableExtra("schedule");
-            ScheduleList.add(schedule);
-            scheduleList=ChangeSchedule.getInstance().Change_scheduleEntity(ScheduleList);
+            scheduleDataList.add(schedule);
+            scheduleEntityList=ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
         }
         //갱신된 ScheduleList를 EditTimeTableActivity로 전달
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(EditTimeTableTwoActivity.this, EditTimeTableActivity.class);
-                intent.putExtra("schedulelist",ScheduleList);
+                intent.putExtra("schedulelist",scheduleDataList);
                 setResult(RESULT_OK,intent);
                 finish();
             }

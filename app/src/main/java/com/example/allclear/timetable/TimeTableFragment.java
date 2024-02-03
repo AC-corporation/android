@@ -51,11 +51,11 @@ public class TimeTableFragment extends Fragment{
 
     private FragmentTimeTableBinding binding;
     private String[] day = {"Mon", "Tue", "Wen", "Thu", "Fri"};
-    private ArrayList<Schedule> ScheduleList=new ArrayList<Schedule>();
-    private ArrayList<ScheduleEntity> scheduleList = new ArrayList<>();
+    private ArrayList<Schedule> scheduleDataList=new ArrayList<Schedule>();
+    private ArrayList<ScheduleEntity> scheduleEntityList = new ArrayList<>();
     public void setTimeTable(){
         binding.timetable.initTable(day);
-        binding.timetable.updateSchedules(scheduleList);
+        binding.timetable.updateSchedules(scheduleEntityList);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,8 +63,8 @@ public class TimeTableFragment extends Fragment{
         //스케줄데이터를 전달받아 타임테이블에 보여지는 요소로 전환
         Intent intent=getActivity().getIntent();
         if(intent != null && intent.hasExtra("schedulelist")){
-        ScheduleList=(ArrayList<Schedule>)intent.getSerializableExtra("schedulelist");
-        scheduleList= ChangeSchedule.getInstance().Change_scheduleEntity(ScheduleList);
+            scheduleDataList=(ArrayList<Schedule>)intent.getSerializableExtra("schedulelist");
+            scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
         }
         binding = FragmentTimeTableBinding.inflate(inflater, container, false);
         binding.timetable.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
@@ -106,7 +106,7 @@ public class TimeTableFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), EditTimeTableActivity.class);
-                intent.putExtra("schedulelist",ScheduleList);
+                intent.putExtra("schedulelist",scheduleDataList);
                 startActivity(intent);
             }
         });

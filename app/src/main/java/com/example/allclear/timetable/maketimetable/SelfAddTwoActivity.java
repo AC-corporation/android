@@ -33,7 +33,7 @@ public class SelfAddTwoActivity extends AppCompatActivity {
     String place;
     int day;
     int size;
-    ArrayList<Schedule> ScheduleList;
+    ArrayList<Schedule> scheduleDataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +41,10 @@ public class SelfAddTwoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
         Intent intent=getIntent();
-        ScheduleList= (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");
-        if(ScheduleList!=null){
-            size=ScheduleList.size();
-        } else if (ScheduleList==null) {
+        scheduleDataList= (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");
+        if(scheduleDataList!=null){
+            size=scheduleDataList.size();
+        } else if (scheduleDataList==null) {
             size=0;
         }
 
@@ -110,11 +110,11 @@ public class SelfAddTwoActivity extends AppCompatActivity {
         }
         else {
             for(int i=0;i<size;i++){
-                if(day==ScheduleList.get(i).getScheduleDay()){
+                if(day==scheduleDataList.get(i).getScheduleDay()){
                     int addstart=timeToMinutes(start_time);
                     int addend=timeToMinutes(end_time);
-                    int liststart=timeToMinutes(ScheduleList.get(i).getStartTime());
-                    int listend=timeToMinutes(ScheduleList.get(i).getEndTime());
+                    int liststart=timeToMinutes(scheduleDataList.get(i).getStartTime());
+                    int listend=timeToMinutes(scheduleDataList.get(i).getEndTime());
                     if((addstart<listend)&&(addend>liststart)){
                         Toast.makeText(SelfAddTwoActivity.this, "시간이 겹치는 일정이 존재합니다", Toast.LENGTH_SHORT).show();
                         return;

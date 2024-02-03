@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class SelfAddOneActivity extends AppCompatActivity {
 
     private ActivitySelfAddOneBinding binding;
-    private ArrayList<Schedule> ScheduleList=new ArrayList<Schedule>();
+    private ArrayList<Schedule> scheduleDataList=new ArrayList<Schedule>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivitySelfAddOneBinding.inflate(getLayoutInflater());
@@ -29,7 +29,7 @@ public class SelfAddOneActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SelfAddOneActivity.this, SelfAddTwoActivity.class);
-                intent.putExtra("schedulelist",ScheduleList);
+                intent.putExtra("schedulelist",scheduleDataList);
                 startActivityForResult(intent,100);
 
             }
@@ -54,13 +54,13 @@ public class SelfAddOneActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode==100&&resultCode==RESULT_OK){
             Schedule schedule=(Schedule)data.getSerializableExtra("schedule");
-            ScheduleList.add(schedule);
-            displayDataInRecyclerView(ScheduleList);
+            scheduleDataList.add(schedule);
+            displayDataInRecyclerView(scheduleDataList);
         }
     }
     private void displayDataInRecyclerView(ArrayList<Schedule> Schedulelist) {
         RecyclerView recyclerView = binding.rvSelfaddschedule;
-        SelfAddAdapter adapter = new SelfAddAdapter(ScheduleList);
+        SelfAddAdapter adapter = new SelfAddAdapter(scheduleDataList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
