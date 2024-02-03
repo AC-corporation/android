@@ -55,7 +55,7 @@ public class GraduationFragment extends Fragment {
                 .enqueue(new Callback<GraduationDto>() {
                     @Override
                     public void onResponse(Call<GraduationDto> call, Response<GraduationDto> response) {
-                        Toast.makeText(requireActivity(), "서버 통신 성공", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity(), R.string.server_success, Toast.LENGTH_SHORT).show();
 
                         GraduationDto graduationDto = response.body();
 
@@ -85,7 +85,7 @@ public class GraduationFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<GraduationDto> call, Throwable t) {
-                        Toast.makeText(requireActivity(), "서버 통신 실패", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity(), R.string.server_error, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

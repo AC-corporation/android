@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.allclear.R;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.responese.GradeDto;
 import com.example.allclear.data.responese.GraduationDto;
@@ -70,7 +71,7 @@ public class GradeFragment extends Fragment {
                 .enqueue(new Callback<GradeDto>() {
                     @Override
                     public void onResponse(Call<GradeDto> call, Response<GradeDto> response) {
-                        Toast.makeText(requireActivity(), "서버 통신 성공", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity(), R.string.server_success, Toast.LENGTH_SHORT).show();
 
                         GradeDto gradeDto = response.body();
 
@@ -85,7 +86,7 @@ public class GradeFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<GradeDto> call, Throwable t) {
-                        Toast.makeText(requireActivity(), "서버 통신 실패", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity(), R.string.server_error, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -101,13 +102,13 @@ public class GradeFragment extends Fragment {
                 .enqueue(new Callback<SemesterGradeDto>() {
                     @Override
                     public void onResponse(Call<SemesterGradeDto> call, Response<SemesterGradeDto> response) {
-                        Toast.makeText(requireActivity(), "서버 통신 성공", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity(), R.string.server_success, Toast.LENGTH_SHORT).show();
 
                     }
 
                     @Override
                     public void onFailure(Call<SemesterGradeDto> call, Throwable t) {
-                        Toast.makeText(requireActivity(), "서버 통신 실패", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity(), R.string.server_error, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
