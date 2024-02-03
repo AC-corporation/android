@@ -13,10 +13,10 @@ import com.example.allclear.schedule.Schedule;
 import java.util.ArrayList;
 
 public class SelfAddAdapter extends RecyclerView.Adapter<SelfAddAdapter.ViewHolder> {
-    private ArrayList<Schedule>ScheduleList;
+    private ArrayList<Schedule>scheduleDataList;
 
-    public SelfAddAdapter(ArrayList<Schedule> scheduleList) {
-        this.ScheduleList = scheduleList;
+    public SelfAddAdapter(ArrayList<Schedule> scheduleDataList) {
+        this.scheduleDataList = scheduleDataList;
     }
 
     @NonNull
@@ -28,16 +28,16 @@ public class SelfAddAdapter extends RecyclerView.Adapter<SelfAddAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull SelfAddAdapter.ViewHolder holder, int position) {
-        holder.title.setText(ScheduleList.get(position).getScheduleName());
-        holder.day.setText(getday(ScheduleList.get(position).getScheduleDay()));
-        holder.start.setText(ScheduleList.get(position).getStartTime());
-        holder.end.setText(ScheduleList.get(position).getEndTime());
-        holder.location.setText(ScheduleList.get(position).getRoomInfo());
+        holder.title.setText(scheduleDataList.get(position).getScheduleName());
+        holder.day.setText(getday(scheduleDataList.get(position).getScheduleDay()));
+        holder.start.setText(scheduleDataList.get(position).getStartTime());
+        holder.end.setText(scheduleDataList.get(position).getEndTime());
+        holder.location.setText(scheduleDataList.get(position).getRoomInfo());
     }
 
     @Override
     public int getItemCount() {
-        return (null!=ScheduleList?ScheduleList.size():0);
+        return (null!=scheduleDataList?scheduleDataList.size():0);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

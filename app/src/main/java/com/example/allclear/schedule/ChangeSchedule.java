@@ -12,8 +12,8 @@ public class ChangeSchedule {
     public static ChangeSchedule getInstance() {
         return instance;
     }
-    public ArrayList<ScheduleEntity> Change_scheduleEntity(ArrayList<Schedule> ScheduleList){
-        ArrayList<ScheduleEntity> scheduleList = new ArrayList<>();
+    public ArrayList<ScheduleEntity> Change_scheduleEntity(ArrayList<Schedule> scheduleDataList){
+        ArrayList<ScheduleEntity> scheduleEntityList = new ArrayList<>();
         int size;
         String subtext;
         String professor;
@@ -23,15 +23,15 @@ public class ChangeSchedule {
         String endtime;
         ScheduleEntity added_schedule;
 
-        if(ScheduleList!=null){
-             size=ScheduleList.size();
+        if(scheduleDataList!=null){
+             size=scheduleDataList.size();
             for(int i=0;i<size;i++){
-                subtext=ScheduleList.get(i).getScheduleName();
-                professor=ScheduleList.get(i).getProfessor();
-                place=ScheduleList.get(i).getRoomInfo();
-                selectedDay=ScheduleList.get(i).getScheduleDay();
-                starttime=ScheduleList.get(i).getStartTime();
-                endtime=ScheduleList.get(i).getEndTime();
+                subtext=scheduleDataList.get(i).getScheduleName();
+                professor=scheduleDataList.get(i).getProfessor();
+                place=scheduleDataList.get(i).getRoomInfo();
+                selectedDay=scheduleDataList.get(i).getScheduleDay();
+                starttime=scheduleDataList.get(i).getStartTime();
+                endtime=scheduleDataList.get(i).getEndTime();
 //색상을 랜덤으로 부여하는 기능 필요
                 added_schedule = new ScheduleEntity(
                         32,                  // originId
@@ -43,9 +43,9 @@ public class ChangeSchedule {
                         "#73fcae68",          // backgroundColor (optional)
                         "#000000"             // textColor (optional)
                 );
-                scheduleList.add(added_schedule);
+                scheduleEntityList.add(added_schedule);
             }
         }
-        return scheduleList;
+        return scheduleEntityList;
     }
 }
