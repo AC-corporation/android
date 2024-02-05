@@ -34,27 +34,61 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
+
             <LinearLayout
                 android:id="@+id/grade_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tv_grade_total"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:text="전체 평점" />
+                android:orientation="horizontal"
+                android:layout_gravity="center">
 
-                <TextView
-                    android:id="@+id/tv_grade_get"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="취득 학점" />
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_grade_total_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="100dp"
+                        android:text="전체 평점" />
+
+                    <TextView
+                        android:id="@+id/tv_grade_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4.5"
+                        android:textSize="28sp"
+                        android:textColor="@color/black">
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_credit_got"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="취득 학점" />
+
+                    <TextView
+                        android:id="@+id/tv_credit_got_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4.5"
+                        android:textSize="28sp"
+                        android:textColor="@color/black">
+                    </TextView>
+
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -62,9 +96,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
                 android:layout_marginTop="10dp"
-                card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintBottom_toBottomOf="parent"
                 android:layout_gravity="center">
 
                 <com.github.mikephil.charting.charts.LineChart
@@ -74,8 +105,8 @@
                     android:layout_marginTop="10dp" />
 
             </LinearLayout>
-
         </LinearLayout>
+
 
     </androidx.cardview.widget.CardView>
 
