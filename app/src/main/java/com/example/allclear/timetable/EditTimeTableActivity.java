@@ -19,7 +19,8 @@ import java.util.ArrayList;
 public class EditTimeTableActivity extends AppCompatActivity {
     private ActivityEditTimeTableBinding binding;
 
-    private String[] day;
+    private String[] day = {"Mon", "Tue", "Wen", "Thu", "Fri"};
+    //대문자는 Schedule(스케줄데이터),소문자는 ScheduleEntity(타임테이블에 보여지는 요소)
 
     private ArrayList<Schedule> scheduleDataList=new ArrayList<Schedule>();
     public ArrayList<ScheduleEntity> scheduleEntityList= new ArrayList<>();
@@ -34,19 +35,6 @@ public class EditTimeTableActivity extends AppCompatActivity {
         if(intent != null && intent.hasExtra("schedulelist")){
             scheduleDataList=(ArrayList<Schedule>)intent.getSerializableExtra("schedulelist");
             scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
-            //토요일,일요일 유무에 따라 day 변경
-            day=new String[]{"Mon", "Tue", "Wen", "Thu", "Fri"};
-            int size=scheduleDataList.size();
-            if(size!=0){
-                for(int i=0;i<size;i++){
-                    if(5==scheduleDataList.get(i).getScheduleDay()){
-                       day= new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat"};
-                    }
-                    if(6==scheduleDataList.get(i).getScheduleDay()){
-                        day= new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat","Sun"};
-                    }
-                }
-            }
         }
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,19 +75,6 @@ public class EditTimeTableActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK){
             scheduleDataList=(ArrayList<Schedule>)data.getSerializableExtra("schedulelist");
             scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
-            //토요일,일요일 유무에 따라 day 변경
-            day=new String[]{"Mon", "Tue", "Wen", "Thu", "Fri"};
-            int size=scheduleDataList.size();
-            if(size!=0){
-                for(int i=0;i<size;i++){
-                    if(5==scheduleDataList.get(i).getScheduleDay()){
-                        day= new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat"};
-                    }
-                    if(6==scheduleDataList.get(i).getScheduleDay()){
-                        day= new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat","Sun"};
-                    }
-                }
-            }
         }
         //EditTimeTableTwoActivity에 갱신된 ScheduleList 전달
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
