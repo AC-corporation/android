@@ -95,7 +95,7 @@
                 android:backgroundTint="@color/first_blue"
                 android:gravity="center"
                 android:scaleType="fitCenter"
-                android:text="다음"
+                android:text="@string/btn_next"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -107,4 +107,3 @@
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

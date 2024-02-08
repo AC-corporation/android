@@ -29,9 +29,6 @@ public class SelfAddOneActivity extends AppCompatActivity {
     private ActivitySelfAddOneBinding binding;
     private ArrayList<Schedule> scheduleDataList = new ArrayList<Schedule>();
 
-    long userId = 1;
-    TimeTableOneRequestDto timeTableOneRequestDto;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivitySelfAddOneBinding.inflate(getLayoutInflater());
@@ -59,7 +56,6 @@ public class SelfAddOneActivity extends AppCompatActivity {
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                postStepOneToServer(userId, timeTableOneRequestDto);
                 Intent intent = new Intent(SelfAddOneActivity.this, SelectMajorBaseActivity.class);
                 startActivity(intent);
             }
@@ -73,22 +69,6 @@ public class SelfAddOneActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-    }
-
-    private void postStepOneToServer(long userId, TimeTableOneRequestDto timeTableOneRequestDto) {
-        ServicePool.timeTableService.postStepOne(userId, timeTableOneRequestDto)
-                .enqueue(new Callback<TimeTableOneResponseDto>() {
-                    @Override
-                    public void onResponse(Call<TimeTableOneResponseDto> call, Response<TimeTableOneResponseDto> response) {
-                        // 선택한 학년, 학기 서버로 보내기
-                        Toast.makeText(SelfAddOneActivity.this, R.string.server_success, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(Call<TimeTableOneResponseDto> call, Throwable t) {
-                        Toast.makeText(SelfAddOneActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
     @Override

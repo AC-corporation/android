@@ -10,5 +10,10 @@ import retrofit2.http.Path;
 
 public interface TimeTableService {
     @POST("timetableGenerator/step1/{userId}")
-    Call<TimeTableOneResponseDto> postStepOne(@Path("userId") long userId, @Body TimeTableOneRequestDto request);
+    Call<TimeTableOneResponseDto> postStepOne(
+            @Path("userId") long userId,
+            @Body TimeTableOneRequestDto request
+    );
+
+
 }
