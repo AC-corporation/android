@@ -1,4 +1,6 @@
-package com.example.allclear.data;
+package com.example.allclear.data.service;
+
+import com.example.allclear.data.response.TestResponseDto;
 
 import java.util.List;
 import retrofit2.Call;
