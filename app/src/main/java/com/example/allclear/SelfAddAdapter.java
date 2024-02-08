@@ -22,7 +22,7 @@ public class SelfAddAdapter extends RecyclerView.Adapter<SelfAddAdapter.ViewHold
     @NonNull
     @Override
     public SelfAddAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_selfadd, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_self_add, parent, false);
         return new ViewHolder(view);
     }
 
