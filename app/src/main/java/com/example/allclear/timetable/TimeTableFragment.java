@@ -50,7 +50,7 @@ public class TimeTableFragment extends Fragment{
     }
 
     private FragmentTimeTableBinding binding;
-    private String[] day = {"Mon", "Tue", "Wen", "Thu", "Fri"};
+    private String[] day={"Mon", "Tue", "Wen", "Thu", "Fri"};
     private ArrayList<Schedule> scheduleDataList=new ArrayList<Schedule>();
     private ArrayList<ScheduleEntity> scheduleEntityList = new ArrayList<>();
     public void setTimeTable(){
@@ -65,6 +65,18 @@ public class TimeTableFragment extends Fragment{
         if(intent != null && intent.hasExtra("schedulelist")){
             scheduleDataList=(ArrayList<Schedule>)intent.getSerializableExtra("schedulelist");
             scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
+            //토요일,일요일 유무에 따라 day 변경
+            int size=scheduleDataList.size();
+            if(size!=0){
+                for(int i=0;i<size;i++){
+                    if(5==scheduleDataList.get(i).getScheduleDay()){
+                        day= new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat"};
+                    }
+                    if(6==scheduleDataList.get(i).getScheduleDay()){
+                        day= new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat","Sun"};
+                    }
+                }
+            }
         }
         binding = FragmentTimeTableBinding.inflate(inflater, container, false);
         binding.timetable.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
