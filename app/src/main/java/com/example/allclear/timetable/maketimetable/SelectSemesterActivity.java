@@ -5,13 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.allclear.R;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.TimeTableOneRequestDto;
-import com.example.allclear.data.response.TimeTableOneResponseDto;
+import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.databinding.ActivitySelectSemesterBinding;
 import com.example.allclear.timetable.TimeTableFragment;
 
@@ -46,15 +45,15 @@ public class SelectSemesterActivity extends AppCompatActivity {
         });
     }
 
-    private void initNextBtnClickListener(){
+    private void initNextBtnClickListener() {
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(binding.cbEmptyTimeTable.isChecked()){
+                if (binding.cbEmptyTimeTable.isChecked()) {
                     // 빈 시간표 만드는 로직
                     Intent intent = new Intent(SelectSemesterActivity.this, TimeTableFragment.class);
                     startActivity(intent);
-                }else{
+                } else {
                     postStepOneToServer(userId, timeTableOneRequestDto);
                     Intent intent = new Intent(SelectSemesterActivity.this, SelfAddOneActivity.class);
                     startActivity(intent);
@@ -65,15 +64,15 @@ public class SelectSemesterActivity extends AppCompatActivity {
 
     private void postStepOneToServer(long userId, TimeTableOneRequestDto timeTableOneRequestDto) {
         ServicePool.timeTableService.postStepOne(userId, timeTableOneRequestDto)
-                .enqueue(new Callback<TimeTableOneResponseDto>() {
+                .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
-                    public void onResponse(Call<TimeTableOneResponseDto> call, Response<TimeTableOneResponseDto> response) {
+                    public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
                         // 선택한 학년, 학기 서버로 보내기
                         Toast.makeText(SelectSemesterActivity.this, R.string.server_success, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onFailure(Call<TimeTableOneResponseDto> call, Throwable t) {
+                    public void onFailure(Call<TimeTableResponseDto> call, Throwable t) {
                         Toast.makeText(SelectSemesterActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
                     }
                 });

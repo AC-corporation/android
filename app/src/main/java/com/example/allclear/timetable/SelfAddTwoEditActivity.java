@@ -112,7 +112,7 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
         }
         else {
             for(int i=0;i<size;i++){
-                if(day==scheduleDataList.get(i).getScheduleDay()){
+                if(day==scheduleDataList.get(i).getClassDay()){
                     int addstart=timeToMinutes(start_time);
                     int addend=timeToMinutes(end_time);
                     int liststart=timeToMinutes(scheduleDataList.get(i).getStartTime());
@@ -152,13 +152,13 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
     }
     void addschedule() {
         Schedule schedule = new Schedule();
-        schedule.setOriginId(32);
-        schedule.setScheduleName(subtext);
+        schedule.setSubjectId(32);
+        schedule.setSubjectName(subtext);
         schedule.setProfessor(professor);
-        schedule.setScheduleDay(day);
+        schedule.setClassDay(day);
         schedule.setStartTime(start_time);
         schedule.setEndTime(end_time);
-        schedule.setRoomInfo(place);
+        schedule.setClassRoom(place);
         Intent intent = new Intent(SelfAddTwoEditActivity.this, EditTimeTableTwoActivity.class);
         intent.putExtra("schedule", schedule);
         setResult(RESULT_OK, intent);

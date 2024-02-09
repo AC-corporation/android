@@ -2,7 +2,7 @@ package com.example.allclear.data.response;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TimeTableOneResponseDto {
+public class TimeTableResponseDto {
     @SerializedName("isSuccess")
     private boolean isSuccess;
     @SerializedName("code")

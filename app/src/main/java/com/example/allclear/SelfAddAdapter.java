@@ -28,11 +28,11 @@ public class SelfAddAdapter extends RecyclerView.Adapter<SelfAddAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull SelfAddAdapter.ViewHolder holder, int position) {
-        holder.title.setText(scheduleDataList.get(position).getScheduleName());
-        holder.day.setText(getday(scheduleDataList.get(position).getScheduleDay()));
+        holder.title.setText(scheduleDataList.get(position).getSubjectName());
+        holder.day.setText(getday(scheduleDataList.get(position).getClassDay()));
         holder.start.setText(scheduleDataList.get(position).getStartTime());
         holder.end.setText(scheduleDataList.get(position).getEndTime());
-        holder.location.setText(scheduleDataList.get(position).getRoomInfo());
+        holder.location.setText(scheduleDataList.get(position).getClassRoom());
     }
 
     @Override

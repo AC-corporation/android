@@ -62,7 +62,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/iv_plus_self_add"
+                android:id="@+id/btn_plus_self_add"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="20dp"
@@ -75,6 +75,7 @@
                 android:id="@+id/rv_self_add_schedule"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="10dp"
                 android:scrollbarFadeDuration="0"
                 android:scrollbarSize="5dp"
                 android:scrollbarThumbVertical="@android:color/darker_gray"
@@ -82,7 +83,7 @@
                 app:layout_constraintBottom_toTopOf="@id/btn_next"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_plus_self_add"
+                app:layout_constraintTop_toBottomOf="@+id/btn_plus_self_add"
                 tools:listitem="@layout/item_self_add" />
 
             <Button

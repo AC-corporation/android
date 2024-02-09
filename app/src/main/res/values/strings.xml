@@ -1,11 +1,7 @@
 <resources>
     <string name="app_name">AllClear</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="logo">올클</string>
-
-    <string name="add_time_table_title">시간표 만들기</string>
-    <string name="add_blank_time_table">빈 시간표 만들기</string>
 
     <string name="btn_next">다음</string>
 

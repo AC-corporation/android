@@ -12,13 +12,16 @@ import android.widget.Toast;
 
 import com.example.allclear.R;
 import com.example.allclear.SelfAddAdapter;
+
 import com.example.allclear.data.ServicePool;
-import com.example.allclear.data.request.TimeTableOneRequestDto;
-import com.example.allclear.data.response.TimeTableOneResponseDto;
+import com.example.allclear.data.request.TimeTableTwoRequestDto;
+import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.schedule.Schedule;
 import com.example.allclear.databinding.ActivitySelfAddOneBinding;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,6 +31,8 @@ public class SelfAddOneActivity extends AppCompatActivity {
 
     private ActivitySelfAddOneBinding binding;
     private ArrayList<Schedule> scheduleDataList = new ArrayList<Schedule>();
+
+    long userId = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +47,7 @@ public class SelfAddOneActivity extends AppCompatActivity {
     }
 
     private void initSelfAddClickListener() {
-        binding.ivPlusSelfAdd.setOnClickListener(new View.OnClickListener() {
+        binding.btnPlusSelfAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SelfAddOneActivity.this, SelfAddTwoActivity.class);
@@ -56,8 +61,7 @@ public class SelfAddOneActivity extends AppCompatActivity {
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SelfAddOneActivity.this, SelectMajorBaseActivity.class);
-                startActivity(intent);
+                postStepTwoToServer(userId, scheduleDataList);
             }
         });
     }
@@ -71,6 +75,61 @@ public class SelfAddOneActivity extends AppCompatActivity {
         });
     }
 
+    private void postStepTwoToServer(long userId, ArrayList<Schedule> scheduleDataList) {
+        List<TimeTableTwoRequestDto> timeTableTwoRequestDtoList = makeTimeTableTwoRequestList(scheduleDataList);
+
+        ServicePool.timeTableService.postStepTwo(userId, timeTableTwoRequestDtoList)
+                .enqueue(new Callback<TimeTableResponseDto>() {
+                    @Override
+                    public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
+                        Intent intent = new Intent(SelfAddOneActivity.this, SelectMajorBaseActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<TimeTableResponseDto> call, Throwable t) {
+                        Toast.makeText(SelfAddOneActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private List<TimeTableTwoRequestDto> makeTimeTableTwoRequestList(ArrayList<Schedule> scheduleDataList) {
+        List<TimeTableTwoRequestDto> timeTableTwoRequestDtoList = new ArrayList<>();
+
+        for (Schedule schedule : scheduleDataList) {
+            TimeTableTwoRequestDto timeTableTwoRequestDto = new TimeTableTwoRequestDto();
+            timeTableTwoRequestDto.setSubjectName(schedule.getSubjectName());
+            timeTableTwoRequestDto.setSubjectId(schedule.getSubjectId());
+
+            TimeTableTwoRequestDto.ClassInfoRequestDtoList classInfo = new TimeTableTwoRequestDto.ClassInfoRequestDtoList();
+            classInfo.setProfessor(schedule.getProfessor());
+            classInfo.setClassDay(getClassDay(schedule.getClassDay()));
+            classInfo.setStartTime(schedule.getStartTime());
+            classInfo.setEndTime(schedule.getEndTime());
+            classInfo.setClassRoom(schedule.getClassRoom());
+
+            timeTableTwoRequestDto.setClassInfoRequestDtoList(Collections.singletonList(classInfo));
+            timeTableTwoRequestDtoList.add(timeTableTwoRequestDto);
+        }
+
+        return timeTableTwoRequestDtoList;
+    }
+
+    private String getClassDay(int day) {
+        if (day == 0)
+            return "월";
+        else if (day == 1)
+            return "화";
+        else if (day == 2)
+            return "수";
+        else if (day == 3)
+            return "목";
+        else if (day == 4)
+            return "금";
+        else
+            return "토";
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -81,9 +140,9 @@ public class SelfAddOneActivity extends AppCompatActivity {
         }
     }
 
-    private void displayDataInRecyclerView(ArrayList<Schedule> Schedulelist) {
+    private void displayDataInRecyclerView(ArrayList<Schedule> ScheduleList) {
         RecyclerView recyclerView = binding.rvSelfAddSchedule;
-        SelfAddAdapter adapter = new SelfAddAdapter(scheduleDataList);
+        SelfAddAdapter adapter = new SelfAddAdapter(ScheduleList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
