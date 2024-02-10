@@ -12,13 +12,14 @@ import android.widget.Spinner;
 import com.example.allclear.R;
 import com.example.allclear.databinding.ActivitySelectMajorBaseBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;
+import com.example.allclear.schedule.AdapterSpinner;
 
 import java.util.ArrayList;
 
 public class SelectMajorBaseActivity extends AppCompatActivity {
     private ActivitySelectMajorBaseBinding binding;
     private Spinner spinner;
-    private AdapterYearSpinner adapterYearSpinner;
+    private AdapterSpinner adapterSpinner;
     private SpinnerCustomBinding spinnerCustomBinding;
 
     @Override
@@ -60,8 +61,8 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
         years.add(getString(R.string.third_year));
         years.add(getString(R.string.fourth_year));
 
-        adapterYearSpinner = new AdapterYearSpinner(this, years);
-        spinner.setAdapter(adapterYearSpinner);
+        adapterSpinner = new AdapterSpinner(this, years);
+        spinner.setAdapter(adapterSpinner);
         spinnerCustomBinding = SpinnerCustomBinding.inflate(getLayoutInflater());
 
         downArrowClickListener();

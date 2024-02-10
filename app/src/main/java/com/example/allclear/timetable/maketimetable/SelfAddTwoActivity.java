@@ -12,14 +12,14 @@ import android.widget.Toast;
 
 import com.example.allclear.databinding.ActivitySelfAddTwoBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;
-import com.example.allclear.schedule.AdapterDaySpinner;
+import com.example.allclear.schedule.AdapterSpinner;
 import com.example.allclear.schedule.Schedule;
 
 import java.util.ArrayList;
 
 public class SelfAddTwoActivity extends AppCompatActivity {
     Spinner spinner;
-    AdapterDaySpinner adapterDaySpinner;
+    AdapterSpinner adapterSpinner;
 
     private ActivitySelfAddTwoBinding binding;
 
@@ -65,8 +65,8 @@ public class SelfAddTwoActivity extends AppCompatActivity {
         days.add("토요일");
         days.add("일요일");
         //ArrayList에 내가 스피너에 보여주고싶은 값 셋팅
-        adapterDaySpinner = new AdapterDaySpinner(this, days); //그 값을 넣어줌
-        spinner.setAdapter(adapterDaySpinner); //어댑터연결
+        adapterSpinner = new AdapterSpinner(this, days); //그 값을 넣어줌
+        spinner.setAdapter(adapterSpinner); //어댑터연결
         spinnerCustomBinding=SpinnerCustomBinding.inflate(getLayoutInflater());
 
         ImageButton downarrow=spinnerCustomBinding.ibDownArrow1;

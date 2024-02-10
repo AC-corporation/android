@@ -11,12 +11,12 @@ import com.example.allclear.R;
 
 import java.util.List;
 //요일 스피너 어뎁터
-public class AdapterDaySpinner extends BaseAdapter {
+public class AdapterSpinner extends BaseAdapter {
     Context mContext;
     List<String> Data;
     LayoutInflater Inflater;
 
-    public AdapterDaySpinner(Context context, List<String> data){
+    public AdapterSpinner(Context context, List<String> data){
         this.mContext = context;
         this.Data = data;
         Inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
