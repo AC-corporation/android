@@ -1,4 +1,4 @@
-package com.example.allclear.timetable.maketimetable;
+package com.example.allclear.timetable.maketimetable.majorbase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +13,7 @@ import com.example.allclear.R;
 import com.example.allclear.databinding.ActivitySelectMajorBaseBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;
 import com.example.allclear.schedule.AdapterSpinner;
+import com.example.allclear.timetable.maketimetable.SelectEssentialGeneralElectiveActivity;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,7 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
 
         initNextClickListener();
         initBackClickListener();
+        getMajorBaseList();
         setYearSpinner();
 
     }
@@ -53,9 +55,19 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
         });
     }
 
+    private void getMajorBaseList(){
+
+    }
+
+    private void initAdapter(){
+
+    }
+
     private void setYearSpinner() {
         spinner = binding.yearSpinner;
+
         ArrayList<String> years = new ArrayList<>();
+
         years.add(getString(R.string.first_year));
         years.add(getString(R.string.second_year));
         years.add(getString(R.string.third_year));
@@ -85,4 +97,5 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
             }
         });
     }
+
 }

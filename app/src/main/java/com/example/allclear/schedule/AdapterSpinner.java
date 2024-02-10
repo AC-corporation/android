@@ -10,26 +10,27 @@ import android.widget.TextView;
 import com.example.allclear.R;
 
 import java.util.List;
-//요일 스피너 어뎁터
-public class AdapterSpinner extends BaseAdapter {
-    Context mContext;
-    List<String> Data;
-    LayoutInflater Inflater;
 
-    public AdapterSpinner(Context context, List<String> data){
-        this.mContext = context;
-        this.Data = data;
-        Inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+public class AdapterSpinner extends BaseAdapter {
+    Context context;
+    List<String> data;
+    LayoutInflater inflater;
+
+    public AdapterSpinner(Context context, List<String> data) {
+        this.context = context;
+        this.data = data;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
     @Override
     public int getCount() {
-        if(Data!=null) return Data.size();
+        if (data != null) return data.size();
         else return 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return Data.get(position);
+        return data.get(position);
     }
 
     @Override
@@ -39,23 +40,23 @@ public class AdapterSpinner extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView==null) {
-            convertView = Inflater.inflate(R.layout.spinner_custom, parent, false);
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.spinner_custom, parent, false);
         }
-        if(Data!=null){
-            String text = Data.get(position);
-            ((TextView)convertView.findViewById(R.id.day_spinner_text)).setText(text);
+        if (data != null) {
+            String text = data.get(position);
+            ((TextView) convertView.findViewById(R.id.day_spinner_text)).setText(text);
         }
         return convertView;
     }
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        if(convertView==null){
-            convertView = Inflater.inflate(R.layout.spinner_getview, parent, false);
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.spinner_getview, parent, false);
         }
-        String text = Data.get(position);
-        ((TextView)convertView.findViewById(R.id.day_spinner_text)).setText(text);
+        String text = data.get(position);
+        ((TextView) convertView.findViewById(R.id.day_spinner_text)).setText(text);
 
         return convertView;
     }

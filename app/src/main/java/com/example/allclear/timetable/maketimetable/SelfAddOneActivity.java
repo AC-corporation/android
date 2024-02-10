@@ -18,6 +18,7 @@ import com.example.allclear.data.request.TimeTableTwoRequestDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.schedule.Schedule;
 import com.example.allclear.databinding.ActivitySelfAddOneBinding;
+import com.example.allclear.timetable.maketimetable.majorbase.SelectMajorBaseActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;

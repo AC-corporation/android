@@ -49,7 +49,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.maketimetable.SelectMajorBaseActivity"
+            android:name=".timetable.maketimetable.majorbase.SelectMajorBaseActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity

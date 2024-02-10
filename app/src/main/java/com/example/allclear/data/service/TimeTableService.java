@@ -15,6 +15,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface TimeTableService {
+
     @POST("timetableGenerator/step1/{userId}")
     Call<TimeTableResponseDto> postStepOne(
             @Path("userId") long userId,
