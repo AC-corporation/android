@@ -117,17 +117,17 @@ public class SelfAddOneActivity extends AppCompatActivity {
 
     private String getClassDay(int day) {
         if (day == 0)
-            return "월";
+            return getString(R.string.monday);
         else if (day == 1)
-            return "화";
+            return getString(R.string.tuesday);
         else if (day == 2)
-            return "수";
+            return getString(R.string.wednesday);
         else if (day == 3)
-            return "목";
+            return getString(R.string.thursday);
         else if (day == 4)
-            return "금";
+            return getString(R.string.friday);
         else
-            return "토";
+            return getString(R.string.saturday);
     }
 
     @Override

@@ -37,7 +37,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.maketimetable.SelectGaneralElectiveActivity"
+            android:name=".timetable.maketimetable.SelectGeneralElectiveActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -50,7 +50,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".timetable.maketimetable.SelectMajorBaseActivity"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".timetable.maketimetable.SelectSemesterActivity"

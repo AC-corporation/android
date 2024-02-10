@@ -22,7 +22,7 @@ public class SelectMajorActivity extends AppCompatActivity {
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SelectMajorActivity.this, SelectGaneralElectiveActivity.class);
+                Intent intent = new Intent(SelectMajorActivity.this, SelectGeneralElectiveActivity.class);
                 startActivity(intent);
             }
         });
