@@ -12,11 +12,23 @@ public class TimeTableThreeResponseDto {
     @SerializedName("message")
     private String message;
     @SerializedName("data")
-    public TimeTableThreeResponseData data;
+    private TimeTableThreeResponseData data;
+
+    public TimeTableThreeResponseData getData() {
+        return data;
+    }
 
     public static class TimeTableThreeResponseData {
-        public List<RequirementComponentResponseDto> requirementComponentResponseDtoList;
+        private List<RequirementComponentResponseDto> requirementComponentResponseDtoList;
         private List<SubjectResponseDto> subjectResponseDtoList;
+
+        public List<RequirementComponentResponseDto> getRequirementComponentResponseDtoList() {
+            return requirementComponentResponseDtoList;
+        }
+
+        public List<SubjectResponseDto> getSubjectResponseDtoList() {
+            return subjectResponseDtoList;
+        }
     }
 
     public static class RequirementComponentResponseDto {
@@ -25,13 +37,26 @@ public class TimeTableThreeResponseDto {
         @SerializedName("requirementCategory")
         private String requirementCategory;
         @SerializedName("requirementArgument")
-        public String requirementArgument;
+        private String requirementArgument;
         @SerializedName("requirementCriteria")
-        public double requirementCriteria;
+        private double requirementCriteria;
         @SerializedName("requirementComplete")
-        public double requirementComplete;
+        private double requirementComplete;
         @SerializedName("requirementResult")
         private String requirementResult;
+
+        public String getRequirementArgument() {
+            return requirementArgument;
+        }
+
+        public double getRequirementCriteria() {
+            return requirementCriteria;
+        }
+
+        public double getRequirementComplete() {
+            return requirementComplete;
+        }
+
     }
 
     public static class SubjectResponseDto {
@@ -61,11 +86,24 @@ public class TimeTableThreeResponseDto {
         @SerializedName("subjectTarget")
         private String subjectTarget;
         @SerializedName("classInfoResponseDtoList")
-        private List<ClassInfoResponseDto> classInfoResponseDtoList;
+        public List<ClassInfoResponseDto> classInfoResponseDtoList;
+
+        public String getSubjectName() {
+            return subjectName;
+        }
+
+        public double getSubjectTime() {
+            return subjectTime;
+        }
 
         public static class ClassInfoResponseDto {
             @SerializedName("professor")
             private String professor;
+
+            public String getProfessor() {
+                return professor;
+            }
+
             @SerializedName("classDay")
             private String classDay;
             @SerializedName("startTime")

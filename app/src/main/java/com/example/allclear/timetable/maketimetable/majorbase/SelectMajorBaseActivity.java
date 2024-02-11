@@ -75,13 +75,14 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
 
                         if (response.isSuccessful() && response.body() != null) {
                             TimeTableThreeResponseDto responseBody = response.body();
-                            TimeTableThreeResponseDto.TimeTableThreeResponseData data = responseBody.data;
-                            List<TimeTableThreeResponseDto.RequirementComponentResponseDto> requirementComponents = data.requirementComponentResponseDtoList;
+                            TimeTableThreeResponseDto.TimeTableThreeResponseData data = responseBody.getData();
 
-                            initAdapter();
+                            List<TimeTableThreeResponseDto.RequirementComponentResponseDto> requirementComponents = data.getRequirementComponentResponseDtoList();
+                            List<TimeTableThreeResponseDto.SubjectResponseDto> subjectResponseDtoList = data.getSubjectResponseDtoList();
+
+                            initAdapter(subjectResponseDtoList);
                             setRequirementComponent(requirementComponents);
                         }
-
                     }
 
                     @Override
@@ -91,28 +92,30 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
                 });
     }
 
-    private void initAdapter() {
-
+    private void initAdapter(List<TimeTableThreeResponseDto.SubjectResponseDto> subjectResponseDtoList) {
+        SelectMajorBaseAdapter adapter = new SelectMajorBaseAdapter(subjectResponseDtoList);
+        binding.rvSelectMajorBase.setAdapter(adapter);
     }
 
     private void setRequirementComponent(List<TimeTableThreeResponseDto.RequirementComponentResponseDto> requirementComponents) {
         // List의 개수에 따라서 넣어주는 값이 달라집니다.
         if (requirementComponents.size() > 0) {
             TimeTableThreeResponseDto.RequirementComponentResponseDto componentOne = requirementComponents.get(0);
-            String textOne = String.format(getString(R.string.criteria), componentOne.requirementComplete, componentOne.requirementCriteria);
+            String textOne = String.format(getString(R.string.criteria), componentOne.getRequirementComplete(), componentOne.getRequirementCriteria());
             binding.tvComponentResultOne.setText(textOne);
-            binding.tvComponentOne.setText(componentOne.requirementArgument);
+            binding.tvComponentOne.setText(componentOne.getRequirementArgument());
         }
 
         if (requirementComponents.size() > 1) {
             TimeTableThreeResponseDto.RequirementComponentResponseDto componentTwo = requirementComponents.get(1);
-            String textTwo = String.format(getString(R.string.criteria), componentTwo.requirementComplete, componentTwo.requirementCriteria);
+            String textTwo = String.format(getString(R.string.criteria), componentTwo.getRequirementComplete(), componentTwo.getRequirementCriteria());
             binding.tvComponentResultTwo.setText(textTwo);
-            binding.tvComponentTwo.setText(componentTwo.requirementArgument);
+            binding.tvComponentTwo.setText(componentTwo.getRequirementArgument());
         }
     }
 
     private void setYearSpinner() {
+        // 선택한 spinner 학년으로 리사이클러뷰 필터링 하는 로직 필요
         spinner = binding.yearSpinner;
 
         ArrayList<String> years = new ArrayList<>();
