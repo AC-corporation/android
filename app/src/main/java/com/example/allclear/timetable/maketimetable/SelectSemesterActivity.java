@@ -49,8 +49,9 @@ public class SelectSemesterActivity extends AppCompatActivity {
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 체크 버튼 유무에 따라서 이동 달라짐
                 if (binding.cbEmptyTimeTable.isChecked()) {
-                    // 빈 시간표 만드는 로직
+                    // 빈 시간표 만드는 로직 필요
                     Intent intent = new Intent(SelectSemesterActivity.this, TimeTableFragment.class);
                     startActivity(intent);
                 } else {
@@ -67,7 +68,7 @@ public class SelectSemesterActivity extends AppCompatActivity {
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
-                        // 선택한 학년, 학기 서버로 보내기
+                        // 선택한 학년, 학기 서버로 보내는 로직 필요
                         Toast.makeText(SelectSemesterActivity.this, R.string.server_success, Toast.LENGTH_SHORT).show();
                     }
 

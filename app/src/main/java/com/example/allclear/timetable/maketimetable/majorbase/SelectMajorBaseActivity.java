@@ -8,20 +8,32 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.allclear.R;
+import com.example.allclear.data.ServicePool;
+import com.example.allclear.data.response.TimeTableThreeResponseDto;
 import com.example.allclear.databinding.ActivitySelectMajorBaseBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;
 import com.example.allclear.schedule.AdapterSpinner;
 import com.example.allclear.timetable.maketimetable.SelectEssentialGeneralElectiveActivity;
+import com.example.allclear.timetable.maketimetable.SelectSemesterActivity;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.ServiceConfigurationError;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SelectMajorBaseActivity extends AppCompatActivity {
     private ActivitySelectMajorBaseBinding binding;
     private Spinner spinner;
     private AdapterSpinner adapterSpinner;
     private SpinnerCustomBinding spinnerCustomBinding;
+
+    private long userId = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +67,49 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
         });
     }
 
-    private void getMajorBaseList(){
+    private void getMajorBaseList() {
+        ServicePool.timeTableService.getStepThree(userId)
+                .enqueue(new Callback<TimeTableThreeResponseDto>() {
+                    @Override
+                    public void onResponse(Call<TimeTableThreeResponseDto> call, Response<TimeTableThreeResponseDto> response) {
+
+                        if (response.isSuccessful() && response.body() != null) {
+                            TimeTableThreeResponseDto responseBody = response.body();
+                            TimeTableThreeResponseDto.TimeTableThreeResponseData data = responseBody.data;
+                            List<TimeTableThreeResponseDto.RequirementComponentResponseDto> requirementComponents = data.requirementComponentResponseDtoList;
+
+                            initAdapter();
+                            setRequirementComponent(requirementComponents);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<TimeTableThreeResponseDto> call, Throwable t) {
+                        Toast.makeText(SelectMajorBaseActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void initAdapter() {
 
     }
 
-    private void initAdapter(){
+    private void setRequirementComponent(List<TimeTableThreeResponseDto.RequirementComponentResponseDto> requirementComponents) {
+        // List의 개수에 따라서 넣어주는 값이 달라집니다.
+        if (requirementComponents.size() > 0) {
+            TimeTableThreeResponseDto.RequirementComponentResponseDto componentOne = requirementComponents.get(0);
+            String textOne = String.format(getString(R.string.criteria), componentOne.requirementComplete, componentOne.requirementCriteria);
+            binding.tvComponentResultOne.setText(textOne);
+            binding.tvComponentOne.setText(componentOne.requirementArgument);
+        }
 
+        if (requirementComponents.size() > 1) {
+            TimeTableThreeResponseDto.RequirementComponentResponseDto componentTwo = requirementComponents.get(1);
+            String textTwo = String.format(getString(R.string.criteria), componentTwo.requirementComplete, componentTwo.requirementCriteria);
+            binding.tvComponentResultTwo.setText(textTwo);
+            binding.tvComponentTwo.setText(componentTwo.requirementArgument);
+        }
     }
 
     private void setYearSpinner() {

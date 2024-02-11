@@ -20,4 +20,6 @@
     <string name="third_year">3학년</string>
     <string name="fourth_year">4학년</string>
 
+    <string name="criteria">%d/%d</string>
+
 </resources>

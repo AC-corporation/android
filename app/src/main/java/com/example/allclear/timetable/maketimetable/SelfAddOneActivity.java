@@ -77,12 +77,14 @@ public class SelfAddOneActivity extends AppCompatActivity {
     }
 
     private void postStepTwoToServer(long userId, ArrayList<Schedule> scheduleDataList) {
+        // 추가한 과목 서버로 보내기
         List<TimeTableTwoRequestDto> timeTableTwoRequestDtoList = makeTimeTableTwoRequestList(scheduleDataList);
 
         ServicePool.timeTableService.postStepTwo(userId, timeTableTwoRequestDtoList)
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
+                        // 성공했으면 다음 버튼 눌러서 이동
                         Intent intent = new Intent(SelfAddOneActivity.this, SelectMajorBaseActivity.class);
                         startActivity(intent);
                     }

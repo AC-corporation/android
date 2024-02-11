@@ -12,10 +12,10 @@ public class TimeTableThreeResponseDto {
     @SerializedName("message")
     private String message;
     @SerializedName("data")
-    private TimeTableThreeResponseData data;
+    public TimeTableThreeResponseData data;
 
     public static class TimeTableThreeResponseData {
-        private List<RequirementComponentResponseDto> requirementComponentResponseDtoList;
+        public List<RequirementComponentResponseDto> requirementComponentResponseDtoList;
         private List<SubjectResponseDto> subjectResponseDtoList;
     }
 
@@ -25,11 +25,11 @@ public class TimeTableThreeResponseDto {
         @SerializedName("requirementCategory")
         private String requirementCategory;
         @SerializedName("requirementArgument")
-        private String requirementArgument;
+        public String requirementArgument;
         @SerializedName("requirementCriteria")
-        private double requirementCriteria;
+        public double requirementCriteria;
         @SerializedName("requirementComplete")
-        private double requirementComplete;
+        public double requirementComplete;
         @SerializedName("requirementResult")
         private String requirementResult;
     }
