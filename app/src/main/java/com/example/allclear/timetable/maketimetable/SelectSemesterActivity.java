@@ -49,7 +49,7 @@ public class SelectSemesterActivity extends AppCompatActivity {
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 체크 버튼 유무에 따라서 이동 달라짐
+                // 체크 버튼 유무에 따라서 이동 달라집니다.
                 if (binding.cbEmptyTimeTable.isChecked()) {
                     // 빈 시간표 만드는 로직 필요
                     Intent intent = new Intent(SelectSemesterActivity.this, TimeTableFragment.class);
