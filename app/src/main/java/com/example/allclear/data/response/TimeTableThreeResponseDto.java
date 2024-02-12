@@ -56,7 +56,6 @@ public class TimeTableThreeResponseDto {
         public double getRequirementComplete() {
             return requirementComplete;
         }
-
     }
 
     public static class SubjectResponseDto {
@@ -96,14 +95,13 @@ public class TimeTableThreeResponseDto {
             return subjectTime;
         }
 
+        public Long getSubjectId() {
+            return subjectId;
+        }
+
         public static class ClassInfoResponseDto {
             @SerializedName("professor")
             private String professor;
-
-            public String getProfessor() {
-                return professor;
-            }
-
             @SerializedName("classDay")
             private String classDay;
             @SerializedName("startTime")
@@ -112,6 +110,10 @@ public class TimeTableThreeResponseDto {
             private String endTime;
             @SerializedName("classRoom")
             private String classRoom;
+
+            public String getProfessor() {
+                return professor;
+            }
         }
     }
 }

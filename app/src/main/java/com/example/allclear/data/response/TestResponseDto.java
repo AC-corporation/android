@@ -2,8 +2,6 @@ package com.example.allclear.data.response;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-
 public class TestResponseDto {
     @SerializedName("isSuccess")
     private boolean isSuccess;

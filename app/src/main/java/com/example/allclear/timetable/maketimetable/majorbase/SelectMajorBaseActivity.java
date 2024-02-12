@@ -12,16 +12,16 @@ import android.widget.Toast;
 
 import com.example.allclear.R;
 import com.example.allclear.data.ServicePool;
+import com.example.allclear.data.request.TimeTableThreeRequestDto;
+import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.data.response.TimeTableThreeResponseDto;
 import com.example.allclear.databinding.ActivitySelectMajorBaseBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;
 import com.example.allclear.schedule.AdapterSpinner;
 import com.example.allclear.timetable.maketimetable.SelectEssentialGeneralElectiveActivity;
-import com.example.allclear.timetable.maketimetable.SelectSemesterActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ServiceConfigurationError;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,11 +52,37 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SelectMajorBaseActivity.this, SelectEssentialGeneralElectiveActivity.class);
-                startActivity(intent);
+                postStepThreeToServer(userId);
             }
         });
     }
+
+    private void postStepThreeToServer(long userId) {
+        // 선택한 과목 서버로 보내기
+        TimeTableThreeRequestDto timeTableThreeRequestDto = userSelectedId();
+
+        ServicePool.timeTableService.postStepThree(userId, timeTableThreeRequestDto)
+                .enqueue(new Callback<TimeTableResponseDto>() {
+                    @Override
+                    public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
+                        Intent intent = new Intent(SelectMajorBaseActivity.this, SelectEssentialGeneralElectiveActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<TimeTableResponseDto> call, Throwable t) {
+                        Toast.makeText(SelectMajorBaseActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private TimeTableThreeRequestDto userSelectedId() {
+        List<Long> selectedIds = SelectMajorBaseAdapter.getSelectedSubjectIds();
+        TimeTableThreeRequestDto timeTableThreeRequestDto = new TimeTableThreeRequestDto();
+        timeTableThreeRequestDto.setSubjectIdList(selectedIds);
+        return timeTableThreeRequestDto;
+    }
+
 
     private void initBackClickListener() {
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +99,7 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<TimeTableThreeResponseDto> call, Response<TimeTableThreeResponseDto> response) {
 
+                        // 서버로부터 리스트 받아서 연결
                         if (response.isSuccessful() && response.body() != null) {
                             TimeTableThreeResponseDto responseBody = response.body();
                             TimeTableThreeResponseDto.TimeTableThreeResponseData data = responseBody.getData();
@@ -98,7 +125,7 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
     }
 
     private void setRequirementComponent(List<TimeTableThreeResponseDto.RequirementComponentResponseDto> requirementComponents) {
-        // List의 개수에 따라서 넣어주는 값이 달라집니다.
+        // 리스트의 개수에 따라서 넣어주는 값이 달라집니다.
         if (requirementComponents.size() > 0) {
             TimeTableThreeResponseDto.RequirementComponentResponseDto componentOne = requirementComponents.get(0);
             String textOne = String.format(getString(R.string.criteria), componentOne.getRequirementComplete(), componentOne.getRequirementCriteria());
