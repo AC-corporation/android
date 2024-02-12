@@ -50,7 +50,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".timetable.maketimetable.majorbase.SelectMajorBaseActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".timetable.maketimetable.SelectSemesterActivity"
@@ -74,11 +74,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".timetable.ListTimeTableActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".timetable.EditTimeTableActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainPageActivity"
