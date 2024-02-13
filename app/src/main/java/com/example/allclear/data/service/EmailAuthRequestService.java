@@ -1,6 +1,7 @@
-package com.example.allclear.data;
+package com.example.allclear.data.service;
 
-import java.util.List;
+import com.example.allclear.data.request.EmailAuthRequestDto;
+import com.example.allclear.data.response.TestResponseDto;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

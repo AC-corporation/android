@@ -17,8 +17,7 @@ import android.widget.Toast;
 import com.example.allclear.MainPageActivity;
 import com.example.allclear.R;
 import com.example.allclear.data.ServicePool;
-import com.example.allclear.data.TestResponseDto;
-import com.example.allclear.data.TestService;
+import com.example.allclear.data.response.TestResponseDto;
 import com.example.allclear.databinding.ActivityLoginBinding;
 
 import java.util.List;

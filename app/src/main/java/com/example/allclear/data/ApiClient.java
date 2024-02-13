@@ -3,6 +3,7 @@ package com.example.allclear.data;
 import android.util.Log;
 
 import com.example.allclear.BuildConfig;
+import com.example.allclear.data.service.TestService;
 
 import java.util.concurrent.TimeUnit;
 
