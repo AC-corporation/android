@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.allclear.R;
 import com.example.allclear.data.ServicePool;
-import com.example.allclear.data.request.TimeTableThreeRequestDto;
+import com.example.allclear.data.request.TimeTablePostRequestDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.data.response.TimeTableGetResponseDto;
 import com.example.allclear.databinding.ActivitySelectMajorBaseBinding;
@@ -58,9 +58,9 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
 
     private void postStepThreeToServer(long userId) {
         // 선택한 과목 서버로 보내기
-        TimeTableThreeRequestDto timeTableThreeRequestDto = userSelectedId();
+        TimeTablePostRequestDto timeTablePostRequestDto = userSelectedId();
 
-        ServicePool.timeTableService.postStepThree(userId, timeTableThreeRequestDto)
+        ServicePool.timeTableService.postStepThree(userId, timeTablePostRequestDto)
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
@@ -75,11 +75,11 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
                 });
     }
 
-    private TimeTableThreeRequestDto userSelectedId() {
+    private TimeTablePostRequestDto userSelectedId() {
         List<Long> selectedIds = MakeTimeTableAdapter.getSelectedSubjectIds();
-        TimeTableThreeRequestDto timeTableThreeRequestDto = new TimeTableThreeRequestDto();
-        timeTableThreeRequestDto.setSubjectIdList(selectedIds);
-        return timeTableThreeRequestDto;
+        TimeTablePostRequestDto timeTablePostRequestDto = new TimeTablePostRequestDto();
+        timeTablePostRequestDto.setSubjectIdList(selectedIds);
+        return timeTablePostRequestDto;
     }
 
 

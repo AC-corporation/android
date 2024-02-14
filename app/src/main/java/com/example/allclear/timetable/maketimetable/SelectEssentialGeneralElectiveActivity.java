@@ -12,7 +12,9 @@ import android.widget.Toast;
 
 import com.example.allclear.R;
 import com.example.allclear.data.ServicePool;
+import com.example.allclear.data.request.TimeTablePostRequestDto;
 import com.example.allclear.data.response.TimeTableGetResponseDto;
+import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.databinding.ActivitySelectEssentialGeneralElectiveBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;
 import com.example.allclear.schedule.AdapterSpinner;
@@ -50,10 +52,34 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SelectEssentialGeneralElectiveActivity.this, SelectMajorActivity.class);
-                startActivity(intent);
+                postStepFourToServer(userId);
             }
         });
+    }
+
+    private void postStepFourToServer(long userId) {
+        TimeTablePostRequestDto timeTablePostRequestDto = userSelectedId();
+
+        ServicePool.timeTableService.postStepFour(userId, timeTablePostRequestDto)
+                .enqueue(new Callback<TimeTableResponseDto>() {
+                    @Override
+                    public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
+                        Intent intent = new Intent(SelectEssentialGeneralElectiveActivity.this, SelectMajorActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<TimeTableResponseDto> call, Throwable t) {
+                        Toast.makeText(SelectEssentialGeneralElectiveActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private TimeTablePostRequestDto userSelectedId() {
+        List<Long> selectIds = MakeTimeTableAdapter.getSelectedSubjectIds();
+        TimeTablePostRequestDto timeTablePostRequestDto = new TimeTablePostRequestDto();
+        timeTablePostRequestDto.setSubjectIdList(selectIds);
+        return timeTablePostRequestDto;
     }
 
     private void initBackClickListener() {

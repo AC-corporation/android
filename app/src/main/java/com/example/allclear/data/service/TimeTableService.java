@@ -1,7 +1,7 @@
 package com.example.allclear.data.service;
 
 import com.example.allclear.data.request.TimeTableOneRequestDto;
-import com.example.allclear.data.request.TimeTableThreeRequestDto;
+import com.example.allclear.data.request.TimeTablePostRequestDto;
 import com.example.allclear.data.request.TimeTableTwoRequestDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.data.response.TimeTableGetResponseDto;
@@ -36,12 +36,18 @@ public interface TimeTableService {
     @POST("timetableGenerator/step3/{userId}")
     Call<TimeTableResponseDto> postStepThree(
             @Path("userId") long userId,
-            @Body TimeTableThreeRequestDto request
+            @Body TimeTablePostRequestDto request
     );
 
     @GET("timetableGenerator/step4/{userId}")
     Call<TimeTableGetResponseDto> getStepFour(
             @Path("userId") long userId
+    );
+
+    @POST("timetableGenerator/step4/{userId}")
+    Call<TimeTableResponseDto> postStepFour(
+            @Path("userId") long userId,
+            @Body TimeTablePostRequestDto request
     );
 
 }
