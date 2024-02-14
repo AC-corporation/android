@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.allclear.data.PreferenceUtil;
+import com.example.allclear.data.Utils;
 import com.example.allclear.databinding.ActivityMainPageBinding;
 import com.example.allclear.grade.GradeFragment;
 import com.example.allclear.graduation.GraduationFragment;
@@ -20,12 +24,18 @@ public class MainPageActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private Fragment timeTable, gr, credit, myPage;
 
+//    private PreferenceUtil preferences = MyApplication.getPreferences();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initBottomNavigation();
+        SharedPreferences preferences = getSharedPreferences("allClear", MODE_PRIVATE);
+        Log.i("accessToken", preferences.getString("Access_Token",""));
+        Log.i("refreshToken",preferences.getString("Refresh_Token",""));
+        Log.i("userid", String.valueOf(preferences.getLong("User_Id",0)));
     }
 
     private void initBottomNavigation() {

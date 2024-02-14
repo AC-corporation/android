@@ -10,7 +10,16 @@ public class LoginResponseDto {
     @SerializedName("message")
     private String message;
     @SerializedName("data")
-    private Long data;
+    private Login data;
+//    @Override
+//    public String toString(){
+//        return "PostResult{" +
+//                "isSuccess=" + isSuccess +
+//                ", code=" + code +
+//                ", message='" + message + '\'' +
+//                ", data='" + data + '\'' +
+//                '}';
+//    }
     public void setIsSuccess(boolean success) {
         isSuccess = success;
     }
@@ -29,10 +38,10 @@ public class LoginResponseDto {
     public String getMessage() {
         return message;
     }
-    public void setData(Long data) {
+    public void setData(Login data) {
         this.data = data;
     }
-    public Long getData() {
+    public Login getData() {
         return data;
     }
 }
