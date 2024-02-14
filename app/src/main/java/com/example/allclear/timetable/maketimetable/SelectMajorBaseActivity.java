@@ -1,4 +1,4 @@
-package com.example.allclear.timetable.maketimetable.majorbase;
+package com.example.allclear.timetable.maketimetable;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,11 +14,10 @@ import com.example.allclear.R;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.TimeTableThreeRequestDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
-import com.example.allclear.data.response.TimeTableThreeResponseDto;
+import com.example.allclear.data.response.TimeTableGetResponseDto;
 import com.example.allclear.databinding.ActivitySelectMajorBaseBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;
 import com.example.allclear.schedule.AdapterSpinner;
-import com.example.allclear.timetable.maketimetable.SelectEssentialGeneralElectiveActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +76,7 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
     }
 
     private TimeTableThreeRequestDto userSelectedId() {
-        List<Long> selectedIds = SelectMajorBaseAdapter.getSelectedSubjectIds();
+        List<Long> selectedIds = MakeTimeTableAdapter.getSelectedSubjectIds();
         TimeTableThreeRequestDto timeTableThreeRequestDto = new TimeTableThreeRequestDto();
         timeTableThreeRequestDto.setSubjectIdList(selectedIds);
         return timeTableThreeRequestDto;
@@ -95,17 +94,17 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
 
     private void getMajorBaseList() {
         ServicePool.timeTableService.getStepThree(userId)
-                .enqueue(new Callback<TimeTableThreeResponseDto>() {
+                .enqueue(new Callback<TimeTableGetResponseDto>() {
                     @Override
-                    public void onResponse(Call<TimeTableThreeResponseDto> call, Response<TimeTableThreeResponseDto> response) {
+                    public void onResponse(Call<TimeTableGetResponseDto> call, Response<TimeTableGetResponseDto> response) {
 
                         // 서버로부터 리스트 받아서 연결
                         if (response.isSuccessful() && response.body() != null) {
-                            TimeTableThreeResponseDto responseBody = response.body();
-                            TimeTableThreeResponseDto.TimeTableThreeResponseData data = responseBody.getData();
+                            TimeTableGetResponseDto responseBody = response.body();
+                            TimeTableGetResponseDto.TimeTableResponseData data = responseBody.getData();
 
-                            List<TimeTableThreeResponseDto.RequirementComponentResponseDto> requirementComponents = data.getRequirementComponentResponseDtoList();
-                            List<TimeTableThreeResponseDto.SubjectResponseDto> subjectResponseDtoList = data.getSubjectResponseDtoList();
+                            List<TimeTableGetResponseDto.RequirementComponentResponseDto> requirementComponents = data.getRequirementComponentResponseDtoList();
+                            List<TimeTableGetResponseDto.SubjectResponseDto> subjectResponseDtoList = data.getSubjectResponseDtoList();
 
                             initAdapter(subjectResponseDtoList);
                             setRequirementComponent(requirementComponents);
@@ -113,28 +112,26 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<TimeTableThreeResponseDto> call, Throwable t) {
+                    public void onFailure(Call<TimeTableGetResponseDto> call, Throwable t) {
                         Toast.makeText(SelectMajorBaseActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private void initAdapter(List<TimeTableThreeResponseDto.SubjectResponseDto> subjectResponseDtoList) {
-        SelectMajorBaseAdapter adapter = new SelectMajorBaseAdapter(subjectResponseDtoList);
+    private void initAdapter(List<TimeTableGetResponseDto.SubjectResponseDto> subjectResponseDtoList) {
+        MakeTimeTableAdapter adapter = new MakeTimeTableAdapter(subjectResponseDtoList);
         binding.rvSelectMajorBase.setAdapter(adapter);
     }
 
-    private void setRequirementComponent(List<TimeTableThreeResponseDto.RequirementComponentResponseDto> requirementComponents) {
+    private void setRequirementComponent(List<TimeTableGetResponseDto.RequirementComponentResponseDto> requirementComponents) {
         // 리스트의 개수에 따라서 넣어주는 값이 달라집니다.
         if (requirementComponents.size() > 0) {
-            TimeTableThreeResponseDto.RequirementComponentResponseDto componentOne = requirementComponents.get(0);
+            TimeTableGetResponseDto.RequirementComponentResponseDto componentOne = requirementComponents.get(0);
             String textOne = String.format(getString(R.string.criteria), componentOne.getRequirementComplete(), componentOne.getRequirementCriteria());
             binding.tvComponentResultOne.setText(textOne);
             binding.tvComponentOne.setText(componentOne.getRequirementArgument());
-        }
-
-        if (requirementComponents.size() > 1) {
-            TimeTableThreeResponseDto.RequirementComponentResponseDto componentTwo = requirementComponents.get(1);
+        } else if (requirementComponents.size() > 1) {
+            TimeTableGetResponseDto.RequirementComponentResponseDto componentTwo = requirementComponents.get(1);
             String textTwo = String.format(getString(R.string.criteria), componentTwo.getRequirementComplete(), componentTwo.getRequirementCriteria());
             binding.tvComponentResultTwo.setText(textTwo);
             binding.tvComponentTwo.setText(componentTwo.getRequirementArgument());
