@@ -189,9 +189,9 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("allClear", MODE_PRIVATE);
         Log.i("access",accessToken);
         Log.i("re",refreshToken);
-        preferences.edit().putString("Access_Token",accessToken);
-        preferences.edit().putString("Refresh_Token",refreshToken);
-        preferences.edit().putLong("User_Id",memberId);
+        preferences.edit().putString("Access_Token",accessToken).apply();
+        preferences.edit().putString("Refresh_Token",refreshToken).apply();
+        preferences.edit().putLong("User_Id",memberId).apply();
     }
     //로그인 후 MainPageActivity로 넘어가는 함수
     private void login(Response<LoginResponseDto> response) {
