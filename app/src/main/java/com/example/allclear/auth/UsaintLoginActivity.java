@@ -22,6 +22,8 @@ public class UsaintLoginActivity extends AppCompatActivity {
     private ActivityUsaintLoginBinding binding;
     private String email;
     private String password;
+    private String usaintId;
+    private String usaintPassword;
     private SignUpService signUpService;
 
     @Override
@@ -61,18 +63,20 @@ public class UsaintLoginActivity extends AppCompatActivity {
         return binding.cbSignupAgreement.isChecked();
     }
 
-    //서버에 회원가입 요청
+    //서버에 회원가입 요청하는 메서드
     private void signUpRequest() {
         ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("회원가입 요청 중...");
+        progressDialog.setMessage("회원가입 중...");
         progressDialog.setCancelable(false);
         progressDialog.show();
+        usaintId = binding.etStudentId.getText().toString();
+        usaintPassword = binding.etUsaintPassword.getText().toString();
 
         MemberSignupRequestDto memberSignupRequestDto = new MemberSignupRequestDto();
         memberSignupRequestDto.setEmail(email);
         memberSignupRequestDto.setPassword(password);
-        memberSignupRequestDto.setUsaintId(binding.etStudentId.getText().toString());
-        memberSignupRequestDto.setUsaintPassword(binding.etUsaintPassword.getText().toString());
+        memberSignupRequestDto.setUsaintId(usaintId);
+        memberSignupRequestDto.setUsaintPassword(usaintPassword);
 
         Call<TestResponseDto> call = signUpService.signUp(memberSignupRequestDto);
         call.enqueue(new Callback<TestResponseDto>() {
@@ -81,19 +85,44 @@ public class UsaintLoginActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), MainPageActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), UsaintLoadingActivity.class);
+                    intent.putExtra("usaintId",usaintId);
+                    intent.putExtra("usaintPassword",usaintPassword);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_SHORT).show();
+                    signUpResultHandler(response.code()); //가입 실패시 예외 처리
                 }
             }
-
             @Override
             public void onFailure(Call<TestResponseDto> call, Throwable t) {
                 progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), "서버와의 통신이 중단되었습니다.", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
+    //가입 실패를 처리하는 메서드
+    private void signUpResultHandler(int code) {
+        switch(code) {
+            case 4101:
+                Toast.makeText(getApplicationContext(), "유세인트 아이디 또는 비밀번호가 잘못되었습니다.", Toast.LENGTH_SHORT).show();
+                break;
+            case 4102:
+                Toast.makeText(getApplicationContext(), "유세인트 서버를 이용할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                break;
+            case 4103:
+                Toast.makeText(getApplicationContext(), "크롤링에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                break;
+            case 4104:
+                Toast.makeText(getApplicationContext(), "유세인트 데이터 저장에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                break;
+            case 4005:
+                Toast.makeText(getApplicationContext(), "이미 등록된 이메일입니다.", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Toast.makeText(getApplicationContext(), "회원가입 중 오류 발생", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
 }
