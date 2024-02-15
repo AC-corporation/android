@@ -17,4 +17,7 @@ public class TestResponseDto {
     public boolean getIsSuccess() {
         return isSuccess;
     }
+    public String getCode() {
+        return code;
+    }
 }
