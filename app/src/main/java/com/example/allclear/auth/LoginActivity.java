@@ -22,7 +22,6 @@ import com.example.allclear.data.LoginRequestDto;
 import com.example.allclear.data.LoginResponseDto;
 import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
-import com.example.allclear.data.TestResponseDto;
 import com.example.allclear.data.Utils;
 import com.example.allclear.data.response.TestResponseDto;
 import com.example.allclear.databinding.ActivityLoginBinding;
@@ -92,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //학번, 비밀번호 비어있을때 버튼 비활성화
     private void editChanged() {
-        binding.etLoginEmail.addTextChangedListener(new TextWatcher() {
+        binding.etStudentId.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 setBtnEnabled();
@@ -108,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                 setBtnEnabled();
             }
         });
-        binding.etLoginPassword.addTextChangedListener(new TextWatcher() {
+        binding.etUsaintPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 setBtnEnabled();
@@ -134,12 +133,12 @@ public class LoginActivity extends AppCompatActivity {
 
     //학번, 비밀번호 공백 체크하는 함수
     private boolean emptyCheck() {
-        return binding.etLoginPassword.getText().toString().equals("") || binding.etLoginEmail.getText().toString().equals("");
+        return binding.etUsaintPassword.getText().toString().equals("") || binding.etStudentId.getText().toString().equals("");
     }
 
     //이메일과 비밀번호가 비어있는지 체크하는 함수
     private boolean loginCheck() {
-        if (binding.etLoginEmail.getText().toString().length() == 0 || binding.etLoginPassword.getText().toString().length() == 0) {
+        if (binding.etStudentId.getText().toString().length() == 0 || binding.etUsaintPassword.getText().toString().length() == 0) {
             return false;
         }
         else return true;
@@ -147,8 +146,8 @@ public class LoginActivity extends AppCompatActivity {
 
     //백엔드와 통신하는 함수
     private void loginRequest() {
-        String email = binding.etLoginEmail.getText().toString();
-        String password = binding.etLoginPassword.getText().toString();
+        String email = binding.etStudentId.getText().toString();
+        String password = binding.etUsaintPassword.getText().toString();
         LoginRequestDto loginRequestDto = new LoginRequestDto();
         System.out.println(email);
         System.out.println(password);
@@ -166,6 +165,7 @@ public class LoginActivity extends AppCompatActivity {
                             switch (statusCode) {
                                 case "OK":
                                     login(response);
+                                    return;
                                 case "4004":
                                     Toast.makeText(getApplicationContext(),"존재하지 않는 아이디입니다.",Toast.LENGTH_SHORT).show();
                                     return;
