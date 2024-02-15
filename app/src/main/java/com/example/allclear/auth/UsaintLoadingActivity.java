@@ -14,7 +14,9 @@ import com.example.allclear.R;
 import com.example.allclear.data.GradeAndCurriculumUpdateService;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.TestResponseDto;
+import com.example.allclear.data.UpdateRequirementService;
 import com.example.allclear.data.UpdateUserService;
+import com.example.allclear.data.UsaintUpdateRequestDto;
 import com.example.allclear.databinding.ActivityUsaintLoadingBinding;
 import com.example.allclear.databinding.ActivityUsaintLoginBinding;
 
@@ -90,7 +92,7 @@ public class UsaintLoadingActivity extends AppCompatActivity {
     void updateRequirement(){
         binding.icGrade.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.first_blue)); //아이콘 색상 변경
         binding.tvGrade.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.first_blue)); //텍스트 색상 변경
-        Call<TestResponseDto> call = gradeAndCurriculumUpdateService.updateGradeAndCurriculum(userId, usaintUpdateRequestDto);
+        Call<TestResponseDto> call = updateRequirementService.updateRequirement(userId, usaintUpdateRequestDto);
         serverCommunication(call, this::AfterSycn);
     }
 
