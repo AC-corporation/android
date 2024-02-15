@@ -15,4 +15,7 @@ public class TimeTableResponseDto {
     public boolean getIsSuccess() {
         return isSuccess;
     }
+    public String getCode() {
+        return code;
+    }
 }
