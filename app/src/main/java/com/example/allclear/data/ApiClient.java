@@ -7,6 +7,8 @@ import com.example.allclear.data.service.TestService;
 
 import java.util.concurrent.TimeUnit;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -30,8 +32,10 @@ public class ApiClient {
                 .readTimeout(100,TimeUnit.SECONDS)
                 .writeTimeout(100, TimeUnit.SECONDS)
                 .addInterceptor(loggingInterceptor)
+                .connectTimeout(100, TimeUnit.SECONDS)
+                .readTimeout(100,TimeUnit.SECONDS)
+                .writeTimeout(100,TimeUnit.SECONDS)
                 .build();
-
         retrofit = new Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
