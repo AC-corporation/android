@@ -13,4 +13,8 @@ public class TestResponseDto {
     private String message;
     @SerializedName("data")
     private String data;
+
+    public boolean getIsSuccess() {
+        return isSuccess;
+    }
 }

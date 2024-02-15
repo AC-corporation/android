@@ -86,7 +86,7 @@ public class UsaintLoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<TestResponseDto> call, Response<TestResponseDto> response) {
                 progressDialog.dismiss();
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body().getIsSuccess()) {
                     Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), UsaintLoadingActivity.class);
                     intent.putExtra("usaintId",usaintId);
