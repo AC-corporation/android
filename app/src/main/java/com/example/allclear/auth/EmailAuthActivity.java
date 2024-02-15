@@ -142,7 +142,7 @@ public class EmailAuthActivity extends AppCompatActivity {
         call.enqueue(new Callback<TestResponseDto>() {
             @Override
             public void onResponse(Call<TestResponseDto> call, Response<TestResponseDto> response) {
-
+                Toast.makeText(getApplicationContext(), "인증코드를 발송했어요",Toast.LENGTH_SHORT);
             }
 
             @Override
