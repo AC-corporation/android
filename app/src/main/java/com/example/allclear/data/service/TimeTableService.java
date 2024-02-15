@@ -50,4 +50,9 @@ public interface TimeTableService {
             @Body TimeTablePostRequestDto request
     );
 
+    @GET("timetableGenerator/step5/{userId}")
+    Call<TimeTableGetResponseDto> getStepFive(
+            @Path("userId") long userId
+    );
+
 }
