@@ -23,6 +23,10 @@ public class MainPageActivity extends AppCompatActivity {
     private ActivityMainPageBinding binding;
     private FragmentManager fragmentManager;
     private Fragment timeTable, gr, credit, myPage;
+    static final String ACCESS_TOKEN = "Access_Token";
+    static final String REFRESH_TOKEN = "Refresh_Token";
+    static final String USER_ID = "User_Id";
+    static final String DB = "allClear";
 
 //    private PreferenceUtil preferences = MyApplication.getPreferences();
 
@@ -32,10 +36,10 @@ public class MainPageActivity extends AppCompatActivity {
         binding = ActivityMainPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initBottomNavigation();
-        SharedPreferences preferences = getSharedPreferences("allClear", MODE_PRIVATE);
-        Log.i("accessToken", preferences.getString("Access_Token",""));
-        Log.i("refreshToken",preferences.getString("Refresh_Token",""));
-        Log.i("userid", String.valueOf(preferences.getLong("User_Id",0)));
+        SharedPreferences preferences = getSharedPreferences(DB, MODE_PRIVATE);
+        Log.i(ACCESS_TOKEN, preferences.getString(ACCESS_TOKEN,""));
+        Log.i(REFRESH_TOKEN,preferences.getString(REFRESH_TOKEN,""));
+        Log.i(USER_ID, String.valueOf(preferences.getLong(USER_ID,0)));
     }
 
     private void initBottomNavigation() {

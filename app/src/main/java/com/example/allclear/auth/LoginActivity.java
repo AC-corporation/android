@@ -35,6 +35,10 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
+    static final String ACCESS_TOKEN = "Access_Token";
+    static final String REFRESH_TOKEN = "Refresh_Token";
+    static final String USER_ID = "User_Id";
+    static final String DB = "allClear";
 //    private PreferenceUtil preferences = MyApplication.getPreferences();
 
     @Override
@@ -186,12 +190,12 @@ public class LoginActivity extends AppCompatActivity {
 //        preferences.setRefreshToken(refreshToken);
 //        Utils.setAccessToken(accessToken);
 //        Utils.setRefreshToken(refreshToken);
-        SharedPreferences preferences = getSharedPreferences("allClear", MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(DB, MODE_PRIVATE);
         Log.i("access",accessToken);
         Log.i("re",refreshToken);
-        preferences.edit().putString("Access_Token",accessToken).apply();
-        preferences.edit().putString("Refresh_Token",refreshToken).apply();
-        preferences.edit().putLong("User_Id",memberId).apply();
+        preferences.edit().putString(ACCESS_TOKEN,accessToken).apply();
+        preferences.edit().putString(REFRESH_TOKEN,refreshToken).apply();
+        preferences.edit().putLong(USER_ID,memberId).apply();
     }
     //로그인 후 MainPageActivity로 넘어가는 함수
     private void login(Response<LoginResponseDto> response) {
