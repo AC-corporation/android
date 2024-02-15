@@ -1,8 +1,8 @@
-package com.example.allclear.data.response;
+package com.example.allclear.data;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TestResponseDto {
+public class LoginResponseDto {
     @SerializedName("isSuccess")
     private boolean isSuccess;
     @SerializedName("code")
@@ -10,8 +10,16 @@ public class TestResponseDto {
     @SerializedName("message")
     private String message;
     @SerializedName("data")
-    private String data;
-
+    private Login data;
+//    @Override
+//    public String toString(){
+//        return "PostResult{" +
+//                "isSuccess=" + isSuccess +
+//                ", code=" + code +
+//                ", message='" + message + '\'' +
+//                ", data='" + data + '\'' +
+//                '}';
+//    }
     public void setIsSuccess(boolean success) {
         isSuccess = success;
     }
@@ -30,10 +38,10 @@ public class TestResponseDto {
     public String getMessage() {
         return message;
     }
-    public void setData(String data) {
+    public void setData(Login data) {
         this.data = data;
     }
-    public String getData() {
+    public Login getData() {
         return data;
     }
 }
