@@ -55,4 +55,10 @@ public interface TimeTableService {
             @Path("userId") long userId
     );
 
+    @POST("timetableGenerator/step5/{userId}")
+    Call<TimeTableResponseDto> postStepFive(
+            @Path("userId") long userId,
+            @Body TimeTablePostRequestDto request
+    );
+
 }

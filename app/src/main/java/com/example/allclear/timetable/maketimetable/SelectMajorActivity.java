@@ -9,7 +9,9 @@ import android.widget.Toast;
 
 import com.example.allclear.R;
 import com.example.allclear.data.ServicePool;
+import com.example.allclear.data.request.TimeTablePostRequestDto;
 import com.example.allclear.data.response.TimeTableGetResponseDto;
+import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.databinding.ActivitySelectMajorBinding;
 
 import java.util.List;
@@ -41,10 +43,35 @@ public class SelectMajorActivity extends AppCompatActivity {
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SelectMajorActivity.this, SelectGeneralElectiveActivity.class);
-                startActivity(intent);
+                postStepFiveToServer(userId);
             }
         });
+    }
+
+    private void postStepFiveToServer(long userId){
+        // 선택한 과목 서버로 보내기
+        TimeTablePostRequestDto timeTablePostRequestDto = userSelectedId();
+
+        ServicePool.timeTableService.postStepFive(userId, timeTablePostRequestDto)
+                .enqueue(new Callback<TimeTableResponseDto>() {
+                    @Override
+                    public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
+                        Intent intent = new Intent(SelectMajorActivity.this, SelectGeneralElectiveActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<TimeTableResponseDto> call, Throwable t) {
+                        Toast.makeText(SelectMajorActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private TimeTablePostRequestDto userSelectedId() {
+        List<Long> selectedIds = MakeTimeTableAdapter.getSelectedSubjectIds();
+        TimeTablePostRequestDto timeTablePostRequestDto = new TimeTablePostRequestDto();
+        timeTablePostRequestDto.setSubjectIdList(selectedIds);
+        return timeTablePostRequestDto;
     }
 
     private void initBackClickListener() {
