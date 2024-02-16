@@ -140,7 +140,7 @@ public class UsaintLoadingActivity extends AppCompatActivity {
 
     //학생 정보를 업데이트 하는 함수
     void updateUser(){
-        binding.icStudent.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.first_blue)); //아이콘 색상 변경
+        binding.icStudent.setImageTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.first_blue)); //아이콘 색상 변경
         binding.tvStudent.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.first_blue)); //텍스트 색상 변경
 
         usaintUpdateRequestDto = new UsaintUpdateRequestDto(usaintId, usaintPassword);
@@ -150,7 +150,7 @@ public class UsaintLoadingActivity extends AppCompatActivity {
 
     //성적을 업데이트하는 함수
     void updateScore(){
-        binding.icGrade.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.first_blue)); //아이콘 색상 변경
+        binding.icGrade.setImageTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.first_blue)); //아이콘 색상 변경
         binding.tvGrade.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.first_blue)); //텍스트 색상 변경
 
         Call<TestResponseDto> call = gradeAndCurriculumUpdateService.updateGradeAndCurriculum("Bearer " + AccessToken , MemberId, usaintUpdateRequestDto);
@@ -159,7 +159,7 @@ public class UsaintLoadingActivity extends AppCompatActivity {
 
     //졸업 요건을 업데이트하는 함수
     void updateRequirement(){
-        binding.icGraduation.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.first_blue)); //아이콘 색상 변경
+        binding.icGraduation.setImageTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.first_blue)); //아이콘 색상 변경
         binding.tvGraduation.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.first_blue)); //텍스트 색상 변경
 
         Call<TestResponseDto> call = updateRequirementService.updateRequirement("Bearer " + AccessToken , MemberId, usaintUpdateRequestDto);
