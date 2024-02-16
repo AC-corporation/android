@@ -49,7 +49,7 @@ public class SelectMajorActivity extends AppCompatActivity {
         });
     }
 
-    private void postStepFiveToServer(long userId){
+    private void postStepFiveToServer(long userId) {
         // 선택한 과목 서버로 보내기
         TimeTablePostRequestDto timeTablePostRequestDto = userSelectedId();
 
