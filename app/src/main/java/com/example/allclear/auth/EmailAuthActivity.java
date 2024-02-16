@@ -2,25 +2,20 @@ package com.example.allclear.auth;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.allclear.MainPageActivity;
 import com.example.allclear.R;
-import com.example.allclear.data.EmailAuthRequestDto;
-import com.example.allclear.data.EmailAuthRequestService;
-import com.example.allclear.data.EmailIsValidRequestDto;
-import com.example.allclear.data.EmailIsValidRequestService;
+import com.example.allclear.data.request.EmailAuthRequestDto;
+import com.example.allclear.data.service.EmailAuthRequestService;
+import com.example.allclear.data.request.EmailIsValidRequestDto;
+import com.example.allclear.data.service.EmailIsValidRequestService;
 import com.example.allclear.data.ServicePool;
-import com.example.allclear.data.TestResponseDto;
+import com.example.allclear.data.response.TestResponseDto;
 import com.example.allclear.databinding.ActivityEmailAuthBinding;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

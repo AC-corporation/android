@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.allclear.R;
 import com.example.allclear.databinding.ActivitySaveTimeTableBinding;
 
 public class SaveTimeTableActivity extends AppCompatActivity {

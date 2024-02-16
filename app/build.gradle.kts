@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.cli.jvm.main
-import java.io.FileInputStream;
 import java.util.Properties;
 
 plugins {

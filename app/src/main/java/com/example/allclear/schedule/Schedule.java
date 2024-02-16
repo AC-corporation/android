@@ -14,66 +14,86 @@ public class Schedule implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int originId;
     private String scheduleName;
+
     private String professor;
-    private int scheduleDay;
-     private String startTime;
+    private int classDay;
+    private String startTime;
     private String endTime;
     private String roomInfo;
     private String backgroundColor= "#dddddd";
     private String textColor= "#ffffff";
     public int timetableId;  // 속한 시간표의 ID
+  
     public int getOriginId(){
         return originId;
+
     }
-    public void setOriginId(int originId){
-        this.originId=originId;
+
+    public void setSubjectId(int subjectId) {
+        this.subjectId = subjectId;
     }
-    public String getScheduleName(){
-        return  scheduleName;
+
+    public String getSubjectName() {
+        return subjectName;
     }
-    public void setScheduleName(String scheduleName){
-        this.scheduleName=scheduleName;
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
     }
-    public String getProfessor(){
+
+    public String getProfessor() {
         return professor;
     }
-    public void setProfessor(String professor){
-        this.professor=professor;
+
+    public void setProfessor(String professor) {
+        this.professor = professor;
     }
-    public int getScheduleDay(){
-        return scheduleDay;
+
+    public int getClassDay() {
+        return classDay;
     }
-    public void setScheduleDay(int scheduleDay){
-        this.scheduleDay=scheduleDay;
+
+    public void setClassDay(int classDay) {
+        this.classDay = classDay;
     }
-    public String getStartTime(){
+
+    public String getStartTime() {
         return startTime;
     }
-    public void setStartTime(String startTime){
-        this.startTime=startTime;
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
-    public String getEndTime(){
+
+    public String getEndTime() {
         return endTime;
     }
-    public void setEndTime(String endTime){
-        this.endTime=endTime;
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
-    public String getRoomInfo(){
-        return roomInfo;
+
+    public String getClassRoom() {
+        return classRoom;
     }
-    public void setRoomInfo(String roomInfo){
-        this.roomInfo=roomInfo;
+
+    public void setClassRoom(String classRoom) {
+        this.classRoom = classRoom;
     }
-    public String getBackgroundColor(){
+
+    public String getBackgroundColor() {
         return backgroundColor;
     }
-    public void setBackgroundColor(String backgroundColor){
-        this.backgroundColor=backgroundColor;
+
+    public void setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
-    public String getTextColor(){
+
+    public String getTextColor() {
         return textColor;
     }
-    public void setTextColor(String textColor){
-    this.textColor=textColor;
-}
+
+    public void setTextColor(String textColor) {
+        this.textColor = textColor;
+    }
 }

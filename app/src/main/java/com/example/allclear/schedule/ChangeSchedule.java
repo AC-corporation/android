@@ -26,10 +26,10 @@ public class ChangeSchedule {
         if(scheduleDataList!=null){
              size=scheduleDataList.size();
             for(int i=0;i<size;i++){
-                subtext=scheduleDataList.get(i).getScheduleName();
+                subtext=scheduleDataList.get(i).getSubjectName();
                 professor=scheduleDataList.get(i).getProfessor();
-                place=scheduleDataList.get(i).getRoomInfo();
-                selectedDay=scheduleDataList.get(i).getScheduleDay();
+                place=scheduleDataList.get(i).getClassRoom();
+                selectedDay=scheduleDataList.get(i).getClassDay();
                 starttime=scheduleDataList.get(i).getStartTime();
                 endtime=scheduleDataList.get(i).getEndTime();
 //색상을 랜덤으로 부여하는 기능 필요

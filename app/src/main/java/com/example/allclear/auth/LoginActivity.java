@@ -3,6 +3,7 @@ package com.example.allclear.auth;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,10 +16,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.allclear.MainPageActivity;
+import com.example.allclear.MyApplication;
 import com.example.allclear.R;
+import com.example.allclear.data.LoginRequestDto;
+import com.example.allclear.data.LoginResponseDto;
+import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
-import com.example.allclear.data.TestResponseDto;
-import com.example.allclear.data.TestService;
+import com.example.allclear.data.Utils;
+import com.example.allclear.data.response.TestResponseDto;
 import com.example.allclear.databinding.ActivityLoginBinding;
 
 import java.util.List;
@@ -30,6 +35,11 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
+    static final String ACCESS_TOKEN = "Access_Token";
+    static final String REFRESH_TOKEN = "Refresh_Token";
+    static final String USER_ID = "User_Id";
+    static final String DB = "allClear";
+//    private PreferenceUtil preferences = MyApplication.getPreferences();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +49,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         binding.btnLogin.setEnabled(false);
 
-        checkServer();
+
+//        checkServer();
 
         initLoginBtnListener();
         editChanged();
@@ -51,15 +62,18 @@ public class LoginActivity extends AppCompatActivity {
     private void checkServer(){
         // 서버 통신
         ServicePool.testService.getListFromServer()
-                .enqueue(new Callback<List<TestResponseDto>>() {
+                .enqueue(new Callback<TestResponseDto>() {
                     @Override
-                    public void onResponse(Call<List<TestResponseDto>> call, Response<List<TestResponseDto>> response) {
+                    public void onResponse(Call<TestResponseDto> call, Response<TestResponseDto> response) {
                         Toast.makeText(LoginActivity.this, "서버 통신 성공", Toast.LENGTH_SHORT).show();
+                        Log.i("test",response.body().getMessage());
                     }
 
                     @Override
-                    public void onFailure(Call<List<TestResponseDto>> call, Throwable t) {
+                    public void onFailure(Call<TestResponseDto> call, Throwable t) {
                         Toast.makeText(LoginActivity.this, "서버 통신 실패", Toast.LENGTH_SHORT).show();
+                        Log.i("test",call.toString());
+                        Log.i("test",t.getMessage().toString());
                     }
                 });
     }
@@ -71,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!loginCheck()) return;
                 loginRequest();
-                login();
             }
         });
     }
@@ -133,16 +146,62 @@ public class LoginActivity extends AppCompatActivity {
 
     //백엔드와 통신하는 함수
     private void loginRequest() {
-
+        String email = binding.etStudentId.getText().toString();
+        String password = binding.etUsaintPassword.getText().toString();
+        LoginRequestDto loginRequestDto = new LoginRequestDto();
+        System.out.println(email);
+        System.out.println(password);
+        loginRequestDto.init(email,password);
+        ServicePool.testService.Login(loginRequestDto)
+                .enqueue(new Callback<LoginResponseDto>() {
+                    @Override
+                    public void onResponse(Call<LoginResponseDto> call, Response<LoginResponseDto> response) {
+                        if(response.isSuccessful()){
+                            System.out.println("서버 통신 성공");
+                            Log.i("if",response.toString());
+                            Log.i("if",response.body().getMessage());
+                            Log.i("if",response.body().getCode().toString());
+                            String statusCode = response.body().getCode();
+                            switch (statusCode) {
+                                case "OK":
+                                    login(response);
+                                    return;
+                                case "4004":
+                                    Toast.makeText(getApplicationContext(),"존재하지 않는 아이디입니다.",Toast.LENGTH_SHORT).show();
+                                    return;
+                                case "4002":
+                                    Toast.makeText(getApplicationContext(),"비밀번호가 다릅니다..",Toast.LENGTH_SHORT).show();
+                                    return;
+                                default:
+                                    // 기타 상황에 대한 처리
+                                    break;
+                            }
+                        }else{
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<LoginResponseDto> call, Throwable t) {
+                        System.out.println("서버 통신 실패");
+                    }
+                });
     }
 
+    private void tokenSave(String accessToken,String refreshToken, Long memberId){
+//        preferences.setAccessToken(accessToken);
+//        preferences.setRefreshToken(refreshToken);
+//        Utils.setAccessToken(accessToken);
+//        Utils.setRefreshToken(refreshToken);
+        SharedPreferences preferences = getSharedPreferences(DB, MODE_PRIVATE);
+        Log.i("access",accessToken);
+        Log.i("re",refreshToken);
+        preferences.edit().putString(ACCESS_TOKEN,accessToken).apply();
+        preferences.edit().putString(REFRESH_TOKEN,refreshToken).apply();
+        preferences.edit().putLong(USER_ID,memberId).apply();
+    }
     //로그인 후 MainPageActivity로 넘어가는 함수
-    private void login() {
+    private void login(Response<LoginResponseDto> response) {
+        tokenSave(response.body().getData().getAccessToken(),response.body().getData().getRefreshToken(),response.body().getData().getMemberId());
         Intent intent = new Intent(getApplicationContext(), MainPageActivity.class);
-        //토큰을 받아올경우 넣어주기
-        //intent.putExtra("token",);
-        Log.i("id", binding.etStudentId.getText().toString());
-        Log.i("password", binding.etUsaintPassword.getText().toString());
         finish();
         startActivity(intent);
     }

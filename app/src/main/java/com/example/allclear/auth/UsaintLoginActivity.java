@@ -8,14 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import com.example.allclear.MainPageActivity;
-import com.example.allclear.data.ApiClient;
-import com.example.allclear.data.MemberSignupRequestDto;
+import com.example.allclear.data.request.MemberSignupRequestDto;
 import com.example.allclear.data.ServicePool;
-import com.example.allclear.data.SignUpService;
-import com.example.allclear.data.TestResponseDto;
+import com.example.allclear.data.service.SignUpService;
+import com.example.allclear.data.response.TestResponseDto;
 import com.example.allclear.databinding.ActivityUsaintLoginBinding;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
