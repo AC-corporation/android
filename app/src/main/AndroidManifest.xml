@@ -37,7 +37,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.maketimetable.SelectGeneralElectiveActivity"
+            android:name=".timetable.maketimetable.generalelective.SelectGeneralElectiveActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

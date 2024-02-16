@@ -13,6 +13,7 @@ import com.example.allclear.data.request.TimeTablePostRequestDto;
 import com.example.allclear.data.response.TimeTableGetResponseDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.databinding.ActivitySelectMajorBinding;
+import com.example.allclear.timetable.maketimetable.generalelective.SelectGeneralElectiveActivity;
 
 import java.util.List;
 
