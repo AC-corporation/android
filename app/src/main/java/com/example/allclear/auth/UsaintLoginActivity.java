@@ -88,6 +88,8 @@ public class UsaintLoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), UsaintLoadingActivity.class);
                     intent.putExtra("usaintId",usaintId);
                     intent.putExtra("usaintPassword",usaintPassword);
+                    intent.putExtra("email", email);
+                    intent.putExtra("password",password);
                     startActivity(intent);
                 } else {
                     signUpResultHandler(response.body().getCode()); //가입 실패시 예외 처리

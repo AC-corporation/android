@@ -22,7 +22,8 @@ public class TestResponseDto {
         this.code = code;
     }
     public String getCode() {
-        return code;
+        if (code!=null) return code;
+        else return "알수없는 오류 코드";
     }
     public void setMessage(String message) {
         this.message = message;

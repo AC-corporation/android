@@ -17,7 +17,4 @@ public class ServicePool {
 
     public static final TimeTableService timeTableService = ApiClient.create(TimeTableService.class);
 
-    public static final UpdateUserService updateUserService = ApiClient.create(UpdateUserService.class);
-    public static final UpdateRequirementService updateRequirementService = ApiClient.create(UpdateRequirementService.class);
-    public static final GradeAndCurriculumUpdateService gradeAndCurriculumUpdateService = ApiClient.create(GradeAndCurriculumUpdateService.class);
 }
