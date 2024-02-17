@@ -80,8 +80,6 @@ public class UsaintLoadingActivity extends AppCompatActivity {
     //백엔드와 통신하는 함수
     private void loginRequest() {
         LoginRequestDto loginRequestDto = new LoginRequestDto();
-        System.out.println(email);
-        System.out.println(password);
         loginRequestDto.init(email,password);
         ServicePool.testService.Login(loginRequestDto)
                 .enqueue(new Callback<LoginResponseDto>() {
@@ -182,7 +180,7 @@ public class UsaintLoadingActivity extends AppCompatActivity {
                     onSuccess.run();
                 } else {
                     if (response.body() != null) {
-                        signUpResultHandler(response.body().getCode()); //동기화 실패시 예외 처리
+                        Toast.makeText(getApplicationContext(), response.body().getMessage().toString(), Toast.LENGTH_SHORT).show(); //동기화 실패시 예외 처리
                     } else {
                         // response.body()가 null인 경우에 대한 처리
                         Toast.makeText(getApplicationContext(), "서버로부터 유효한 응답을 받지 못했습니다.", Toast.LENGTH_SHORT).show();
@@ -195,29 +193,4 @@ public class UsaintLoadingActivity extends AppCompatActivity {
             }
         });
     }
-
-    //응답 실패를 처리하는 메서드
-    private void signUpResultHandler(String code) {
-        switch(code) {
-            case "4101":
-                Toast.makeText(getApplicationContext(), "유세인트 아이디 또는 비밀번호가 잘못되었습니다.", Toast.LENGTH_SHORT).show();
-                break;
-            case "4102":
-                Toast.makeText(getApplicationContext(), "유세인트 서버를 이용할 수 없습니다.", Toast.LENGTH_SHORT).show();
-                break;
-            case "4103":
-                Toast.makeText(getApplicationContext(), "크롤링에 실패했습니다.", Toast.LENGTH_SHORT).show();
-                break;
-            case "4104":
-                Toast.makeText(getApplicationContext(), "유세인트 데이터 저장에 실패했습니다.", Toast.LENGTH_SHORT).show();
-                break;
-            case "4005":
-                Toast.makeText(getApplicationContext(), "이미 등록된 이메일입니다.", Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                Toast.makeText(getApplicationContext(), "알수 없는 오류 발생", Toast.LENGTH_SHORT).show();
-                break;
-        }
-    }
-
 }
