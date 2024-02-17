@@ -2,9 +2,12 @@ package com.example.allclear.data;
 
 import com.example.allclear.data.service.EmailAuthRequestService;
 import com.example.allclear.data.service.EmailIsValidRequestService;
+import com.example.allclear.data.service.GradeAndCurriculumUpdateService;
 import com.example.allclear.data.service.SignUpService;
 import com.example.allclear.data.service.TestService;
 import com.example.allclear.data.service.TimeTableService;
+import com.example.allclear.data.service.UpdateRequirementService;
+import com.example.allclear.data.service.UpdateUserService;
 
 public class ServicePool {
     public static final TestService testService = ApiClient.create(TestService.class);

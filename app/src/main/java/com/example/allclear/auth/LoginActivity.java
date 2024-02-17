@@ -16,17 +16,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.allclear.MainPageActivity;
-import com.example.allclear.MyApplication;
 import com.example.allclear.R;
-import com.example.allclear.data.LoginRequestDto;
-import com.example.allclear.data.LoginResponseDto;
-import com.example.allclear.data.PreferenceUtil;
+import com.example.allclear.data.request.LoginRequestDto;
+import com.example.allclear.data.response.LoginResponseDto;
 import com.example.allclear.data.ServicePool;
-import com.example.allclear.data.Utils;
 import com.example.allclear.data.response.TestResponseDto;
 import com.example.allclear.databinding.ActivityLoginBinding;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -1,5 +1,6 @@
-package com.example.allclear.data;
+package com.example.allclear.data.service;
 
+import com.example.allclear.data.request.UsaintUpdateRequestDto;
 import com.example.allclear.data.response.TestResponseDto;
 
 import retrofit2.Call;

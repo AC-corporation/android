@@ -1,4 +1,4 @@
-package com.example.allclear.data;
+package com.example.allclear.data.request;
 
 import com.google.gson.annotations.SerializedName;
 
