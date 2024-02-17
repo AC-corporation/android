@@ -12,22 +12,18 @@ import java.io.Serializable;
 
 public class Schedule implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    private int originId;
-    private String scheduleName;
-
+    private int subjectId;
+    private String subjectName;
     private String professor;
     private int classDay;
     private String startTime;
     private String endTime;
-    private String roomInfo;
+    private String classRoom;
     private String backgroundColor= "#dddddd";
     private String textColor= "#ffffff";
     public int timetableId;  // 속한 시간표의 ID
-  
-    public int getOriginId(){
-        return originId;
 
-    }
+    public int getSubjectId() {return subjectId;}
 
     public void setSubjectId(int subjectId) {
         this.subjectId = subjectId;
