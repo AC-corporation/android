@@ -72,4 +72,9 @@ public interface TimeTableService {
             @Body TimeTablePostRequestDto request
     );
 
+    @GET("timetableGenerator/step7/{userId}")
+    Call<TimeTableGetResponseDto> getStepSeven(
+            @Path("userId") long userId
+    );
+
 }
