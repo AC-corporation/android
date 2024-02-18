@@ -91,6 +91,12 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".auth.UsaintLoadingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".auth.UsaintLoadingActivity"
+            android:exported="false" />
+        <activity
             android:name=".auth.LoginActivity"
             android:exported="true"
             android:screenOrientation="portrait"

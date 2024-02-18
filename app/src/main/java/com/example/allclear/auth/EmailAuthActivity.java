@@ -137,7 +137,13 @@ public class EmailAuthActivity extends AppCompatActivity {
         call.enqueue(new Callback<TestResponseDto>() {
             @Override
             public void onResponse(Call<TestResponseDto> call, Response<TestResponseDto> response) {
-
+                if(response.isSuccessful() && response.body().getIsSuccess()){
+                    Toast.makeText(getApplicationContext(), "인증코드를 발송했어요",Toast.LENGTH_SHORT);
+                }
+                else{
+                    signUpResultHandler(response.body().getCode()); //동기화 실패시 예외 처리
+                    reloadActivity();
+                }
             }
 
             @Override
@@ -180,11 +186,11 @@ public class EmailAuthActivity extends AppCompatActivity {
         call.enqueue(new Callback<TestResponseDto>() {
             @Override
             public void onResponse(Call<TestResponseDto> call, Response<TestResponseDto> response) {
-                if(response.isSuccessful()) {
+                if(response.isSuccessful() && response.body().getIsSuccess()) {
                     Toast.makeText(getApplicationContext(), "이메일 인증 성공!", Toast.LENGTH_SHORT).show();
                     handleSuccess();
                 } else {
-                    Toast.makeText(getApplicationContext(), "인증 코드가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "인증번호가 틀렸어요.", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
@@ -240,6 +246,30 @@ public class EmailAuthActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    //응답 실패를 처리하는 메서드
+    private void signUpResultHandler(String code) {
+        switch(code) {
+            case "4101":
+                Toast.makeText(getApplicationContext(), "유세인트 아이디 또는 비밀번호가 잘못되었습니다.", Toast.LENGTH_SHORT).show();
+                break;
+            case "4102":
+                Toast.makeText(getApplicationContext(), "유세인트 서버를 이용할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                break;
+            case "4103":
+                Toast.makeText(getApplicationContext(), "크롤링에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                break;
+            case "4104":
+                Toast.makeText(getApplicationContext(), "유세인트 데이터 저장에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                break;
+            case "4005":
+                Toast.makeText(getApplicationContext(), "이미 등록된 이메일입니다.", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Toast.makeText(getApplicationContext(), "알수 없는 오류 발생", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
 }

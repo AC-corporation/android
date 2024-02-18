@@ -16,6 +16,17 @@ public class MemberSignupRequestDto {
     @SerializedName("usaintPassword")
     private String usaintPassword;
 
+    @SerializedName("role")
+    private String role = "USER" ;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public String getEmail() {
         return email;
     }
