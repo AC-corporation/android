@@ -30,10 +30,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
+        android:id="@+id/cb_empty_time_table"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:buttonTint="@color/skyblue"
+        android:buttonTint="@color/first_blue"
         android:text="빈 시간표 만들기"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/btn_next"
@@ -46,10 +47,10 @@
         android:layout_height="70dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/big_button"
-        android:backgroundTint="@color/skyblue"
+        android:backgroundTint="@color/first_blue"
         android:gravity="center"
         android:scaleType="fitCenter"
-        android:text="다음"
+        android:text="@string/btn_next"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

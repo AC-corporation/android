@@ -1,11 +1,15 @@
 package com.example.allclear.grade;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +36,20 @@ import retrofit2.Response;
 
 public class GradeFragment extends Fragment {
 
+    static final String ACCESS_TOKEN = "Access_Token";
+    static final String REFRESH_TOKEN = "Refresh_Token";
+    static final String USER_ID = "User_Id";
+    static final String DB = "allClear";
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    private String mParam1;
+    private String mParam2;
+    private LineChart chart;
+
+    public GradeFragment() {
+        // Required empty public constructor
+    }
+
     private LineChart chart;
     GetGradeService getGradeService;
 
@@ -47,6 +65,10 @@ public class GradeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentGradeBinding.inflate(inflater, container, false);
+        SharedPreferences preferences = this.getActivity().getSharedPreferences(DB, MODE_PRIVATE);
+        Log.i(ACCESS_TOKEN, preferences.getString(ACCESS_TOKEN,""));
+        Log.i(REFRESH_TOKEN,preferences.getString(REFRESH_TOKEN,""));
+        Log.i(USER_ID, String.valueOf(preferences.getLong(USER_ID,0)));
         return binding.getRoot();
     }
 

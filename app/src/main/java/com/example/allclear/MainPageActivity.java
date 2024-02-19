@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.allclear.data.PreferenceUtil;
+import com.example.allclear.data.Utils;
 import com.example.allclear.databinding.ActivityMainPageBinding;
 import com.example.allclear.grade.GradeFragment;
 import com.example.allclear.graduation.GraduationFragment;
@@ -19,6 +23,12 @@ public class MainPageActivity extends AppCompatActivity {
     private ActivityMainPageBinding binding;
     private FragmentManager fragmentManager;
     private Fragment timeTable, gr, credit, myPage;
+    static final String ACCESS_TOKEN = "Access_Token";
+    static final String REFRESH_TOKEN = "Refresh_Token";
+    static final String USER_ID = "User_Id";
+    static final String DB = "allClear";
+
+//    private PreferenceUtil preferences = MyApplication.getPreferences();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +36,10 @@ public class MainPageActivity extends AppCompatActivity {
         binding = ActivityMainPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initBottomNavigation();
+        SharedPreferences preferences = getSharedPreferences(DB, MODE_PRIVATE);
+        Log.i(ACCESS_TOKEN, preferences.getString(ACCESS_TOKEN,""));
+        Log.i(REFRESH_TOKEN,preferences.getString(REFRESH_TOKEN,""));
+        Log.i(USER_ID, String.valueOf(preferences.getLong(USER_ID,0)));
     }
 
     private void initBottomNavigation() {

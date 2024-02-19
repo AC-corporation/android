@@ -1,6 +1,9 @@
 package com.example.allclear.timetable;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,14 +14,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
+import com.example.allclear.schedule.ChangeSchedule;
+import com.example.allclear.schedule.Schedule;
 import com.example.allclear.databinding.FragmentTimeTableBinding;
 import com.example.allclear.timetable.maketimetable.SelectSemesterActivity;
-import com.islandparadise14.mintable.model.ScheduleDay;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
 
 public class TimeTableFragment extends Fragment{
+    static final String ACCESS_TOKEN = "Access_Token";
+    static final String REFRESH_TOKEN = "Refresh_Token";
+    static final String USER_ID = "User_Id";
+    static final String DB = "allClear";
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -42,7 +50,6 @@ public class TimeTableFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        scheduleList.add(schedule);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -51,25 +58,26 @@ public class TimeTableFragment extends Fragment{
 
     private FragmentTimeTableBinding binding;
     private String[] day = {"Mon", "Tue", "Wen", "Thu", "Fri"};
-    private ArrayList<ScheduleEntity> scheduleList = new ArrayList<>();
-    ScheduleEntity schedule = new ScheduleEntity(
-            32,                  // originId
-            "Database",          // scheduleName
-            "IT Building 301",    // roomInfo
-            ScheduleDay.TUESDAY,  // ScheduleDay object (MONDAY ~ SUNDAY)
-            "8:20",               // startTime format: "HH:mm"
-            "17:30",              // endTime format: "HH:mm"
-            "#fffcae68",          // backgroundColor (optional)
-            "#000000"             // textColor (optional)
-    );
+    private ArrayList<Schedule> scheduleDataList=new ArrayList<Schedule>();
+    private ArrayList<ScheduleEntity> scheduleEntityList = new ArrayList<>();
     public void setTimeTable(){
         binding.timetable.initTable(day);
-        binding.timetable.updateSchedules(scheduleList);
+        binding.timetable.updateSchedules(scheduleEntityList);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //스케줄데이터를 전달받아 타임테이블에 보여지는 요소로 전환
+        Intent intent=getActivity().getIntent();
+        if(intent != null && intent.hasExtra("schedulelist")){
+            scheduleDataList=(ArrayList<Schedule>)intent.getSerializableExtra("schedulelist");
+            scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
+        }
         binding = FragmentTimeTableBinding.inflate(inflater, container, false);
+        SharedPreferences preferences = this.getActivity().getSharedPreferences(DB, MODE_PRIVATE);
+        Log.i(ACCESS_TOKEN, preferences.getString(ACCESS_TOKEN,""));
+        Log.i(REFRESH_TOKEN,preferences.getString(REFRESH_TOKEN,""));
+        Log.i(USER_ID, String.valueOf(preferences.getLong(USER_ID,0)));
         binding.timetable.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
@@ -109,6 +117,7 @@ public class TimeTableFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), EditTimeTableActivity.class);
+                intent.putExtra("schedulelist",scheduleDataList);
                 startActivity(intent);
             }
         });

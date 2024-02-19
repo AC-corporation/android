@@ -3,6 +3,9 @@ package com.example.allclear.data;
 import android.util.Log;
 
 import com.example.allclear.BuildConfig;
+import com.example.allclear.data.service.TestService;
+
+import java.util.concurrent.TimeUnit;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,8 +32,10 @@ public class ApiClient {
                 .readTimeout(200,TimeUnit.SECONDS)
                 .writeTimeout(200, TimeUnit.SECONDS)
                 .addInterceptor(loggingInterceptor)
+                .connectTimeout(100, TimeUnit.SECONDS)
+                .readTimeout(100,TimeUnit.SECONDS)
+                .writeTimeout(100,TimeUnit.SECONDS)
                 .build();
-
         retrofit = new Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())

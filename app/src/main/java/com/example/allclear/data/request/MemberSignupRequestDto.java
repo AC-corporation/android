@@ -1,4 +1,4 @@
-package com.example.allclear.data;
+package com.example.allclear.data.request;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -15,6 +15,17 @@ public class MemberSignupRequestDto {
 
     @SerializedName("usaintPassword")
     private String usaintPassword;
+
+    @SerializedName("role")
+    private String role = "USER" ;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public String getEmail() {
         return email;

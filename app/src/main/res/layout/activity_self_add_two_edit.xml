@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".timetable.SelfAddTwoEditActivity">
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:gravity="center"
+        android:text="직접 추가"
+        android:textSize="28sp"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:layout_marginRight="90dp"
+        android:background="@color/transparent"
+        android:src="@drawable/baseline_arrow_back_ios_new_24"
+        app:layout_constraintEnd_toStartOf="@+id/tv_title"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/et_SubTextOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:background="@color/transparent"
+        android:inputType="text"
+        android:hint="이름"
+        android:textColorHint="@color/secondary"
+        android:textColor="@color/secondary"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/btn_add"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+    <ImageView
+        android:id="@+id/iv_line1"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_SubTextOne" />
+
+    <EditText
+        android:id="@+id/et_professor_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/transparent"
+        android:hint="교수명"
+        android:inputType="text"
+        android:textColorHint="@color/secondary"
+        android:textColor="@color/secondary"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/btn_add"
+        app:layout_constraintTop_toBottomOf="@id/iv_line1" />
+
+    <ImageView
+        android:id="@+id/iv_line2"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_professor_name" />
+
+    <Spinner
+        android:id="@+id/day_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        app:layout_constraintStart_toStartOf="@+id/btn_add"
+        app:layout_constraintTop_toBottomOf="@id/iv_line2"/>
+
+    <EditText
+        android:id="@+id/et_starttime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20sp"
+        android:hint="9:00"
+        android:textColor="@color/gray"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/day_spinner"
+        app:layout_constraintStart_toEndOf="@id/day_spinner"
+        app:layout_constraintTop_toTopOf="@id/day_spinner"/>
+
+    <TextView
+        android:id="@+id/tv_tilde"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="~"
+        android:textColor="@color/gray"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/day_spinner"
+        app:layout_constraintStart_toEndOf="@id/et_starttime"
+        app:layout_constraintTop_toTopOf="@id/day_spinner"/>
+
+    <EditText
+        android:id="@+id/et_endtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="10:30"
+        android:textColor="@color/gray"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/day_spinner"
+        app:layout_constraintStart_toEndOf="@id/tv_tilde"
+        app:layout_constraintTop_toTopOf="@id/day_spinner"/>
+
+
+    <ImageView
+        android:id="@+id/iv_line3"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_endtime" />
+
+    <EditText
+        android:id="@+id/et_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/transparent"
+        android:hint="장소"
+        android:textColorHint="@color/secondary"
+        android:inputType="text"
+        android:textColor="@color/secondary"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/btn_add"
+        app:layout_constraintTop_toBottomOf="@id/iv_line3" />
+
+    <ImageView
+        android:id="@+id/iv_line4"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_place" />
+
+    <TextView
+        android:id="@+id/tv_add_place_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/transparent"
+        android:text="장소 및 시간 추가"
+        android:textColor="@color/gray"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/btn_add"
+        app:layout_constraintTop_toBottomOf="@id/iv_line4" />
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="360dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/big_button"
+        android:backgroundTint="@color/first_blue"
+        android:gravity="center"
+        android:scaleType="fitCenter"
+        android:text="추가하기"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
