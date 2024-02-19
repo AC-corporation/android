@@ -1,4 +1,4 @@
-package com.example.allclear.data.gradeData;
+package com.example.allclear.data.response;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +22,14 @@ public class GradeResponseDto {
 
         @SerializedName("averageGrade")
         String averageGrade;
+
+        public double getTotalCredit() {
+            return totalCredit;
+        }
+
+        public String getAverageGrade() {
+            return averageGrade;
+        }
 
         @SerializedName("semesterGradeDtoList")
         public List<SemesterGradeDto> semesterGradeDtoList;

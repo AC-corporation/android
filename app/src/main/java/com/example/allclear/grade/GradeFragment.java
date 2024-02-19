@@ -16,8 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.allclear.data.ServicePool;
-import com.example.allclear.data.gradeData.GetGradeService;
-import com.example.allclear.data.gradeData.GradeResponseDto;
+import com.example.allclear.data.service.GetGradeService;
+import com.example.allclear.data.response.GradeResponseDto;
 import com.example.allclear.databinding.FragmentGradeBinding;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -50,7 +50,6 @@ public class GradeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private LineChart chart;
     GetGradeService getGradeService;
 
     @Override
@@ -131,7 +130,7 @@ public class GradeFragment extends Fragment {
     //전체 평점과 취득 학점을 업데이트 하는 함수
     private void setGrade(GradeResponseDto gradeData){
         String totalGrade = String.valueOf(gradeData.data.getTotalCredit());  // 학점 데이터를 가져옵니다.
-        String totalCredit = String.valueOf(gradeData.data.getTotalCredit());  // 이수 학점 데이터를 가져옵니다.
+        String totalCredit = gradeData.data.getAverageGrade();  // 전체 평점 데이터를 가져옵니다.
 
         binding.tvGradeTotal.setText(totalGrade);
         binding.tvCreditGot.setText(totalCredit);
