@@ -1,6 +1,6 @@
 package com.example.allclear.data;
 
-import com.example.allclear.data.gradeData.GetGradeService;
+import com.example.allclear.data.service.GetGradeService;
 import com.example.allclear.data.service.EmailAuthRequestService;
 import com.example.allclear.data.service.EmailIsValidRequestService;
 import com.example.allclear.data.service.GradeAndCurriculumUpdateService;

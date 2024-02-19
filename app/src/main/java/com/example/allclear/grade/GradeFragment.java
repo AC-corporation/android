@@ -1,8 +1,5 @@
 package com.example.allclear.grade;
 
-import static android.content.Context.MODE_PRIVATE;
-
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,9 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.allclear.MyApplication;
+import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
-import com.example.allclear.data.gradeData.GetGradeService;
-import com.example.allclear.data.gradeData.GradeResponseDto;
+import com.example.allclear.data.Utils;
+import com.example.allclear.data.service.GetGradeService;
+import com.example.allclear.data.response.GradeResponseDto;
 import com.example.allclear.databinding.FragmentGradeBinding;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -36,39 +36,32 @@ import retrofit2.Response;
 
 public class GradeFragment extends Fragment {
 
-    static final String ACCESS_TOKEN = "Access_Token";
-    static final String REFRESH_TOKEN = "Refresh_Token";
-    static final String USER_ID = "User_Id";
-    static final String DB = "allClear";
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private String mParam1;
-    private String mParam2;
     private LineChart chart;
-
-    public GradeFragment() {
-        // Required empty public constructor
-    }
-
-    private LineChart chart;
+    private long userId;
     GetGradeService getGradeService;
+    private FragmentGradeBinding binding;
+    private String accessToken;
+    private PreferenceUtil preferenceUtil;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getGradeService = ServicePool.getGradeService;
+
+        preferenceUtil = MyApplication.getPreferences();
+        userId = preferenceUtil.getUserId(-1L);
+        accessToken = preferenceUtil.getAccessToken("FAIL");
+
+        Log.i("auth", "userId: " + Long.toString(userId));
+        Log.i("auth", "accessToken: " + accessToken);
+
     }
 
-    private FragmentGradeBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentGradeBinding.inflate(inflater, container, false);
-        SharedPreferences preferences = this.getActivity().getSharedPreferences(DB, MODE_PRIVATE);
-        Log.i(ACCESS_TOKEN, preferences.getString(ACCESS_TOKEN,""));
-        Log.i(REFRESH_TOKEN,preferences.getString(REFRESH_TOKEN,""));
-        Log.i(USER_ID, String.valueOf(preferences.getLong(USER_ID,0)));
         return binding.getRoot();
     }
 
@@ -84,10 +77,9 @@ public class GradeFragment extends Fragment {
         fetchGrade();  // 데이터를 받아오는 메서드를 호출합니다.
     }
 
-
     //그래프를 생성하는 함수
     private void makeGraph(GradeResponseDto gradeData){
-        LineChart chart = (LineChart) binding.chart;
+        chart = (LineChart) binding.chart;
 
         // 학점 데이터를 생성합니다.
         ArrayList<Entry> entries = new ArrayList<>();
@@ -130,18 +122,16 @@ public class GradeFragment extends Fragment {
 
     //전체 평점과 취득 학점을 업데이트 하는 함수
     private void setGrade(GradeResponseDto gradeData){
-        String totalGrade = String.valueOf(gradeData.data.getTotalCredit());  // 학점 데이터를 가져옵니다.
+        String totalGrade = String.valueOf(gradeData.data.getAverageGrade());  // 학점 데이터를 가져옵니다.
         String totalCredit = String.valueOf(gradeData.data.getTotalCredit());  // 이수 학점 데이터를 가져옵니다.
 
         binding.tvGradeTotal.setText(totalGrade);
-        binding.tvCreditGot.setText(totalCredit);
+        binding.tvGradeGet.setText(totalCredit);
     }
 
     //그래프를 업데이트 하는 함수
     private void fetchGrade() {
-
-        String userId = "사용자 아이디";  // 실제 사용자 아이디로 변경해야 함
-        Call<GradeResponseDto> call = ServicePool.getGradeService.getGradeData(userId);
+        Call<GradeResponseDto> call = ServicePool.getGradeService.getGradeData("Bearer " + accessToken , userId);
         call.enqueue(new Callback<GradeResponseDto>() {
             @Override
             public void onResponse(Call<GradeResponseDto> call, Response<GradeResponseDto> response) {
