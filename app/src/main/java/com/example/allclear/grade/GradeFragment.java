@@ -31,6 +31,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -86,6 +87,9 @@ public class GradeFragment extends Fragment {
     private void makeGraph(GradeResponseDto gradeData){
         chart = (LineChart) binding.chart;
 
+        //학기 순서 뒤집기(1-1 부터 나오게)
+        Collections.reverse(gradeData.data.semesterGradeDtoList);
+
         // 학점 데이터를 생성합니다.
         ArrayList<Entry> entries = new ArrayList<>();
         for(int i = 0; i < gradeData.data.semesterGradeDtoList.size(); i++) {
@@ -119,7 +123,7 @@ public class GradeFragment extends Fragment {
         for(int i = 0; i < gradeData.data.semesterGradeDtoList.size(); i++) {
             int year = (i / 2) + 1;
             int semester = (i % 2) + 1;
-            semesters[i] = year + "학년 " + semester + "학기";
+            semesters[i] = year + "-" + semester;
         }
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);  // X축을 하단에 위치
@@ -158,7 +162,6 @@ public class GradeFragment extends Fragment {
                 // 이 정보를 활용해서 원하는 행동을 하면 됩니다.
                 // 예를 들어, Toast 메시지를 표시하려면 다음과 같이 작성할 수 있습니다.
                 binding.tvGradeSemester.setText(semester);
-                Toast.makeText(getContext(), semester + " 학기를 선택하셨습니다.", Toast.LENGTH_SHORT).show();
                 updateRecyclerView(gradeData.data.semesterGradeDtoList.get(index));
             }
 
