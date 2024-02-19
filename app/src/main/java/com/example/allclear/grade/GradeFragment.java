@@ -13,7 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.allclear.data.ServicePool;
+import com.example.allclear.data.gradeData.GetGradeService;
+import com.example.allclear.data.gradeData.GradeResponseDto;
 import com.example.allclear.databinding.FragmentGradeBinding;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -26,13 +30,12 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GradeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class GradeFragment extends Fragment {
+
     static final String ACCESS_TOKEN = "Access_Token";
     static final String REFRESH_TOKEN = "Refresh_Token";
     static final String USER_ID = "User_Id";
@@ -47,22 +50,13 @@ public class GradeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static GradeFragment newInstance(String param1, String param2) {
-        GradeFragment fragment = new GradeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private LineChart chart;
+    GetGradeService getGradeService;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        getGradeService = ServicePool.getGradeService;
     }
 
     private FragmentGradeBinding binding;
@@ -87,22 +81,20 @@ public class GradeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        makeGraph();
+        fetchGrade();  // 데이터를 받아오는 메서드를 호출합니다.
     }
 
-    private void makeGraph(){
+
+    //그래프를 생성하는 함수
+    private void makeGraph(GradeResponseDto gradeData){
         LineChart chart = (LineChart) binding.chart;
 
         // 학점 데이터를 생성합니다.
         ArrayList<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(0, 2.5f));  // 1-1 학기
-        entries.add(new Entry(1, 3.0f));  // 1-2 학기
-        entries.add(new Entry(2, 3.2f));  // 2-1 학기
-        entries.add(new Entry(3, 3.5f));  // 2-2 학기
-        entries.add(new Entry(4, 3.8f));  // 3-1 학기
-        entries.add(new Entry(5, 4.0f));  // 3-2 학기
-        entries.add(new Entry(6, 4.2f));  // 4-1 학기
-        entries.add(new Entry(7, 4.5f));  // 4-2 학기
+        for(int i = 0; i < gradeData.data.semesterGradeDtoList.size(); i++) {
+            String grade = gradeData.data.semesterGradeDtoList.get(i).semesterAverageGrade;
+            entries.add(new Entry(i, Float.parseFloat(grade)));
+        }
 
         // 데이터 세트를 생성하고 차트에 데이터를 설정합니다.
         LineDataSet dataSet = new LineDataSet(entries, "학점");
@@ -110,7 +102,10 @@ public class GradeFragment extends Fragment {
         chart.setData(lineData);
 
         // X축 라벨을 설정합니다.
-        String[] semesters = new String[]{"1-1", "1-2", "2-1", "2-2", "3-1", "3-2", "4-1", "4-2"};
+        String[] semesters = new String[gradeData.data.semesterGradeDtoList.size()];
+        for(int i = 0; i < gradeData.data.semesterGradeDtoList.size(); i++) {
+            semesters[i] = String.valueOf(i+1);
+        }
         XAxis xAxis = chart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(semesters));
         xAxis.setDrawGridLines(false); // X축 그리드 라인 제거
@@ -131,6 +126,38 @@ public class GradeFragment extends Fragment {
 
         // 차트를 새로 고침합니다.
         chart.invalidate();
+    }
+
+    //전체 평점과 취득 학점을 업데이트 하는 함수
+    private void setGrade(GradeResponseDto gradeData){
+        String totalGrade = String.valueOf(gradeData.data.getTotalCredit());  // 학점 데이터를 가져옵니다.
+        String totalCredit = String.valueOf(gradeData.data.getTotalCredit());  // 이수 학점 데이터를 가져옵니다.
+
+        binding.tvGradeTotal.setText(totalGrade);
+        binding.tvCreditGot.setText(totalCredit);
+    }
+
+    //그래프를 업데이트 하는 함수
+    private void fetchGrade() {
+
+        String userId = "사용자 아이디";  // 실제 사용자 아이디로 변경해야 함
+        Call<GradeResponseDto> call = ServicePool.getGradeService.getGradeData(userId);
+        call.enqueue(new Callback<GradeResponseDto>() {
+            @Override
+            public void onResponse(Call<GradeResponseDto> call, Response<GradeResponseDto> response) {
+                if (response.isSuccessful()) {
+                    GradeResponseDto gradeData = response.body();
+                    makeGraph(gradeData);  // 데이터를 받아온 후 차트를 생성합니다.
+                    setGrade(gradeData); // 데이터를 받아온 후 전체평점, 취득학점을 업데이트
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GradeResponseDto> call, Throwable t) {
+                // 통신 실패 시 처리하는 코드
+                Toast.makeText(getContext(),"성적 정보 동기화가 실패했어요",Toast.LENGTH_SHORT);
+            }
+        });
     }
 
 }
