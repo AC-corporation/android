@@ -76,9 +76,9 @@ public class TimeTableFragment extends Fragment{
             int size=scheduleDataList.size();
             if(size!=0){
                 for(int i=0;i<size;i++){
-                    if(5==scheduleDataList.get(i).getScheduleDay()){
+                    if(5==scheduleDataList.get(i).getClassDay()){
                         day= new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat"};}
-                    if(6==scheduleDataList.get(i).getScheduleDay()){
+                    if(6==scheduleDataList.get(i).getClassDay()){
                         day= new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat","Sun"};}
                 }
             }
