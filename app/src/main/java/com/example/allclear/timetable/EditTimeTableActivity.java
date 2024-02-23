@@ -8,13 +8,26 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.allclear.R;
+import com.example.allclear.data.ServicePool;
+import com.example.allclear.data.request.TimeTableTwoRequestDto;
+import com.example.allclear.data.request.TimeTableUpdateRequestDto;
+import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.MainPageActivity;
 import com.example.allclear.schedule.Schedule;
 import com.example.allclear.databinding.ActivityEditTimeTableBinding;
+import com.example.allclear.timetable.maketimetable.SelfAddOneActivity;
+import com.example.allclear.timetable.maketimetable.majorbase.SelectMajorBaseActivity;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EditTimeTableActivity extends AppCompatActivity {
     private ActivityEditTimeTableBinding binding;
@@ -23,6 +36,7 @@ public class EditTimeTableActivity extends AppCompatActivity {
 
     private ArrayList<Schedule> scheduleDataList=new ArrayList<Schedule>();
     public ArrayList<ScheduleEntity> scheduleEntityList= new ArrayList<>();
+    long timetableId=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +79,49 @@ public class EditTimeTableActivity extends AppCompatActivity {
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(EditTimeTableActivity.this, MainPageActivity.class);
-                intent.putExtra("schedulelist",scheduleDataList);
-                startActivity(intent);
-
+                TimeTableUpdateToServer(timetableId,scheduleDataList);
             }
         });
+    }
+    private void TimeTableUpdateToServer(long timetableId, ArrayList<Schedule> scheduleDataList) {
+        TimeTableUpdateRequestDto TimeTableUpdateRequestDto = makeTimeTableUpdateRequestDto(scheduleDataList);
+
+        ServicePool.timeTableUpdateRequestService.TimeTableUpdate(timetableId,TimeTableUpdateRequestDto)
+                .enqueue(new Callback<TimeTableUpdateRequestDto>() {
+                    @Override
+                    public void onResponse(Call<TimeTableUpdateRequestDto> call, Response<TimeTableUpdateRequestDto> response) {
+                        Intent intent=new Intent(EditTimeTableActivity.this, MainPageActivity.class);
+                        intent.putExtra("schedulelist",scheduleDataList);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<TimeTableUpdateRequestDto> call, Throwable t) {
+                        Toast.makeText(EditTimeTableActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private  TimeTableUpdateRequestDto makeTimeTableUpdateRequestDto(ArrayList<Schedule> scheduleDataList) {
+        TimeTableUpdateRequestDto TimeTableUpdateRequestDto=new TimeTableUpdateRequestDto();
+        TimeTableUpdateRequestDto.setTableName(String.valueOf(binding.tvSubTitle));
+
+        for (Schedule schedule : scheduleDataList) {
+            TimeTableUpdateRequestDto.TimetableSubjectRequestDto timetablesubject=new TimeTableUpdateRequestDto.TimetableSubjectRequestDto();
+            timetablesubject.setSubjectName(schedule.getSubjectName());
+            timetablesubject.setSubjectId(schedule.getSubjectId());
+            TimeTableUpdateRequestDto.setTimetableSubjectRequestDtoList(Collections.singletonList(timetablesubject));
+
+            TimeTableUpdateRequestDto.ClassInfoRequestDto classinfo=new TimeTableUpdateRequestDto.ClassInfoRequestDto();
+            classinfo.setProfessor(schedule.getProfessor());
+            classinfo.setClassDay(getClassDay(schedule.getClassDay()));
+            classinfo.setStartTime(schedule.getStartTime());
+            classinfo.setEndTime(schedule.getEndTime());
+            classinfo.setClassRoom(schedule.getClassRoom());
+            timetablesubject.setClassInfoRequestDtoList(Collections.singletonList(classinfo));
+        }
+
+        return TimeTableUpdateRequestDto;
     }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -108,4 +159,19 @@ public class EditTimeTableActivity extends AppCompatActivity {
         });
 
     }
+    private String getClassDay(int day) {
+        if (day == 0)
+            return getString(R.string.monday);
+        else if (day == 1)
+            return getString(R.string.tuesday);
+        else if (day == 2)
+            return getString(R.string.wednesday);
+        else if (day == 3)
+            return getString(R.string.thursday);
+        else if (day == 4)
+            return getString(R.string.friday);
+        else
+            return getString(R.string.saturday);
+    }
+
 }
