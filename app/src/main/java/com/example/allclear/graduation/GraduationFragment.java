@@ -100,6 +100,7 @@ public class GraduationFragment extends Fragment {
                                 totalCompleteCount += initGeneralAdapter(generalList);
                                 totalCompleteCount += initMajorAdapter(majorList);
 
+                                // 충족 개수 세기
                                 setGraduationCriteria();
 
                             }
