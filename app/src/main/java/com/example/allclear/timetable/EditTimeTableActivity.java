@@ -4,11 +4,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.allclear.MyApplication;
 import com.example.allclear.R;
+import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.TimeTableTwoRequestDto;
 import com.example.allclear.data.request.TimeTableUpdateRequestDto;
@@ -37,12 +40,18 @@ public class EditTimeTableActivity extends AppCompatActivity {
     private ArrayList<Schedule> scheduleDataList=new ArrayList<Schedule>();
     public ArrayList<ScheduleEntity> scheduleEntityList= new ArrayList<>();
     long timetableId=1;
+    static final String ACCESS_TOKEN = "Access_Token";
+    static final String REFRESH_TOKEN = "Refresh_Token";
+    static final String DB = "allClear";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityEditTimeTableBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        SharedPreferences preferences =getSharedPreferences(DB, MODE_PRIVATE);
+        String accessToken=preferences.getString(ACCESS_TOKEN, "");
         //스케줄데이터를 전달받아 타임테이블에 보여지는 요소로 전환
         Intent intent=getIntent();
         if(intent != null && intent.hasExtra("schedulelist")){
@@ -79,14 +88,14 @@ public class EditTimeTableActivity extends AppCompatActivity {
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TimeTableUpdateToServer(timetableId,scheduleDataList);
+                TimeTableUpdateToServer(accessToken,timetableId,scheduleDataList);
             }
         });
     }
-    private void TimeTableUpdateToServer(long timetableId, ArrayList<Schedule> scheduleDataList) {
+    private void TimeTableUpdateToServer(String accessToken,long timetableId, ArrayList<Schedule> scheduleDataList) {
         TimeTableUpdateRequestDto TimeTableUpdateRequestDto = makeTimeTableUpdateRequestDto(scheduleDataList);
 
-        ServicePool.timeTableUpdateRequestService.TimeTableUpdate(timetableId,TimeTableUpdateRequestDto)
+        ServicePool.timeTableUpdateRequestService.TimeTableUpdate("Bearer " + accessToken,timetableId,TimeTableUpdateRequestDto)
                 .enqueue(new Callback<TimeTableUpdateRequestDto>() {
                     @Override
                     public void onResponse(Call<TimeTableUpdateRequestDto> call, Response<TimeTableUpdateRequestDto> response) {
