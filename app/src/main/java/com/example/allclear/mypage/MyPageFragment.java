@@ -2,6 +2,7 @@ package com.example.allclear.mypage;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -14,10 +15,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.allclear.MyApplication;
+import com.example.allclear.auth.LoginActivity;
 import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.LoginRequestDto;
+import com.example.allclear.data.request.TokenRefreshRequestDto;
 import com.example.allclear.data.response.LoginResponseDto;
+import com.example.allclear.data.response.TokenRefreshResponseDto;
 import com.example.allclear.data.response.UserDataResponseDto;
 import com.example.allclear.databinding.FragmentMyPageBinding;
 
@@ -86,9 +90,12 @@ public class MyPageFragment extends Fragment {
         //access 토큰, 유저 아이디 로딩 실패시 예외 처리
         if(accessToken.equals("FAIL") || userId == -1L){
             Toast.makeText(getContext(),"로그인 정보를 가져오는대 실패했어요. 다시 로그인해 주세요",Toast.LENGTH_SHORT);
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
             return;
         }
-        ServicePool.userDataService.getUserData("Bearer " + accessToken,userId)
+        ServicePool.userDataService.getUserData("Bearer "+accessToken,userId)
                 .enqueue(new Callback<UserDataResponseDto>() {
                     @Override
                     public void onResponse(Call<UserDataResponseDto> call, Response<UserDataResponseDto> response) {
@@ -110,7 +117,9 @@ public class MyPageFragment extends Fragment {
                                     break;
                             }
                         }else{
-                            Log.i("MyPageFragment","리스폰스 실패");
+                            if(response.code() == 403){
+                                tokenRefresh();
+                            }
                         }
                     }
                     @Override
@@ -119,11 +128,57 @@ public class MyPageFragment extends Fragment {
                     }
                 });
     }
-    public void initData(UserDataResponseDto.MemberResponseDto userData){
+    private void initData(UserDataResponseDto.MemberResponseDto userData){
         binding.tvMyPageName.setText(userData.getMemberName());
         binding.tvSchool.setText(userData.getUsiversity());
         binding.tvMajor.setText(userData.getMajor());
         binding.tvEmail.setText(userData.getEmail());
+    }
+    private void tokenRefresh(){
+        TokenRefreshRequestDto tokenRequestDto = new TokenRefreshRequestDto();
+        tokenRequestDto.init(accessToken,refreshToken);
+        ServicePool.tokenRefreshService.TokenRefresh(tokenRequestDto)
+                .enqueue(new Callback<TokenRefreshResponseDto>() {
+                    @Override
+                    public void onResponse(Call<TokenRefreshResponseDto> call, Response<TokenRefreshResponseDto> response) {
+                        if(response.isSuccessful()){
+                            System.out.println("서버 통신 성공");
+                            Log.i("if",response.toString());
+                            Log.i("if",response.body().getMessage());
+                            Log.i("if",response.body().getCode().toString());
+                            String statusCode = response.body().getCode();
+                            switch (statusCode) {
+                                case "OK":
+                                    Log.i("tokenRefresh","토큰 재발급 성공");
+                                    saveToken(response.body().getData());
+                                    initDefaultData();
+                                    initUserData();
+                                    return;
+                                default:
+                                    // 기타 상황에 대한 처리
+                                    break;
+                            }
+                        }else{
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<TokenRefreshResponseDto> call, Throwable t) {
+                        System.out.println("서버 통신 실패");
+
+                    }
+                });
+    }
+    private void saveToken(TokenRefreshResponseDto.TokenRefreshDto tokenRefreshDto){
+        // accessToken, refreshToken, userId를 저장합니다.
+        preferenceUtil.setAccessToken(tokenRefreshDto.getAccessToken());
+        preferenceUtil.setRefreshToken(tokenRefreshDto.getRefreshToken());
+
+        // 저장된 토큰 확인
+        accessToken = preferenceUtil.getAccessToken(null);
+        refreshToken = preferenceUtil.getRefreshToken(null);
+
+        Log.i("Saved access token", accessToken != null ? accessToken : "null");
+        Log.i("Saved refresh token", refreshToken != null ? refreshToken : "null");
     }
     private void clickListener(){
 
