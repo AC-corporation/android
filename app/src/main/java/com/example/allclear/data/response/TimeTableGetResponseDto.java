@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class TimeTableThreeResponseDto {
+public class TimeTableGetResponseDto {
     @SerializedName("isSuccess")
     private boolean isSuccess;
     @SerializedName("code")
@@ -12,13 +12,13 @@ public class TimeTableThreeResponseDto {
     @SerializedName("message")
     private String message;
     @SerializedName("data")
-    private TimeTableThreeResponseData data;
+    private TimeTableResponseData data;
 
-    public TimeTableThreeResponseData getData() {
+    public TimeTableResponseData getData() {
         return data;
     }
 
-    public static class TimeTableThreeResponseData {
+    public static class TimeTableResponseData {
         private List<RequirementComponentResponseDto> requirementComponentResponseDtoList;
         private List<SubjectResponseDto> subjectResponseDtoList;
 
@@ -69,11 +69,10 @@ public class TimeTableThreeResponseDto {
         private String majorClassification;
         @SerializedName("multiMajorClassification")
         private String multiMajorClassification;
+        @SerializedName("liberalArtsClassification")
+        private String liberalArtsClassification;
         @SerializedName("engineeringCertification")
         private String engineeringCertification;
-        @SerializedName("liberalArtsClassification")
-
-        private String liberalArtsClassification;
         @SerializedName("classType")
         private String classType;
         @SerializedName("credit")
@@ -117,5 +116,3 @@ public class TimeTableThreeResponseDto {
         }
     }
 }
-
-
