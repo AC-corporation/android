@@ -17,12 +17,6 @@ public class GradeResponseDto {
     public GradeData data;
 
     public static class GradeData {
-        @SerializedName("totalCredit")
-        double totalCredit;
-
-        @SerializedName("averageGrade")
-        String averageGrade;
-
         public double getTotalCredit() {
             return totalCredit;
         }
@@ -31,24 +25,34 @@ public class GradeResponseDto {
             return averageGrade;
         }
 
+        @SerializedName("totalCredit")
+        double totalCredit;
+
+        @SerializedName("averageGrade")
+        String averageGrade;
+
         @SerializedName("semesterGradeDtoList")
         public List<SemesterGradeDto> semesterGradeDtoList;
 
         public static class SemesterGradeDto {
             @SerializedName("semesterGradeId")
+            public
             long semesterGradeId;
 
             @SerializedName("semesterAverageGrade")
             public String semesterAverageGrade;
 
             @SerializedName("semesterSubjectDtoList")
+            public
             List<SemesterSubjectDto> semesterSubjectDtoList;
 
-            static class SemesterSubjectDto {
+            public static class SemesterSubjectDto {
                 @SerializedName("semesterSubjectName")
+                public
                 String semesterSubjectName;
 
                 @SerializedName("semesterSubjectScore")
+                public
                 String semesterSubjectScore;
             }
         }
