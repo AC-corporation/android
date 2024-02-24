@@ -31,6 +31,8 @@ public class GraduationFragment extends Fragment {
     static final String USER_ID = "User_Id";
     static final String DB = "allClear";
 
+    private int totalItemCount = 0;
+    private int totalCompleteCount = 0;
     ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> requirementComponentDtoList;
 
     public GraduationFragment() {
@@ -82,9 +84,11 @@ public class GraduationFragment extends Fragment {
                                 }
                             }
 
-                            initTotalAdapter(totalList);
-                            initGeneralAdapter(generalList);
-                            initMajorAdapter(majorList);
+                            totalCompleteCount += initTotalAdapter(totalList);
+                            totalCompleteCount += initGeneralAdapter(generalList);
+                            totalCompleteCount += initMajorAdapter(majorList);
+
+                            setGraduationCriteria();
 
                         } else {
                             Toast.makeText(requireActivity(), R.string.response_error, Toast.LENGTH_SHORT).show();
@@ -98,22 +102,66 @@ public class GraduationFragment extends Fragment {
                 });
     }
 
-    private void initTotalAdapter(ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> totalList) {
+    private int initTotalAdapter(ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> totalList) {
         GraduationAdapter graduationAdapter = new GraduationAdapter(totalList);
         binding.rvGraduationTotal.setAdapter(graduationAdapter);
         binding.rvGraduationTotal.setLayoutManager(new LinearLayoutManager(requireActivity()));
+
+        int complete = 0;
+
+        for (int i = 0; i < graduationAdapter.getItemCount(); i++) {
+            GraduationDto.RequirementResponseDto.RequirementComponentDto item = graduationAdapter.getItem(i);
+            if (item.getRequirementCriteria() == item.getRequirementComplete()) {
+                complete++;
+            }
+        }
+
+        totalItemCount += graduationAdapter.getItemCount();
+
+        return complete;
     }
 
-    private void initGeneralAdapter(ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> generalList) {
+    private int initGeneralAdapter(ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> generalList) {
         GraduationAdapter graduationAdapter = new GraduationAdapter(generalList);
         binding.rvGraduationGeneral.setAdapter(graduationAdapter);
         binding.rvGraduationGeneral.setLayoutManager(new LinearLayoutManager((requireActivity())));
+
+        int complete = 0;
+
+        for (int i = 0; i < graduationAdapter.getItemCount(); i++) {
+            GraduationDto.RequirementResponseDto.RequirementComponentDto item = graduationAdapter.getItem(i);
+            if (item.getRequirementCriteria() == item.getRequirementComplete()) {
+                complete++;
+            }
+        }
+
+        totalItemCount += graduationAdapter.getItemCount();
+
+        return complete;
     }
 
-    private void initMajorAdapter(ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> majorList) {
+    private int initMajorAdapter(ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> majorList) {
         GraduationAdapter graduationAdapter = new GraduationAdapter(majorList);
         binding.rvGraduationMajor.setAdapter(graduationAdapter);
         binding.rvGraduationMajor.setLayoutManager(new LinearLayoutManager(requireActivity()));
+
+        int complete = 0;
+
+        for (int i = 0; i < graduationAdapter.getItemCount(); i++) {
+            GraduationDto.RequirementResponseDto.RequirementComponentDto item = graduationAdapter.getItem(i);
+            if (item.getRequirementCriteria() == item.getRequirementComplete()) {
+                complete++;
+            }
+        }
+
+        totalItemCount += graduationAdapter.getItemCount();
+
+        return complete;
+    }
+
+    private void setGraduationCriteria() {
+        String graduationCriteria = getResources().getString(R.string.graduation_criteria, totalCompleteCount, totalItemCount);
+        binding.tvGraduationCurr.setText(graduationCriteria);
     }
 
     @Override

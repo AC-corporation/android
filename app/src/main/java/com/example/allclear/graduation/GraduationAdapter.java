@@ -39,6 +39,10 @@ public class GraduationAdapter extends RecyclerView.Adapter<GraduationAdapter.Gr
         return requirementComponentDtoList.size();
     }
 
+    public GraduationDto.RequirementResponseDto.RequirementComponentDto getItem(int position) {
+        return requirementComponentDtoList.get(position);
+    }
+
     public static class GraduationViewHolder extends RecyclerView.ViewHolder {
         private ItemGraduationBinding binding;
 
