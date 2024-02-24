@@ -11,4 +11,11 @@ public class TimeTableResponseDto {
     private String message;
     @SerializedName("data")
     private String data;
+
+    public boolean getIsSuccess() {
+        return isSuccess;
+    }
+    public String getCode() {
+        return code;
+    }
 }

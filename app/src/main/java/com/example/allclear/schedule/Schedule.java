@@ -1,8 +1,17 @@
 package com.example.allclear.schedule;
 
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity(foreignKeys = @ForeignKey(entity = Timetable.class,
+        parentColumns = "id",
+        childColumns = "timetableId"))
+
 public class Schedule implements Serializable {
+    @PrimaryKey(autoGenerate = true)
     private int subjectId;
     private String subjectName;
     private String professor;
@@ -10,12 +19,11 @@ public class Schedule implements Serializable {
     private String startTime;
     private String endTime;
     private String classRoom;
-    private String backgroundColor = "#dddddd";
-    private String textColor = "#ffffff";
+    private String backgroundColor= "#dddddd";
+    private String textColor= "#ffffff";
+    public int timetableId;  // 속한 시간표의 ID
 
-    public int getSubjectId() {
-        return subjectId;
-    }
+    public int getSubjectId() {return subjectId;}
 
     public void setSubjectId(int subjectId) {
         this.subjectId = subjectId;
