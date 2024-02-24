@@ -44,9 +44,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         binding.btnLogin.setEnabled(false);
 
-
-//        checkServer();
-
         initLoginBtnListener();
         editChanged();
         setupTitleColor();
@@ -54,24 +51,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void checkServer(){
-        // 서버 통신
-        ServicePool.testService.getListFromServer()
-                .enqueue(new Callback<TestResponseDto>() {
-                    @Override
-                    public void onResponse(Call<TestResponseDto> call, Response<TestResponseDto> response) {
-                        Toast.makeText(LoginActivity.this, "서버 통신 성공", Toast.LENGTH_SHORT).show();
-                        Log.i("test",response.body().getMessage());
-                    }
-
-                    @Override
-                    public void onFailure(Call<TestResponseDto> call, Throwable t) {
-                        Toast.makeText(LoginActivity.this, "서버 통신 실패", Toast.LENGTH_SHORT).show();
-                        Log.i("test",call.toString());
-                        Log.i("test",t.getMessage().toString());
-                    }
-                });
-    }
 
     private void initLoginBtnListener(){
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {

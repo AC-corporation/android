@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_vector">
-
     <TextView
         android:id="@+id/tv_graduation_title"
         android:layout_width="wrap_content"
@@ -19,7 +17,6 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/tv_graduation_curr"
         android:layout_width="wrap_content"
@@ -33,15 +30,12 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_graduation_curr">
-
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -49,34 +43,46 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-
             <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/cv_graduation_1"
                 android:layout_width="0dp"
-                android:layout_height="180dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 card_view:cardCornerRadius="16dp">
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/tv_grade_total"
+                        android:id="@+id/tv_grade_total_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
-                        android:text="졸업 필수 요건"
+                        android:text="@string/graduation_total"
                         android:textColor="@color/black"
                         android:textSize="17sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_graduation_total"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:nestedScrollingEnabled="true"
+                        android:orientation="vertical"
+                        android:overScrollMode="never"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_grade_total_title"
+                        tools:listitem="@layout/item_graduation" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -85,60 +91,87 @@
             <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/cv_graduation_2"
                 android:layout_width="0dp"
-                android:layout_height="180dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cv_graduation_1"
                 card_view:cardCornerRadius="16dp">
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:id="@+id/tv_grade_general_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
-                        android:text="졸업 필수 요건"
+                        android:text="@string/graduation_general"
                         android:textColor="@color/black"
                         android:textSize="17sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_graduation_general"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:nestedScrollingEnabled="true"
+                        android:orientation="vertical"
+                        android:overScrollMode="never"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_grade_general_title"
+                        tools:listitem="@layout/item_graduation" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
-
             <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/cv_graduation_3"
                 android:layout_width="0dp"
-                android:layout_height="180dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cv_graduation_2"
                 card_view:cardCornerRadius="16dp">
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:id="@+id/tv_graduate_major_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
-                        android:text="졸업 필수 요건"
+                        android:text="@string/graduation_major"
                         android:textColor="@color/black"
                         android:textSize="17sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_graduation_major"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:nestedScrollingEnabled="true"
+                        android:orientation="vertical"
+                        android:overScrollMode="never"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_graduate_major_title"
+                        tools:listitem="@layout/item_graduation" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

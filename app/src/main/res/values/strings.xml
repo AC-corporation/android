@@ -22,4 +22,8 @@
 
     <string name="criteria">%d/%d</string>
 
+    <string name="graduation_result">%d/%d</string>
+    <string name="graduation_total">졸업필수 요건</string>
+    <string name="graduation_general">교양</string>
+    <string name="graduation_major">전공</string>
 </resources>
