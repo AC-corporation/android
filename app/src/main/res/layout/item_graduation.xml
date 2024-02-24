@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tv_graduation"
@@ -27,8 +26,8 @@
         android:layout_marginEnd="20dp"
         android:textColor="@color/gray"
         android:textSize="13sp"
-        app:layout_constraintTop_toTopOf="@id/tv_graduation"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_graduation"
         tools:text="@string/graduation_result" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -73,11 +73,11 @@ public class GraduationFragment extends Fragment {
                             ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> majorList = new ArrayList<>();
 
                             for (GraduationDto.RequirementResponseDto.RequirementComponentDto dto : graduationDto.data.getRequirementComponentList()) {
-                                if (requireActivity().getString(R.string.graduation_total).equals(dto.getRequirementCategory())) {
+                                if (dto.getRequirementCategory().contains(getString(R.string.graduation_total))) {
                                     totalList.add(dto);
-                                } else if (requireActivity().getString(R.string.graduation_general).equals(dto.getRequirementCategory())) {
+                                } else if (dto.getRequirementCategory().contains(getString(R.string.graduation_general))) {
                                     generalList.add(dto);
-                                } else if (requireActivity().getString(R.string.graduation_major).equals(dto.getRequirementCategory())) {
+                                } else if (dto.getRequirementCategory().contains(getString(R.string.graduation_major))) {
                                     majorList.add(dto);
                                 }
                             }

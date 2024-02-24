@@ -23,8 +23,10 @@
 
     <string name="criteria">%d/%d</string>
 
-    <string name="graduation_result">%f/%f</string>
+    <string name="graduation_result">%.0f/%.0f</string>
     <string name="graduation_total">졸업필수 요건</string>
     <string name="graduation_general">교양</string>
     <string name="graduation_major">전공</string>
+    <string name="graduation_criteria">충족 %d/%d</string>
+
 </resources>
