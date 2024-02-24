@@ -45,6 +45,10 @@ public class EssentialSubjectActivity extends AppCompatActivity {
         });
     }
 
+    private void postStepSevenToServer(){
+
+    }
+
     private void initBackClickListener() {
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
