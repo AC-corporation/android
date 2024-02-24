@@ -9,6 +9,7 @@ import com.example.allclear.data.service.TestService;
 import com.example.allclear.data.service.TimeTableService;
 import com.example.allclear.data.service.UpdateRequirementService;
 import com.example.allclear.data.service.UpdateUserService;
+import com.example.allclear.data.service.UserDataService;
 
 
 public class ServicePool {
@@ -22,5 +23,7 @@ public class ServicePool {
     public static final GradeAndCurriculumUpdateService gradeAndCurriculumUpdateService = ApiClient.create(GradeAndCurriculumUpdateService.class);
 
     public static final TimeTableService timeTableService = ApiClient.create(TimeTableService.class);
+
+    public static final UserDataService userDataService = ApiClient.create(UserDataService.class);
 
 }

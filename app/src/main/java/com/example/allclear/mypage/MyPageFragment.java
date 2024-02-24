@@ -11,8 +11,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.allclear.MyApplication;
+import com.example.allclear.data.PreferenceUtil;
+import com.example.allclear.data.ServicePool;
+import com.example.allclear.data.request.LoginRequestDto;
+import com.example.allclear.data.response.LoginResponseDto;
+import com.example.allclear.data.response.UserDataResponseDto;
 import com.example.allclear.databinding.FragmentMyPageBinding;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyPageFragment extends Fragment {
     static final String ACCESS_TOKEN = "Access_Token";
@@ -50,17 +61,73 @@ public class MyPageFragment extends Fragment {
 
     private FragmentMyPageBinding binding;
 
+    private PreferenceUtil preferenceUtil;
+    private Long userId;
+    private String accessToken;
+    private String refreshToken;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentMyPageBinding.inflate(inflater, container, false);
-        SharedPreferences preferences = this.getActivity().getSharedPreferences(DB, MODE_PRIVATE);
-        Log.i(ACCESS_TOKEN, preferences.getString(ACCESS_TOKEN,""));
-        Log.i(REFRESH_TOKEN,preferences.getString(REFRESH_TOKEN,""));
-        Log.i(USER_ID, String.valueOf(preferences.getLong(USER_ID,0)));
+        initDefaultData();
+        initUserData();
+        clickListener();
         return binding.getRoot();
     }
+    private void initDefaultData(){
+        preferenceUtil = MyApplication.getPreferences();
+        accessToken = preferenceUtil.getAccessToken("FAIL");
+        refreshToken = preferenceUtil.getRefreshToken("FAIL");
+        userId = preferenceUtil.getUserId(-1L);
+    }
 
+    private void initUserData(){
+        //access 토큰, 유저 아이디 로딩 실패시 예외 처리
+        if(accessToken.equals("FAIL") || userId == -1L){
+            Toast.makeText(getContext(),"로그인 정보를 가져오는대 실패했어요. 다시 로그인해 주세요",Toast.LENGTH_SHORT);
+            return;
+        }
+        ServicePool.userDataService.getUserData("Bearer " + accessToken,userId)
+                .enqueue(new Callback<UserDataResponseDto>() {
+                    @Override
+                    public void onResponse(Call<UserDataResponseDto> call, Response<UserDataResponseDto> response) {
+                        if(response.isSuccessful()){
+                            System.out.println("서버 통신 성공");
+                            Log.i("if",response.toString());
+                            Log.i("if",response.body().getMessage());
+                            String statusCode = response.body().getCode();
+                            Log.i(statusCode,statusCode);
+                            switch (statusCode) {
+                                case "OK":
+                                    initData(response.body().getData());
+                                    return;
+                                case "204":
+                                    Toast.makeText(getContext(),"요청한 데이터가 존재하지 않습니다.",Toast.LENGTH_SHORT).show();
+                                    return;
+                                default:
+                                    // 기타 상황에 대한 처리
+                                    break;
+                            }
+                        }else{
+                            Log.i("MyPageFragment","리스폰스 실패");
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<UserDataResponseDto> call, Throwable t) {
+                        System.out.println("서버 통신 실패");
+                    }
+                });
+    }
+    public void initData(UserDataResponseDto.MemberResponseDto userData){
+        binding.tvMyPageName.setText(userData.getMemberName());
+        binding.tvSchool.setText(userData.getUsiversity());
+        binding.tvMajor.setText(userData.getMajor());
+        binding.tvEmail.setText(userData.getEmail());
+    }
+    private void clickListener(){
+
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
