@@ -105,21 +105,26 @@ public class EditTimeTableActivity extends AppCompatActivity {
     private  TimeTableUpdateRequestDto makeTimeTableUpdateRequestDto(ArrayList<Schedule> scheduleDataList) {
         TimeTableUpdateRequestDto TimeTableUpdateRequestDto=new TimeTableUpdateRequestDto();
         TimeTableUpdateRequestDto.setTableName(String.valueOf(binding.tvSubTitle));
+        List<TimeTableUpdateRequestDto.TimetableSubjectRequestDto> timetableSubjectRequestDtoList=new ArrayList<>();
+
 
         for (Schedule schedule : scheduleDataList) {
             TimeTableUpdateRequestDto.TimetableSubjectRequestDto timetablesubject=new TimeTableUpdateRequestDto.TimetableSubjectRequestDto();
             timetablesubject.setSubjectName(schedule.getSubjectName());
             timetablesubject.setSubjectId(schedule.getSubjectId());
-            TimeTableUpdateRequestDto.setTimetableSubjectRequestDtoList(Collections.singletonList(timetablesubject));
+            timetableSubjectRequestDtoList.add(timetablesubject);
 
+            List<TimeTableUpdateRequestDto.ClassInfoRequestDto> classInfoRequestDtoList=new ArrayList<>();
             TimeTableUpdateRequestDto.ClassInfoRequestDto classinfo=new TimeTableUpdateRequestDto.ClassInfoRequestDto();
             classinfo.setProfessor(schedule.getProfessor());
             classinfo.setClassDay(getClassDay(schedule.getClassDay()));
             classinfo.setStartTime(schedule.getStartTime());
             classinfo.setEndTime(schedule.getEndTime());
             classinfo.setClassRoom(schedule.getClassRoom());
-            timetablesubject.setClassInfoRequestDtoList(Collections.singletonList(classinfo));
+            classInfoRequestDtoList.add(classinfo);
+            timetablesubject.setClassInfoRequestDtoList(classInfoRequestDtoList);
         }
+        TimeTableUpdateRequestDto.setTimetableSubjectRequestDtoList(timetableSubjectRequestDtoList);
 
         return TimeTableUpdateRequestDto;
     }
