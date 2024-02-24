@@ -2,6 +2,7 @@ package com.example.allclear.graduation;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -14,9 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.allclear.MyApplication;
 import com.example.allclear.R;
+import com.example.allclear.auth.LoginActivity;
+import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
+import com.example.allclear.data.request.TokenRefreshRequestDto;
 import com.example.allclear.data.response.GraduationDto;
+import com.example.allclear.data.response.TokenRefreshResponseDto;
 import com.example.allclear.databinding.FragmentGraduationBinding;
 
 import java.util.ArrayList;
@@ -33,6 +39,11 @@ public class GraduationFragment extends Fragment {
 
     private int totalItemCount = 0;
     private int totalCompleteCount = 0;
+
+    private PreferenceUtil preferenceUtil;
+    private Long userId;
+    private String accessToken;
+    private String refreshToken;
     ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> requirementComponentDtoList;
 
     public GraduationFragment() {
@@ -65,33 +76,37 @@ public class GraduationFragment extends Fragment {
                 .enqueue(new Callback<GraduationDto>() {
                     @Override
                     public void onResponse(Call<GraduationDto> call, Response<GraduationDto> response) {
-                        Toast.makeText(requireActivity(), R.string.server_success, Toast.LENGTH_SHORT).show();
 
-                        GraduationDto graduationDto = response.body();
+                        if (response.isSuccessful()) {
 
-                        if (graduationDto != null && graduationDto.data != null) {
-                            ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> totalList = new ArrayList<>();
-                            ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> generalList = new ArrayList<>();
-                            ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> majorList = new ArrayList<>();
+                            GraduationDto graduationDto = response.body();
 
-                            for (GraduationDto.RequirementResponseDto.RequirementComponentDto dto : graduationDto.data.getRequirementComponentList()) {
-                                if (dto.getRequirementCategory().contains(getString(R.string.graduation_total))) {
-                                    totalList.add(dto);
-                                } else if (dto.getRequirementCategory().contains(getString(R.string.graduation_general))) {
-                                    generalList.add(dto);
-                                } else if (dto.getRequirementCategory().contains(getString(R.string.graduation_major))) {
-                                    majorList.add(dto);
+                            if (graduationDto != null && graduationDto.data != null) {
+                                ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> totalList = new ArrayList<>();
+                                ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> generalList = new ArrayList<>();
+                                ArrayList<GraduationDto.RequirementResponseDto.RequirementComponentDto> majorList = new ArrayList<>();
+
+                                for (GraduationDto.RequirementResponseDto.RequirementComponentDto dto : graduationDto.data.getRequirementComponentList()) {
+                                    if (dto.getRequirementCategory().contains(getString(R.string.graduation_total))) {
+                                        totalList.add(dto);
+                                    } else if (dto.getRequirementCategory().contains(getString(R.string.graduation_general))) {
+                                        generalList.add(dto);
+                                    } else if (dto.getRequirementCategory().contains(getString(R.string.graduation_major))) {
+                                        majorList.add(dto);
+                                    }
                                 }
+
+                                totalCompleteCount += initTotalAdapter(totalList);
+                                totalCompleteCount += initGeneralAdapter(generalList);
+                                totalCompleteCount += initMajorAdapter(majorList);
+
+                                setGraduationCriteria();
+
                             }
-
-                            totalCompleteCount += initTotalAdapter(totalList);
-                            totalCompleteCount += initGeneralAdapter(generalList);
-                            totalCompleteCount += initMajorAdapter(majorList);
-
-                            setGraduationCriteria();
-
                         } else {
-                            Toast.makeText(requireActivity(), R.string.response_error, Toast.LENGTH_SHORT).show();
+                            if (response.code() == 403) {
+                                tokenRefresh();
+                            }
                         }
                     }
 
@@ -162,6 +177,63 @@ public class GraduationFragment extends Fragment {
     private void setGraduationCriteria() {
         String graduationCriteria = getResources().getString(R.string.graduation_criteria, totalCompleteCount, totalItemCount);
         binding.tvGraduationCurr.setText(graduationCriteria);
+    }
+
+    private void tokenRefresh() {
+        TokenRefreshRequestDto tokenRequestDto = new TokenRefreshRequestDto();
+        tokenRequestDto.init(accessToken, refreshToken);
+        ServicePool.tokenRefreshService.TokenRefresh(tokenRequestDto)
+                .enqueue(new Callback<TokenRefreshResponseDto>() {
+                    @Override
+                    public void onResponse(Call<TokenRefreshResponseDto> call, Response<TokenRefreshResponseDto> response) {
+                        if (response.isSuccessful()) {
+                            String statusCode = response.body().getCode();
+                            switch (statusCode) {
+                                case "OK":
+                                    Log.i("tokenRefresh", "토큰 재발급 성공");
+                                    saveToken(response.body().getData());
+                                    initDefaultData();
+                                    initUserData();
+                                    return;
+                                default:
+                                    // 기타 상황에 대한 처리
+                                    break;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<TokenRefreshResponseDto> call, Throwable t) {
+                        Toast.makeText(requireActivity(), R.string.server_error, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void saveToken(TokenRefreshResponseDto.TokenRefreshDto tokenRefreshDto) {
+        // accessToken, refreshToken, userId를 저장합니다.
+        preferenceUtil.setAccessToken(tokenRefreshDto.getAccessToken());
+        preferenceUtil.setRefreshToken(tokenRefreshDto.getRefreshToken());
+
+        // 저장된 토큰 확인
+        accessToken = preferenceUtil.getAccessToken(null);
+        refreshToken = preferenceUtil.getRefreshToken(null);
+
+    }
+
+    private void initDefaultData() {
+        preferenceUtil = MyApplication.getPreferences();
+        accessToken = preferenceUtil.getAccessToken("FAIL");
+        refreshToken = preferenceUtil.getRefreshToken("FAIL");
+        userId = preferenceUtil.getUserId(-1L);
+    }
+
+    private void initUserData() {
+        if (accessToken.equals("FAIL") || userId == -1L) {
+            Toast.makeText(getContext(), "로그인 정보를 가져오는대 실패했어요. 다시 로그인해 주세요", Toast.LENGTH_SHORT);
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }
     }
 
     @Override
