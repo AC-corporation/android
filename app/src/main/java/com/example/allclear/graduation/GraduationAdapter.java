@@ -49,8 +49,8 @@ public class GraduationAdapter extends RecyclerView.Adapter<GraduationAdapter.Gr
 
         public void bind(GraduationDto.RequirementResponseDto.RequirementComponentDto requirementComponentDto) {
             String requirementArgument = requirementComponentDto.getRequirementArgument();
-            int requirementCriteria = requirementComponentDto.getRequirementCriteria();
-            int requirementComplete = requirementComponentDto.getRequirementComplete();
+            double requirementCriteria = requirementComponentDto.getRequirementCriteria();
+            double requirementComplete = requirementComponentDto.getRequirementComplete();
             binding.tvGraduation.setText(requirementArgument);
 
             String result = binding.getRoot().getContext().getString(R.string.graduation_result, requirementComplete, requirementCriteria);

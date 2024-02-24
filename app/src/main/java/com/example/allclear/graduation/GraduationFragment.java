@@ -87,7 +87,7 @@ public class GraduationFragment extends Fragment {
                             initMajorAdapter(majorList);
 
                         } else {
-                            Toast.makeText(requireActivity(), "서버에서 데이터를 받지 못함", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireActivity(), R.string.response_error, Toast.LENGTH_SHORT).show();
                         }
                     }
 

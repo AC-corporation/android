@@ -3,6 +3,7 @@ package com.example.allclear.data.response;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GraduationDto {
     @SerializedName("isSuccess")
@@ -18,23 +19,23 @@ public class GraduationDto {
         @SerializedName("requirementId")
         private int requirementId;
         @SerializedName("requirementComponentList")
-        private ArrayList<RequirementComponentDto> requirementComponentList;
+        private List<RequirementComponentDto> requirementComponentList;
 
-        public ArrayList<RequirementComponentDto> getRequirementComponentList() {
+        public List<RequirementComponentDto> getRequirementComponentList() {
             return this.requirementComponentList;
         }
 
         public static class RequirementComponentDto {
             @SerializedName("requirementComponentId")
-            private int requirementComponentId;
+            private long requirementComponentId;
             @SerializedName("requirementCategory")
             private String requirementCategory;
             @SerializedName("requirementArgument")
             private String requirementArgument;
             @SerializedName("requirementCriteria")
-            private int requirementCriteria;
+            private double requirementCriteria;
             @SerializedName("requirementComplete")
-            private int requirementComplete;
+            private double requirementComplete;
             @SerializedName("requirementResult")
             private String requirementResult;
 
@@ -46,11 +47,11 @@ public class GraduationDto {
                 return this.requirementArgument;
             }
 
-            public int getRequirementCriteria() {
+            public double getRequirementCriteria() {
                 return this.requirementCriteria;
             }
 
-            public int getRequirementComplete() {
+            public double getRequirementComplete() {
                 return this.requirementComplete;
             }
 
