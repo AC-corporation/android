@@ -18,7 +18,6 @@ import com.example.allclear.data.request.TimeTableTwoRequestDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.schedule.Schedule;
 import com.example.allclear.databinding.ActivitySelfAddOneBinding;
-import com.example.allclear.timetable.maketimetable.majorbase.SelectMajorBaseActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,6 +97,7 @@ public class SelfAddOneActivity extends AppCompatActivity {
 
     private List<TimeTableTwoRequestDto> makeTimeTableTwoRequestList(ArrayList<Schedule> scheduleDataList) {
         List<TimeTableTwoRequestDto> timeTableTwoRequestDtoList = new ArrayList<>();
+        // 체크박스 선택한 것만 서버로 보내는 로직 필요
 
         for (Schedule schedule : scheduleDataList) {
             TimeTableTwoRequestDto timeTableTwoRequestDto = new TimeTableTwoRequestDto();
