@@ -12,9 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.allclear.MainPageActivity;
-import com.example.allclear.MyApplication;
 import com.example.allclear.R;
-import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.service.GradeAndCurriculumUpdateService;
 import com.example.allclear.data.request.LoginRequestDto;
 import com.example.allclear.data.response.LoginResponseDto;
@@ -124,23 +122,16 @@ public class UsaintLoadingActivity extends AppCompatActivity {
     }
 
     //로그인 후 토큰을 저장하는 함수
-    private void tokenSave(String accessToken, String refreshToken, Long memberId) {
-        // PreferenceUtil 인스턴스를 가져옵니다.
-        PreferenceUtil preferenceUtil = MyApplication.getPreferences();
-
-        // accessToken, refreshToken, userId를 저장합니다.
-        preferenceUtil.setAccessToken(accessToken);
-        preferenceUtil.setRefreshToken(refreshToken);
-        preferenceUtil.setUserId(memberId);
-
-        // 저장된 토큰 확인
-        String savedAccessToken = preferenceUtil.getAccessToken(null);
-        String savedRefreshToken = preferenceUtil.getRefreshToken(null);
-        Long savedUserId = preferenceUtil.getUserId(-1L);
-
-        Log.i("Saved access token", savedAccessToken != null ? savedAccessToken : "null");
-        Log.i("Saved refresh token", savedRefreshToken != null ? savedRefreshToken : "null");
-        Log.i("Saved user id", String.valueOf(savedUserId));
+    private void tokenSave(String accessToken,String refreshToken, Long memberId){
+        preferences = getSharedPreferences(DB, MODE_PRIVATE);
+        Log.i("access",accessToken);
+        Log.i("re",refreshToken);
+        Log.i("memId", ""+memberId);
+        MemberId = memberId;
+        AccessToken = accessToken;
+        preferences.edit().putString(ACCESS_TOKEN,accessToken).apply();
+        preferences.edit().putString(REFRESH_TOKEN,refreshToken).apply();
+        preferences.edit().putLong(USER_ID,memberId).apply();
 
         updateUser();
     }
