@@ -60,7 +60,7 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
     private void postStepFourToServer(long userId) {
         TimeTablePostRequestDto timeTablePostRequestDto = userSelectedId();
 
-        ServicePool.timeTableService.postStepFour(userId, timeTablePostRequestDto)
+        ServicePool.timeTableService.postStepThreeToSeven(userId, timeTablePostRequestDto)
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {

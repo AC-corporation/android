@@ -61,7 +61,7 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
     private void postStepSixToServer(long userId) {
         TimeTablePostRequestDto timeTablePostRequestDto = userSelectedId();
 
-        ServicePool.timeTableService.postStepSix(userId, timeTablePostRequestDto)
+        ServicePool.timeTableService.postStepThreeToSeven(userId, timeTablePostRequestDto)
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {

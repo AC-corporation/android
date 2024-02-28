@@ -53,7 +53,7 @@ public class SelectMajorActivity extends AppCompatActivity {
         // 선택한 과목 서버로 보내기
         TimeTablePostRequestDto timeTablePostRequestDto = userSelectedId();
 
-        ServicePool.timeTableService.postStepFive(userId, timeTablePostRequestDto)
+        ServicePool.timeTableService.postStepThreeToSeven(userId, timeTablePostRequestDto)
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
