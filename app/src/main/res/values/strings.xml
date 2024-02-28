@@ -29,4 +29,7 @@
     <string name="graduation_major">전공</string>
     <string name="graduation_criteria">충족 %d/%d</string>
 
+    <string name="time_table_year">년</string>
+    <string name="time_table_first_semester">1학기</string>
+    <string name="time_table_second_semester">2학기</string>
 </resources>
