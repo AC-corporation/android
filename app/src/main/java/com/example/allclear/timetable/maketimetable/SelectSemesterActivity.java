@@ -1,6 +1,7 @@
 package com.example.allclear.timetable.maketimetable;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.NumberPicker;
@@ -23,12 +24,17 @@ import retrofit2.Response;
 
 public class SelectSemesterActivity extends AppCompatActivity {
 
+    static final String ACCESS_TOKEN = "Access_Token";
+    static final String DB = "allClear";
+    static final String USER_ID = "User_Id";
+
     private ActivitySelectSemesterBinding binding;
 
-    long userId = 1;
     TimeTableOneRequestDto timeTableOneRequestDto;
 
     NumberPicker npYearSemester;
+    String selectedYear;
+    String selectedSemester;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,34 +67,20 @@ public class SelectSemesterActivity extends AppCompatActivity {
                     Intent intent = new Intent(SelectSemesterActivity.this, TimeTableFragment.class);
                     startActivity(intent);
                 } else {
-                    postStepOneToServer(userId, timeTableOneRequestDto);
-                    Intent intent = new Intent(SelectSemesterActivity.this, SelfAddOneActivity.class);
-                    startActivity(intent);
+                    SharedPreferences preferences = getSharedPreferences(DB, MODE_PRIVATE);
+
+                    postStepOneToServer(preferences.getString(ACCESS_TOKEN, ""), preferences.getLong(USER_ID, 0));
+
                 }
             }
         });
     }
 
-    private void postStepOneToServer(long userId, TimeTableOneRequestDto timeTableOneRequestDto) {
-        ServicePool.timeTableService.postStepOne(userId, timeTableOneRequestDto)
-                .enqueue(new Callback<TimeTableResponseDto>() {
-                    @Override
-                    public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
-                        // 선택한 학년, 학기 서버로 보내는 로직 필요
-                        Toast.makeText(SelectSemesterActivity.this, R.string.server_success, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(Call<TimeTableResponseDto> call, Throwable t) {
-                        Toast.makeText(SelectSemesterActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
     private void setNumberPicker() {
         npYearSemester = binding.npYearSemester;
 
-        String[] years = {"2022", "2023"};
+        // 학년 어떻게 할지 논의 필요
+        String[] years = {"2022", "2023", "2024"};
         String[] semesters = {getString(R.string.time_table_first_semester), getString(R.string.time_table_second_semester)};
 
         // 년도와 학기를 합친 배열 생성
@@ -113,12 +105,34 @@ public class SelectSemesterActivity extends AppCompatActivity {
                 String selectedYearSemester = yearSemesters.get(newVal);
                 // 선택된 문자열을 년도와 학기로 분리
                 String[] split = selectedYearSemester.split(getString(R.string.time_table_year));
-                String selectedYear = split[0];
-                String selectedSemester = split[1];
-                // 분리된 년도와 학기를 사용합니다.
+                selectedYear = split[0];
+                selectedSemester = split[1].replaceAll("[^0-9]", "");
             }
         });
+    }
 
+    private void postStepOneToServer(String accessToken, Long userId) {
+
+        timeTableOneRequestDto = new TimeTableOneRequestDto();
+
+        timeTableOneRequestDto.setTableYear(Integer.parseInt(selectedYear));
+        timeTableOneRequestDto.setSemester(Integer.parseInt(selectedSemester));
+
+        ServicePool.timeTableService.postStepOne("Bearer " + accessToken, userId, timeTableOneRequestDto)
+                .enqueue(new Callback<TimeTableResponseDto>() {
+                    @Override
+                    public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
+                        if (response.isSuccessful() && response != null) {
+                            Intent intent = new Intent(SelectSemesterActivity.this, SelfAddOneActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<TimeTableResponseDto> call, Throwable t) {
+                        Toast.makeText(SelectSemesterActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 }

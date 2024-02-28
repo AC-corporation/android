@@ -12,6 +12,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -19,6 +20,7 @@ public interface TimeTableService {
 
     @POST("timetableGenerator/step1/{userId}")
     Call<TimeTableResponseDto> postStepOne(
+            @Header("authorization") String authHeader,
             @Path("userId") long userId,
             @Body TimeTableOneRequestDto request
     );
