@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -43,7 +44,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.maketimetable.SelectGeneralElectiveActivity"
+            android:name=".timetable.maketimetable.generalelective.SelectGeneralElectiveActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -55,7 +56,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.maketimetable.majorbase.SelectMajorBaseActivity"
+            android:name=".timetable.maketimetable.SelectMajorBaseActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

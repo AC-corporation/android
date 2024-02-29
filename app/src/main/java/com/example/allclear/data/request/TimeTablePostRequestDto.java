@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class TimeTableThreeRequestDto {
+public class TimeTablePostRequestDto {
     @SerializedName("subjectIdList")
     private List<Long> subjectIdList;
 

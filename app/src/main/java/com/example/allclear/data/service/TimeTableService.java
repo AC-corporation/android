@@ -1,11 +1,11 @@
 package com.example.allclear.data.service;
 
 import com.example.allclear.data.request.TimeTableOneRequestDto;
-import com.example.allclear.data.request.TimeTableThreeRequestDto;
+import com.example.allclear.data.request.TimeTablePostRequestDto;
+import com.example.allclear.data.request.TimeTableSubjectRequestDto;
 import com.example.allclear.data.request.TimeTableTwoRequestDto;
-import com.example.allclear.data.response.TestResponseDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
-import com.example.allclear.data.response.TimeTableThreeResponseDto;
+import com.example.allclear.data.response.TimeTableGetResponseDto;
 
 import java.util.List;
 
@@ -30,14 +30,58 @@ public interface TimeTableService {
     );
 
     @GET("timetableGenerator/step3/{userId}")
-    Call<TimeTableThreeResponseDto> getStepThree(
+    Call<TimeTableGetResponseDto> getStepThree(
             @Path("userId") long userId
     );
 
     @POST("timetableGenerator/step3/{userId}")
     Call<TimeTableResponseDto> postStepThree(
             @Path("userId") long userId,
-            @Body TimeTableThreeRequestDto request
+            @Body TimeTablePostRequestDto request
+    );
+
+    @GET("timetableGenerator/step4/{userId}")
+    Call<TimeTableGetResponseDto> getStepFour(
+            @Path("userId") long userId
+    );
+
+    @POST("timetableGenerator/step4/{userId}")
+    Call<TimeTableResponseDto> postStepFour(
+            @Path("userId") long userId,
+            @Body TimeTablePostRequestDto request
+    );
+
+    @GET("timetableGenerator/step5/{userId}")
+    Call<TimeTableGetResponseDto> getStepFive(
+            @Path("userId") long userId
+    );
+
+    @POST("timetableGenerator/step5/{userId}")
+    Call<TimeTableResponseDto> postStepFive(
+            @Path("userId") long userId,
+            @Body TimeTablePostRequestDto request
+    );
+
+    @GET("timetableGenerator/step6/{userId}")
+    Call<TimeTableGetResponseDto> getStepSix(
+            @Path("userId") long userId
+    );
+
+    @POST("timetableGenerator/step6/{userId}")
+    Call<TimeTableResponseDto> postStepSix(
+            @Path("userId") long userId,
+            @Body TimeTablePostRequestDto request
+    );
+
+    @GET("timetableGenerator/step7/{userId}")
+    Call<TimeTableGetResponseDto> getStepSeven(
+            @Path("userId") long userId
+    );
+
+    @POST("timetableGenerator/step7/{userId}")
+    Call<TimeTableResponseDto> postStepSeven(
+            @Path("userId") long userId,
+            @Body TimeTableSubjectRequestDto request
     );
 
 }

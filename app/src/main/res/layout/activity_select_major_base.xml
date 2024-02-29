@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".timetable.maketimetable.majorbase.SelectMajorBaseActivity">
+    tools:context=".timetable.maketimetable.SelectMajorBaseActivity">
 
     <TextView
         android:id="@+id/tv_title"
@@ -93,6 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:textColor="@color/first_blue"
                 android:textSize="25sp"
                 app:layout_constraintStart_toStartOf="@id/btn_next"
                 app:layout_constraintTop_toTopOf="parent"
@@ -113,6 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="110dp"
+                android:textColor="@color/first_blue"
                 android:textSize="25sp"
                 app:layout_constraintEnd_toEndOf="@id/btn_next"
                 app:layout_constraintTop_toTopOf="parent"
