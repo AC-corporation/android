@@ -8,6 +8,7 @@ import com.example.allclear.data.service.GraduationService;
 import com.example.allclear.data.service.SignUpService;
 import com.example.allclear.data.service.TestService;
 import com.example.allclear.data.service.TimeTableService;
+import com.example.allclear.data.service.TimeTableUpdateRequestService;
 import com.example.allclear.data.service.TokenRefreshService;
 import com.example.allclear.data.service.UpdateRequirementService;
 import com.example.allclear.data.service.UpdateUserService;
@@ -25,6 +26,7 @@ public class ServicePool {
     public static final GradeAndCurriculumUpdateService gradeAndCurriculumUpdateService = ApiClient.create(GradeAndCurriculumUpdateService.class);
 
     public static final TimeTableService timeTableService = ApiClient.create(TimeTableService.class);
+    public static final TimeTableUpdateRequestService timeTableUpdateRequestService=ApiClient.create(TimeTableUpdateRequestService.class);
 
     public static final UserDataService userDataService = ApiClient.create(UserDataService.class);
     public static final TokenRefreshService tokenRefreshService = ApiClient.create(TokenRefreshService.class);
