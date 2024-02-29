@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -99,9 +100,16 @@ public class EditTimeTableActivity extends AppCompatActivity {
                 .enqueue(new Callback<TimeTableUpdateRequestDto>() {
                     @Override
                     public void onResponse(Call<TimeTableUpdateRequestDto> call, Response<TimeTableUpdateRequestDto> response) {
-                        Intent intent=new Intent(EditTimeTableActivity.this, MainPageActivity.class);
-                        intent.putExtra("schedulelist",scheduleDataList);
-                        startActivity(intent);
+                        if(response.isSuccessful()){
+                            System.out.println("서버 통신 성공");
+                            Intent intent=new Intent(EditTimeTableActivity.this, MainPageActivity.class);
+                            intent.putExtra("schedulelist",scheduleDataList);
+                            startActivity(intent);
+                        }else{
+                            if(response.code() == 403){
+                                //tokenRefresh();
+                            }
+                        }
                     }
 
                     @Override
@@ -187,5 +195,4 @@ public class EditTimeTableActivity extends AppCompatActivity {
         else
             return getString(R.string.saturday);
     }
-
 }
