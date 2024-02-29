@@ -86,10 +86,11 @@ public class UsaintLoginActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body().getIsSuccess()) {
                     Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), UsaintLoadingActivity.class);
-                    intent.putExtra("usaintId",usaintId);
-                    intent.putExtra("usaintPassword",usaintPassword);
+                    intent.putExtra("usaintId", usaintId);
+                    intent.putExtra("usaintPassword", usaintPassword);
                     intent.putExtra("email", email);
-                    intent.putExtra("password",password);
+                    intent.putExtra("password", password);
+                    intent.putExtra("Mode", "SIGN_UP");
                     startActivity(intent);
                 } else {
                     signUpResultHandler(response.body().getCode()); //가입 실패시 예외 처리
