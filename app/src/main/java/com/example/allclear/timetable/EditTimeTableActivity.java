@@ -22,7 +22,7 @@ import com.example.allclear.MainPageActivity;
 import com.example.allclear.schedule.Schedule;
 import com.example.allclear.databinding.ActivityEditTimeTableBinding;
 import com.example.allclear.timetable.maketimetable.SelfAddOneActivity;
-import com.example.allclear.timetable.maketimetable.majorbase.SelectMajorBaseActivity;
+import com.example.allclear.timetable.maketimetable.SelectMajorBaseActivity;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
