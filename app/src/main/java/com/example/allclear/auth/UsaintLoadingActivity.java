@@ -12,9 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.allclear.MainPageActivity;
-import com.example.allclear.MyApplication;
 import com.example.allclear.R;
-import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.service.GradeAndCurriculumUpdateService;
 import com.example.allclear.data.request.LoginRequestDto;
 import com.example.allclear.data.response.LoginResponseDto;
@@ -25,6 +23,8 @@ import com.example.allclear.data.service.UpdateRequirementService;
 import com.example.allclear.data.service.UpdateUserService;
 import com.example.allclear.data.request.UsaintUpdateRequestDto;
 import com.example.allclear.databinding.ActivityUsaintLoadingBinding;
+import com.example.allclear.data.PreferenceUtil;
+import com.example.allclear.MyApplication;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -124,7 +124,7 @@ public class UsaintLoadingActivity extends AppCompatActivity {
     }
 
     //로그인 후 토큰을 저장하는 함수
-    private void tokenSave(String accessToken, String refreshToken, Long memberId) {
+    private void tokenSave(String accessToken,String refreshToken, Long memberId){
         // PreferenceUtil 인스턴스를 가져옵니다.
         PreferenceUtil preferenceUtil = MyApplication.getPreferences();
 
@@ -141,6 +141,9 @@ public class UsaintLoadingActivity extends AppCompatActivity {
         Log.i("Saved access token", savedAccessToken != null ? savedAccessToken : "null");
         Log.i("Saved refresh token", savedRefreshToken != null ? savedRefreshToken : "null");
         Log.i("Saved user id", String.valueOf(savedUserId));
+
+        MemberId = memberId;
+        AccessToken = accessToken;
 
         updateUser();
     }
