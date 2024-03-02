@@ -21,7 +21,7 @@ public class Schedule implements Serializable {
     private String classRoom;
     private String backgroundColor= "#dddddd";
     private String textColor= "#ffffff";
-    public int timetableId;  // 속한 시간표의 ID
+    public Long timetableId;  // 속한 시간표의 ID
 
     public int getSubjectId() {return subjectId;}
 

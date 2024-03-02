@@ -8,7 +8,7 @@ import androidx.room.Room;
 @Entity
 public class Semester {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     public String name;  // 학기 이름 (예: "1학년 1학기")
 }
