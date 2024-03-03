@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_bold"
-            android:text="졸업 요건 가져오는 중"
+            android:text="성적 정보 가져오는 중"
             android:textColor="@color/disabled_blue"
             android:textSize="24sp" />
     </LinearLayout>
@@ -88,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_bold"
-            android:text="성적 정보 가져오는 중"
+            android:text="졸업 요건 가져오는 중"
             android:textColor="@color/disabled_blue"
             android:textSize="24sp" />
     </LinearLayout>
