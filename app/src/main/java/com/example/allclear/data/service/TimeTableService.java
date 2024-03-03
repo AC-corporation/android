@@ -27,8 +27,9 @@ public interface TimeTableService {
 
     @POST("timetableGenerator/step2/{userId}")
     Call<TimeTableResponseDto> postStepTwo(
+            @Header("authorization") String authHeader,
             @Path("userId") long userId,
-            @Body List<TimeTableTwoRequestDto> request
+            @Body TimeTableTwoRequestDto request
     );
 
     @GET("timetableGenerator/step3/{userId}")

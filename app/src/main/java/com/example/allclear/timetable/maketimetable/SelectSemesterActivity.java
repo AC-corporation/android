@@ -1,7 +1,6 @@
 package com.example.allclear.timetable.maketimetable;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.NumberPicker;
@@ -74,7 +73,6 @@ public class SelectSemesterActivity extends AppCompatActivity {
                     Intent intent = new Intent(SelectSemesterActivity.this, TimeTableFragment.class);
                     startActivity(intent);
                 } else {
-                    SharedPreferences preferences = getSharedPreferences(DB, MODE_PRIVATE);
 
                     preferenceUtil = MyApplication.getPreferences();
                     userId = preferenceUtil.getUserId(-1L);
@@ -90,7 +88,7 @@ public class SelectSemesterActivity extends AppCompatActivity {
         npYearSemester = binding.npYearSemester;
 
         // 학년 어떻게 할지 논의 필요
-        String[] years = {"2021", "2022", "2023", "2024"};
+        String[] years = {"2022", "2023", "2024"};
         String[] semesters = {getString(R.string.time_table_first_semester), getString(R.string.time_table_second_semester)};
 
         // 년도와 학기를 합친 배열 생성
