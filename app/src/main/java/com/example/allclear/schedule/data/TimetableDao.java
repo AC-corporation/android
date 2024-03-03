@@ -14,7 +14,10 @@ public interface TimetableDao {
     List<Timetable> getAllBySemester(int semesterId);
 
     @Insert
-    void insert(Timetable timetable);
+    Long insert(Timetable timetable);
+
+    @Query("SELECT * FROM timetable WHERE semesterId = :semesterId")
+    List<Timetable> findTimetablesBySemesterId(Long semesterId);
 
     // 필요한 메서드 추가...
 }
