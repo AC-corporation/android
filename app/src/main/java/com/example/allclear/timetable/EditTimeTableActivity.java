@@ -3,20 +3,27 @@ package com.example.allclear.timetable;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.allclear.MyApplication;
 import com.example.allclear.R;
+import com.example.allclear.auth.LoginActivity;
 import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.TimeTableTwoRequestDto;
 import com.example.allclear.data.request.TimeTableUpdateRequestDto;
+import com.example.allclear.data.request.TokenRefreshRequestDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
+import com.example.allclear.data.response.TokenRefreshResponseDto;
+import com.example.allclear.data.response.UserDataResponseDto;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.MainPageActivity;
 import com.example.allclear.schedule.Schedule;
@@ -24,6 +31,7 @@ import com.example.allclear.databinding.ActivityEditTimeTableBinding;
 import com.example.allclear.timetable.maketimetable.SelfAddOneActivity;
 import com.example.allclear.timetable.maketimetable.SelectMajorBaseActivity;
 import com.islandparadise14.mintable.model.ScheduleEntity;
+import com.islandparadise14.mintable.tableinterface.OnScheduleClickListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,6 +52,11 @@ public class EditTimeTableActivity extends AppCompatActivity {
     static final String ACCESS_TOKEN = "Access_Token";
     static final String REFRESH_TOKEN = "Refresh_Token";
     static final String DB = "allClear";
+
+    private PreferenceUtil preferenceUtil;
+    private Long userId;
+    private String accessToken;
+    private String refreshToken;
 
 
     @Override
@@ -92,7 +105,52 @@ public class EditTimeTableActivity extends AppCompatActivity {
                 TimeTableUpdateToServer(accessToken,timetableId,scheduleDataList);
             }
         });
+        binding.table.setOnScheduleClickListener(new OnScheduleClickListener() {
+            @Override
+            public void scheduleClicked(ScheduleEntity entity) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(EditTimeTableActivity.this);
+                LayoutInflater inflater = LayoutInflater.from(EditTimeTableActivity.this);
+                View dialogView = inflater.inflate(R.layout.schedule_delete_dialog, null);
+                Button cancelButton = dialogView.findViewById(R.id.dialog_cancel_btn);
+                Button okayButton = dialogView.findViewById(R.id.dialog_okay_btn);
+                builder.setView(dialogView);
+                AlertDialog dialog = builder.create();
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                okayButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String name=entity.getScheduleName();
+                        int size=scheduleDataList.size();
+                        for(int i=0;i<size;i++){
+                            if(name==scheduleDataList.get(i).getSubjectName())
+                                scheduleDataList.remove(i);
+                            }
+                        scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
+                        //토요일,일요일 유무에 따라 day 변경
+                        day=new String[]{"Mon", "Tue", "Wen", "Thu", "Fri"};
+                        size=scheduleDataList.size();
+                        if(size!=0){
+                            for(int i=0;i<size;i++){
+                                if(5==scheduleDataList.get(i).getClassDay()){
+                                    day= new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat"};}
+                                if(6==scheduleDataList.get(i).getClassDay()){
+                                    day= new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat","Sun"};}
+                            }
+                        }
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+        });
+
     }
+
     private void TimeTableUpdateToServer(String accessToken,long timetableId, ArrayList<Schedule> scheduleDataList) {
         TimeTableUpdateRequestDto TimeTableUpdateRequestDto = makeTimeTableUpdateRequestDto(scheduleDataList);
 
@@ -195,4 +253,5 @@ public class EditTimeTableActivity extends AppCompatActivity {
         else
             return getString(R.string.saturday);
     }
+
 }
