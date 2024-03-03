@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.example.allclear.MyApplication;
 import com.example.allclear.auth.LoginActivity;
+import com.example.allclear.auth.UsaintLoginActivity;
+import com.example.allclear.auth.UsaintUpdateActivity;
 import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.LoginRequestDto;
@@ -77,6 +79,8 @@ public class MyPageFragment extends Fragment {
         initDefaultData();
         initUserData();
         clickListener();
+        btnUpdateListener();
+
         return binding.getRoot();
     }
     private void initDefaultData(){
@@ -167,6 +171,17 @@ public class MyPageFragment extends Fragment {
 
                     }
                 });
+    }
+
+    //정보 업데이트 버튼의 리스너
+    private void btnUpdateListener() {
+        binding.btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), UsaintUpdateActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     private void saveToken(TokenRefreshResponseDto.TokenRefreshDto tokenRefreshDto){
         // accessToken, refreshToken, userId를 저장합니다.
