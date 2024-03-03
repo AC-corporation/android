@@ -34,6 +34,7 @@ public interface TimeTableService {
 
     @GET("timetableGenerator/step3/{userId}")
     Call<TimeTableGetResponseDto> getStepThree(
+            @Header("authorization") String authHeader,
             @Path("userId") long userId
     );
 
