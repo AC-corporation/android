@@ -98,6 +98,12 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
                 place=binding.etPlace.getText().toString();
                 if (subtext.isEmpty())
                     Toast.makeText(SelfAddTwoEditActivity.this, "이름을 입력해주세요", Toast.LENGTH_SHORT).show();
+                else if(start_time.isEmpty())
+                    Toast.makeText(SelfAddTwoEditActivity.this, "시작시간을 입력해주세요", Toast.LENGTH_SHORT).show();
+                else if(end_time.isEmpty())
+                    Toast.makeText(SelfAddTwoEditActivity.this, "종료시간을 입력해주세요", Toast.LENGTH_SHORT).show();
+                else if(start_time.equals(end_time))
+                    Toast.makeText(SelfAddTwoEditActivity.this, "시작시간과 종료시간을 다르게 입력해주세요", Toast.LENGTH_SHORT).show();
                 else
                     //시간이 겹치는 지 확인하는 함수
                     checkconflict();

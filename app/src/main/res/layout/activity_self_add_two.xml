@@ -94,11 +94,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20sp"
-        android:text="9:00"
+        android:hint="9:00"
         android:textColor="@color/gray"
         android:textSize="15sp"
         android:textStyle="bold"
-        android:inputType="datetime"
         android:background="@color/transparent"
         app:layout_constraintBottom_toBottomOf="@id/day_spinner"
         app:layout_constraintStart_toEndOf="@id/day_spinner"
@@ -121,26 +120,14 @@
         android:id="@+id/et_endtime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10:30"
+        android:hint="10:30"
         android:textColor="@color/gray"
         android:textSize="15sp"
         android:textStyle="bold"
-        android:inputType="datetime"
         android:background="@color/transparent"
         app:layout_constraintBottom_toBottomOf="@id/day_spinner"
         app:layout_constraintStart_toEndOf="@id/tv_tilde"
         app:layout_constraintTop_toTopOf="@id/day_spinner"/>
-
-    <ImageButton
-        android:id="@+id/ib_down_arrow2"
-        android:layout_width="11dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="10dp"
-        android:background="@color/transparent"
-        android:src="@drawable/down_arrow"
-        app:layout_constraintBottom_toBottomOf="@id/day_spinner"
-        app:layout_constraintStart_toEndOf="@id/et_endtime"
-        app:layout_constraintTop_toTopOf="@id/day_spinner" />
 
     <ImageView
         android:id="@+id/iv_line3"
