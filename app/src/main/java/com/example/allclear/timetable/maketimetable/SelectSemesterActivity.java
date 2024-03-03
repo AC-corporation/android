@@ -9,7 +9,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.allclear.MyApplication;
 import com.example.allclear.R;
+import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.TimeTableOneRequestDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
@@ -35,6 +37,11 @@ public class SelectSemesterActivity extends AppCompatActivity {
     NumberPicker npYearSemester;
     String selectedYear;
     String selectedSemester;
+
+    private PreferenceUtil preferenceUtil;
+    private Long userId;
+    private String accessToken;
+    private String refreshToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +76,11 @@ public class SelectSemesterActivity extends AppCompatActivity {
                 } else {
                     SharedPreferences preferences = getSharedPreferences(DB, MODE_PRIVATE);
 
-                    postStepOneToServer(preferences.getString(ACCESS_TOKEN, ""), preferences.getLong(USER_ID, 0));
+                    preferenceUtil = MyApplication.getPreferences();
+                    userId = preferenceUtil.getUserId(-1L);
+                    accessToken = preferenceUtil.getAccessToken("FAIL");
+
+                    postStepOneToServer(accessToken, userId);
                 }
             }
         });
@@ -79,7 +90,7 @@ public class SelectSemesterActivity extends AppCompatActivity {
         npYearSemester = binding.npYearSemester;
 
         // 학년 어떻게 할지 논의 필요
-        String[] years = {"2022", "2023", "2024"};
+        String[] years = {"2021", "2022", "2023", "2024"};
         String[] semesters = {getString(R.string.time_table_first_semester), getString(R.string.time_table_second_semester)};
 
         // 년도와 학기를 합친 배열 생성
