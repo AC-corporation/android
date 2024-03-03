@@ -70,7 +70,6 @@ public class SelectSemesterActivity extends AppCompatActivity {
                     SharedPreferences preferences = getSharedPreferences(DB, MODE_PRIVATE);
 
                     postStepOneToServer(preferences.getString(ACCESS_TOKEN, ""), preferences.getLong(USER_ID, 0));
-
                 }
             }
         });
@@ -103,8 +102,8 @@ public class SelectSemesterActivity extends AppCompatActivity {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 String selectedYearSemester = yearSemesters.get(newVal);
-                // 선택된 문자열을 년도와 학기로 분리
                 String[] split = selectedYearSemester.split(getString(R.string.time_table_year));
+
                 selectedYear = split[0];
                 selectedSemester = split[1].replaceAll("[^0-9]", "");
             }
