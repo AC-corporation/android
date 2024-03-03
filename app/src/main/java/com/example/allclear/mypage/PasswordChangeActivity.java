@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.allclear.MainPageActivity;
 import com.example.allclear.MyApplication;
 import com.example.allclear.R;
 import com.example.allclear.auth.LoginActivity;
@@ -47,6 +48,12 @@ public class PasswordChangeActivity extends AppCompatActivity {
         userId = preferenceUtil.getUserId(-1L);
     }
     private void clickListener(){
+        binding.ivPasswordChangeBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         binding.passwordChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,5 +153,13 @@ public class PasswordChangeActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), MainPageActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
