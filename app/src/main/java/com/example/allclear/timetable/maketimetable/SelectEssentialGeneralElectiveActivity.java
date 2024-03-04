@@ -1,7 +1,5 @@
 package com.example.allclear.timetable.maketimetable;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +8,10 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.allclear.MyApplication;
 import com.example.allclear.R;
 import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
@@ -37,17 +39,25 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
     private PreferenceUtil preferenceUtil;
     private Long userId;
     private String accessToken;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySelectEssentialGeneralElectiveBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        getUserData();
         initNextClickListener();
         initBackClickListener();
         getEssentialGeneralList();
         setYearSpinner();
 
+    }
+
+    private void getUserData() {
+        preferenceUtil = MyApplication.getPreferences();
+        userId = preferenceUtil.getUserId(-1L);
+        accessToken = preferenceUtil.getAccessToken("FAIL");
     }
 
     private void initNextClickListener() {
@@ -97,7 +107,7 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
         ServicePool.timeTableService.getStepFour("Bearer " + accessToken, userId)
                 .enqueue(new Callback<TimeTableGetResponseDto>() {
                     @Override
-                    public void onResponse(Call<TimeTableGetResponseDto> call, Response<TimeTableGetResponseDto> response) {
+                    public void onResponse(@NonNull Call<TimeTableGetResponseDto> call, @NonNull Response<TimeTableGetResponseDto> response) {
 
                         if (response.isSuccessful() && response.body() != null) {
                             TimeTableGetResponseDto responseBody = response.body();
