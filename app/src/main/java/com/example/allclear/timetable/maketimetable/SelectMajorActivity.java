@@ -1,13 +1,14 @@
 package com.example.allclear.timetable.maketimetable;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.allclear.R;
+import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.TimeTablePostRequestDto;
 import com.example.allclear.data.response.TimeTableGetResponseDto;
@@ -25,8 +26,9 @@ public class SelectMajorActivity extends AppCompatActivity {
 
     private ActivitySelectMajorBinding binding;
 
-    private long userId = 1;
-
+    private PreferenceUtil preferenceUtil;
+    private Long userId;
+    private String accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class SelectMajorActivity extends AppCompatActivity {
         // 선택한 과목 서버로 보내기
         TimeTablePostRequestDto timeTablePostRequestDto = userSelectedId();
 
-        ServicePool.timeTableService.postStepThreeToSeven(userId, timeTablePostRequestDto)
+        ServicePool.timeTableService.postStepThreeToSeven("Bearer " + accessToken, userId, timeTablePostRequestDto)
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
@@ -85,7 +87,7 @@ public class SelectMajorActivity extends AppCompatActivity {
     }
 
     private void getMajorList() {
-        ServicePool.timeTableService.getStepFive(userId)
+        ServicePool.timeTableService.getStepFive("Bearer " + accessToken, userId)
                 .enqueue(new Callback<TimeTableGetResponseDto>() {
                     @Override
                     public void onResponse(Call<TimeTableGetResponseDto> call, Response<TimeTableGetResponseDto> response) {

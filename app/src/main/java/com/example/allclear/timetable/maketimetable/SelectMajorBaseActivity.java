@@ -73,12 +73,12 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
         // 선택한 과목 서버로 보내기
         TimeTablePostRequestDto timeTablePostRequestDto = userSelectedId();
 
-        ServicePool.timeTableService.postStepThreeToSeven(userId, timeTablePostRequestDto)
+        ServicePool.timeTableService.postStepThreeToSeven("Bearer " + accessToken, userId, timeTablePostRequestDto)
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
                     public void onResponse(@NonNull Call<TimeTableResponseDto> call, @NonNull Response<TimeTableResponseDto> response) {
 
-                        if(response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             Intent intent = new Intent(SelectMajorBaseActivity.this, SelectEssentialGeneralElectiveActivity.class);
                             startActivity(intent);
                         }

@@ -40,17 +40,20 @@ public interface TimeTableService {
 
     @POST("timetableGenerator/step3to7/{userId}")
     Call<TimeTableResponseDto> postStepThreeToSeven(
+            @Header("authorization") String authHeader,
             @Path("userId") long userId,
             @Body TimeTablePostRequestDto request
     );
 
     @GET("timetableGenerator/step4/{userId}")
     Call<TimeTableGetResponseDto> getStepFour(
+            @Header("authorization") String authHeader,
             @Path("userId") long userId
     );
 
     @GET("timetableGenerator/step5/{userId}")
     Call<TimeTableGetResponseDto> getStepFive(
+            @Header("authorization") String authHeader,
             @Path("userId") long userId
     );
 

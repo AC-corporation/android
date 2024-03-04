@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.allclear.R;
+import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.TimeTablePostRequestDto;
 import com.example.allclear.data.response.TimeTableGetResponseDto;
@@ -33,8 +34,9 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
     private Spinner spinner;
     private AdapterSpinner adapterSpinner;
     private SpinnerCustomBinding spinnerCustomBinding;
-    private long userId = 1;
-
+    private PreferenceUtil preferenceUtil;
+    private Long userId;
+    private String accessToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,7 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
     private void postStepFourToServer(long userId) {
         TimeTablePostRequestDto timeTablePostRequestDto = userSelectedId();
 
-        ServicePool.timeTableService.postStepThreeToSeven(userId, timeTablePostRequestDto)
+        ServicePool.timeTableService.postStepThreeToSeven("Bearer " + accessToken, userId, timeTablePostRequestDto)
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
@@ -92,7 +94,7 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
     }
 
     private void getEssentialGeneralList() {
-        ServicePool.timeTableService.getStepFour(userId)
+        ServicePool.timeTableService.getStepFour("Bearer " + accessToken, userId)
                 .enqueue(new Callback<TimeTableGetResponseDto>() {
                     @Override
                     public void onResponse(Call<TimeTableGetResponseDto> call, Response<TimeTableGetResponseDto> response) {

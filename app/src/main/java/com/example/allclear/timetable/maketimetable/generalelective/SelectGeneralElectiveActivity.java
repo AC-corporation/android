@@ -9,6 +9,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.allclear.R;
+import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.TimeTablePostRequestDto;
 import com.example.allclear.data.response.TimeTableGetResponseDto;
@@ -34,7 +35,10 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
     private AdapterSpinner adapterSpinner;
     private SpinnerCustomBinding spinnerCustomBinding;
 
-    long userId = 1;
+    private PreferenceUtil preferenceUtil;
+    private Long userId;
+    private String accessToken;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +65,7 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
     private void postStepSixToServer(long userId) {
         TimeTablePostRequestDto timeTablePostRequestDto = userSelectedId();
 
-        ServicePool.timeTableService.postStepThreeToSeven(userId, timeTablePostRequestDto)
+        ServicePool.timeTableService.postStepThreeToSeven("Bearer " + accessToken, userId, timeTablePostRequestDto)
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
