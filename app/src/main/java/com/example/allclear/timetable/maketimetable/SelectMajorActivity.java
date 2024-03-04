@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.allclear.MyApplication;
 import com.example.allclear.R;
 import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
@@ -36,10 +38,17 @@ public class SelectMajorActivity extends AppCompatActivity {
         binding = ActivitySelectMajorBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        getUserData();
         initNextClickListener();
         initBackClickListener();
         getMajorList();
 
+    }
+
+    private void getUserData() {
+        preferenceUtil = MyApplication.getPreferences();
+        userId = preferenceUtil.getUserId(-1L);
+        accessToken = preferenceUtil.getAccessToken("FAIL");
     }
 
     private void initNextClickListener() {
@@ -58,9 +67,13 @@ public class SelectMajorActivity extends AppCompatActivity {
         ServicePool.timeTableService.postStepThreeToSeven("Bearer " + accessToken, userId, timeTablePostRequestDto)
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
-                    public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
-                        Intent intent = new Intent(SelectMajorActivity.this, SelectGeneralElectiveActivity.class);
-                        startActivity(intent);
+                    public void onResponse(@NonNull Call<TimeTableResponseDto> call, @NonNull Response<TimeTableResponseDto> response) {
+
+                        if (response.isSuccessful()) {
+                            Intent intent = new Intent(SelectMajorActivity.this, SelectGeneralElectiveActivity.class);
+                            startActivity(intent);
+                        }
+
                     }
 
                     @Override
@@ -90,7 +103,7 @@ public class SelectMajorActivity extends AppCompatActivity {
         ServicePool.timeTableService.getStepFive("Bearer " + accessToken, userId)
                 .enqueue(new Callback<TimeTableGetResponseDto>() {
                     @Override
-                    public void onResponse(Call<TimeTableGetResponseDto> call, Response<TimeTableGetResponseDto> response) {
+                    public void onResponse(@NonNull Call<TimeTableGetResponseDto> call, @NonNull Response<TimeTableGetResponseDto> response) {
 
                         if (response.isSuccessful() && response.body() != null) {
                             TimeTableGetResponseDto responseBody = response.body();
@@ -119,13 +132,12 @@ public class SelectMajorActivity extends AppCompatActivity {
     }
 
     private void setRequirementComponent(List<TimeTableGetResponseDto.RequirementComponentResponseDto> requirementComponents) {
-        // 리스트의 개수에 따라서 넣어주는 값이 달라집니다.
-        if (requirementComponents.size() > 0) {
-            TimeTableGetResponseDto.RequirementComponentResponseDto componentOne = requirementComponents.get(0);
-            String textOne = String.format(getString(R.string.criteria), componentOne.getRequirementComplete(), componentOne.getRequirementCriteria());
-            binding.tvComponentResultOne.setText(textOne);
-            binding.tvComponentOne.setText(componentOne.getRequirementArgument());
-        } else if (requirementComponents.size() > 1) {
+        TimeTableGetResponseDto.RequirementComponentResponseDto componentOne = requirementComponents.get(0);
+        String textOne = String.format(getString(R.string.criteria), componentOne.getRequirementComplete(), componentOne.getRequirementCriteria());
+        binding.tvComponentResultOne.setText(textOne);
+        binding.tvComponentOne.setText(componentOne.getRequirementArgument());
+
+        if (requirementComponents.size() > 1) {
             TimeTableGetResponseDto.RequirementComponentResponseDto componentTwo = requirementComponents.get(1);
             String textTwo = String.format(getString(R.string.criteria), componentTwo.getRequirementComplete(), componentTwo.getRequirementCriteria());
             binding.tvComponentResultTwo.setText(textTwo);
