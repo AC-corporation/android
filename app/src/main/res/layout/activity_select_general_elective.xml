@@ -102,6 +102,7 @@
                     android:scrollbarSize="5dp"
                     android:scrollbarThumbVertical="@android:color/darker_gray"
                     android:scrollbars="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toTopOf="@id/btn_next"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

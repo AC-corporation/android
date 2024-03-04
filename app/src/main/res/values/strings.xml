@@ -32,4 +32,7 @@
     <string name="time_table_year">년</string>
     <string name="time_table_first_semester">1학기</string>
     <string name="time_table_second_semester">2학기</string>
+    <string name="time_table_general_1">공동체/리더십</string>
+    <string name="time_table_general_2">의사소통/글로벌</string>
+
 </resources>

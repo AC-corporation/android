@@ -68,7 +68,6 @@ public class SelectMajorActivity extends AppCompatActivity {
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
                     public void onResponse(@NonNull Call<TimeTableResponseDto> call, @NonNull Response<TimeTableResponseDto> response) {
-
                         if (response.isSuccessful()) {
                             Intent intent = new Intent(SelectMajorActivity.this, SelectGeneralElectiveActivity.class);
                             startActivity(intent);

@@ -59,6 +59,7 @@ public interface TimeTableService {
 
     @GET("timetableGenerator/step6/{userId}")
     Call<TimeTableGetResponseDto> getStepSix(
+            @Header("authorization") String authHeader,
             @Path("userId") long userId
     );
 
