@@ -1,6 +1,7 @@
 package com.example.allclear.data.service;
 
 import com.example.allclear.data.request.ChangePasswordRequestDto;
+import com.example.allclear.data.request.UserDeleteRequestDto;
 import com.example.allclear.data.response.UserDataResponseDto;
 import com.example.allclear.data.response.UserDataResponseDtoTwo;
 
@@ -19,6 +20,6 @@ public interface UserDataService {
     Call<UserDataResponseDto> changePassword(@Header("Authorization") String authHeader, @Path("userId") Long userId, @Body ChangePasswordRequestDto changePassword);
     @GET("user/logout/{userId}")
     Call<UserDataResponseDto> logout(@Header("Authorization") String authHeader, @Path("userId") Long userId);
-    @DELETE("user/{userId}")
-    Call<UserDataResponseDto> deleteUser(@Header("Authorization") String authHeader, @Path("userId") Long userId);
+    @POST("user/{userId}")
+    Call<UserDataResponseDto> deleteUser(@Header("Authorization") String authHeader, @Path("userId") Long userId, @Body UserDeleteRequestDto userDelete);
 }

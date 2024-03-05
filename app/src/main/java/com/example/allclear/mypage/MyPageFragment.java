@@ -218,7 +218,9 @@ public class MyPageFragment extends Fragment {
         binding.tvUserDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                userDelete();
+                Intent intent = new Intent(getContext(),UserDeleteActivity.class);
+                startActivity(intent);
+                getActivity().finish();
             }
         });
     }
@@ -250,38 +252,6 @@ public class MyPageFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<UserDataResponseDto> call, Throwable t) {
-
-                    }
-                });
-    }
-    private void userDelete(){
-        ServicePool.userDataService.deleteUser("Bearer "+accessToken,userId)
-                .enqueue(new Callback<UserDataResponseDto>() {
-                    @Override
-                    public void onResponse(Call<UserDataResponseDto> call, Response<UserDataResponseDto> response) {
-                        if(response.isSuccessful()){
-                            System.out.println("서버 통신 성공");
-                            Log.i("if",response.toString());
-                            Log.i("if",response.body().getMessage());
-                            Log.i("if",response.body().getCode().toString());
-                            String statusCode = response.body().getCode();
-                            switch (statusCode) {
-                                case "OK":
-                                    Toast.makeText(getContext(),"회원탈퇴에 성공했습니다.",Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getContext(),LoginActivity.class);
-                                    startActivity(intent);
-                                    getActivity().finish();
-                                    return;
-                                default:
-                                    // 기타 상황에 대한 처리
-                                    break;
-                            }
-                        }else{
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<UserDataResponseDto> call, Throwable t) {
-                        System.out.println("서버 통신 실패");
 
                     }
                 });
