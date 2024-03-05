@@ -99,7 +99,7 @@
         android:id="@+id/tv_signup_agreement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="개인정보 이용에 돤한 동의"
+        android:text="개인정보 이용에 관한 동의"
         app:layout_constraintBottom_toBottomOf="@id/cb_signup_agreement"
         app:layout_constraintEnd_toStartOf="@id/cb_signup_agreement"
         app:layout_constraintTop_toTopOf="@id/cb_signup_agreement" />
