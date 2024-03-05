@@ -24,6 +24,7 @@ import com.example.allclear.data.request.TokenRefreshRequestDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.data.response.TokenRefreshResponseDto;
 import com.example.allclear.data.response.UserDataResponseDto;
+import com.example.allclear.databinding.ScheduleDeleteDialogBinding;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.MainPageActivity;
 import com.example.allclear.schedule.Schedule;
@@ -110,9 +111,10 @@ public class EditTimeTableActivity extends AppCompatActivity {
             public void scheduleClicked(ScheduleEntity entity) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(EditTimeTableActivity.this);
                 LayoutInflater inflater = LayoutInflater.from(EditTimeTableActivity.this);
-                View dialogView = inflater.inflate(R.layout.schedule_delete_dialog, null);
-                Button cancelButton = dialogView.findViewById(R.id.dialog_cancel_btn);
-                Button okayButton = dialogView.findViewById(R.id.dialog_okay_btn);
+                ScheduleDeleteDialogBinding dialogBinding=ScheduleDeleteDialogBinding.inflate(getLayoutInflater());
+                View dialogView = dialogBinding.getRoot();
+                Button cancelButton = dialogBinding.dialogCancelBtn;
+                Button okayButton = dialogBinding.dialogOkayBtn;
                 builder.setView(dialogView);
                 AlertDialog dialog = builder.create();
                 cancelButton.setOnClickListener(new View.OnClickListener() {
