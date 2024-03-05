@@ -46,7 +46,6 @@ public class MakeTimeTableAdapter extends RecyclerView.Adapter<MakeTimeTableAdap
         TimeTableGetResponseDto.SubjectResponseDto.ClassInfoResponseDto classInfo = subject.classInfoResponseDtoList.get(0);
         holder.binding.tvProfessor.setText(classInfo.getProfessor());
 
-
         // 체크박스 선택된 것들만 따로 리스트 만들기
         TimeTableGetResponseDto.SubjectResponseDto item = subjectResponseDtoList.get(position);
         holder.binding.cbTimeTable.setOnCheckedChangeListener(null);
