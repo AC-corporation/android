@@ -2,12 +2,10 @@ package com.example.allclear.data.service;
 
 import com.example.allclear.data.request.TimeTableOneRequestDto;
 import com.example.allclear.data.request.TimeTablePostRequestDto;
-import com.example.allclear.data.request.TimeTableSubjectRequestDto;
+import com.example.allclear.data.request.TimeTableEssentialRequestDto;
 import com.example.allclear.data.request.TimeTableTwoRequestDto;
 import com.example.allclear.data.response.TimeTableGetResponseDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -65,13 +63,15 @@ public interface TimeTableService {
 
     @GET("timetableGenerator/step7/{userId}")
     Call<TimeTableGetResponseDto> getStepSeven(
+            @Header("authorization") String authHeader,
             @Path("userId") long userId
     );
 
     @POST("timetableGenerator/step7/{userId}")
     Call<TimeTableResponseDto> postStepSeven(
+            @Header("authorization") String authHeader,
             @Path("userId") long userId,
-            @Body TimeTableSubjectRequestDto request
+            @Body TimeTableEssentialRequestDto request
     );
 
 }

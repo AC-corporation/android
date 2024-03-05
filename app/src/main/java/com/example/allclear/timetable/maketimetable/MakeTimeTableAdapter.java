@@ -20,8 +20,13 @@ public class MakeTimeTableAdapter extends RecyclerView.Adapter<MakeTimeTableAdap
     private static final List<Long> selectedSubjectIds = new ArrayList<>();
 
     public MakeTimeTableAdapter(List<TimeTableGetResponseDto.SubjectResponseDto> subjectResponseDtoList) {
-        this.subjectResponseDtoList = subjectResponseDtoList;
+        if (subjectResponseDtoList == null) {
+            this.subjectResponseDtoList = new ArrayList<>();
+        } else {
+            this.subjectResponseDtoList = subjectResponseDtoList;
+        }
     }
+
 
     @NonNull
     @Override

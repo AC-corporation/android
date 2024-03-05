@@ -78,7 +78,7 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
         ServicePool.timeTableService.postStepThreeToSeven("Bearer " + accessToken, userId, timeTablePostRequestDto)
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
-                    public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
+                    public void onResponse(@NonNull Call<TimeTableResponseDto> call, @NonNull Response<TimeTableResponseDto> response) {
                         if (response.isSuccessful()) {
                             Intent intent = new Intent(SelectGeneralElectiveActivity.this, EssentialSubjectActivity.class);
                             startActivity(intent);
