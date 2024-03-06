@@ -142,7 +142,7 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
 
     private void initArgumentAdapter(List<TimeTableGetResponseDto.RequirementComponentResponseDto> requirementComponents) {
         SelectGeneralElectiveAdapter adapter = new SelectGeneralElectiveAdapter(requirementComponents);
-        binding.rvSelectGeneralElective.setAdapter(adapter);
+        binding.rvArgument.setAdapter(adapter);
     }
 
     private void setGeneralSpinner() {
