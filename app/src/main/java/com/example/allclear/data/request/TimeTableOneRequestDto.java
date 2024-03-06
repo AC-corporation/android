@@ -7,4 +7,13 @@ public class TimeTableOneRequestDto {
     private int tableYear;
     @SerializedName("semester")
     private int semester;
+
+    public void setTableYear(int tableYear) {
+        this.tableYear = tableYear;
+    }
+
+    public void setSemester(int semester) {
+        this.semester = semester;
+    }
+
 }

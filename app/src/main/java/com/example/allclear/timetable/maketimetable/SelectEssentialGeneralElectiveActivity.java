@@ -1,7 +1,5 @@
 package com.example.allclear.timetable.maketimetable;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +8,12 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.allclear.MyApplication;
 import com.example.allclear.R;
+import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.TimeTablePostRequestDto;
 import com.example.allclear.data.response.TimeTableGetResponseDto;
@@ -33,7 +36,9 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
     private Spinner spinner;
     private AdapterSpinner adapterSpinner;
     private SpinnerCustomBinding spinnerCustomBinding;
-    private long userId = 1;
+    private PreferenceUtil preferenceUtil;
+    private Long userId;
+    private String accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +46,18 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
         binding = ActivitySelectEssentialGeneralElectiveBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        getUserData();
         initNextClickListener();
         initBackClickListener();
         getEssentialGeneralList();
         setYearSpinner();
 
+    }
+
+    private void getUserData() {
+        preferenceUtil = MyApplication.getPreferences();
+        userId = preferenceUtil.getUserId(-1L);
+        accessToken = preferenceUtil.getAccessToken("FAIL");
     }
 
     private void initNextClickListener() {
@@ -60,7 +72,7 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
     private void postStepFourToServer(long userId) {
         TimeTablePostRequestDto timeTablePostRequestDto = userSelectedId();
 
-        ServicePool.timeTableService.postStepFour(userId, timeTablePostRequestDto)
+        ServicePool.timeTableService.postStepThreeToSeven("Bearer " + accessToken, userId, timeTablePostRequestDto)
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
@@ -92,10 +104,10 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
     }
 
     private void getEssentialGeneralList() {
-        ServicePool.timeTableService.getStepFour(userId)
+        ServicePool.timeTableService.getStepFour("Bearer " + accessToken, userId)
                 .enqueue(new Callback<TimeTableGetResponseDto>() {
                     @Override
-                    public void onResponse(Call<TimeTableGetResponseDto> call, Response<TimeTableGetResponseDto> response) {
+                    public void onResponse(@NonNull Call<TimeTableGetResponseDto> call, @NonNull Response<TimeTableGetResponseDto> response) {
 
                         if (response.isSuccessful() && response.body() != null) {
                             TimeTableGetResponseDto responseBody = response.body();

@@ -1,24 +1,26 @@
 package com.example.allclear.timetable.maketimetable;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.allclear.MyApplication;
 import com.example.allclear.R;
 import com.example.allclear.SelfAddAdapter;
-
+import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.TimeTableTwoRequestDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
-import com.example.allclear.schedule.Schedule;
 import com.example.allclear.databinding.ActivitySelfAddOneBinding;
+import com.example.allclear.schedule.Schedule;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,9 +32,11 @@ import retrofit2.Response;
 public class SelfAddOneActivity extends AppCompatActivity {
 
     private ActivitySelfAddOneBinding binding;
-    private ArrayList<Schedule> scheduleDataList = new ArrayList<Schedule>();
+    private ArrayList<Schedule> scheduleDataList = new ArrayList();
 
-    long userId = 1;
+    private PreferenceUtil preferenceUtil;
+    private Long userId;
+    private String accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +65,12 @@ public class SelfAddOneActivity extends AppCompatActivity {
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                postStepTwoToServer(userId, scheduleDataList);
+
+                preferenceUtil = MyApplication.getPreferences();
+                userId = preferenceUtil.getUserId(-1L);
+                accessToken = preferenceUtil.getAccessToken("FAIL");
+
+                postStepTwoToServer(accessToken, userId, scheduleDataList);
             }
         });
     }
@@ -75,17 +84,26 @@ public class SelfAddOneActivity extends AppCompatActivity {
         });
     }
 
-    private void postStepTwoToServer(long userId, ArrayList<Schedule> scheduleDataList) {
+    private void postStepTwoToServer(String accessToken, Long userId, List<Schedule> scheduleDataList) {
         // 추가한 과목 서버로 보내기
-        List<TimeTableTwoRequestDto> timeTableTwoRequestDtoList = makeTimeTableTwoRequestList(scheduleDataList);
+        TimeTableTwoRequestDto timeTableTwoRequestDto = makeTimeTableTwoRequestDto(scheduleDataList);
 
-        ServicePool.timeTableService.postStepTwo(userId, timeTableTwoRequestDtoList)
+        ServicePool.timeTableService.postStepTwo("Bearer " + accessToken, userId, timeTableTwoRequestDto)
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
-                        // 성공했으면 다음 버튼 눌러서 이동
-                        Intent intent = new Intent(SelfAddOneActivity.this, SelectMajorBaseActivity.class);
-                        startActivity(intent);
+
+                        if (response.isSuccessful()) {
+                            Intent intent = new Intent(SelfAddOneActivity.this, SelectMajorBaseActivity.class);
+                            startActivity(intent);
+                        }else{
+                            try {
+                                String errorBody = response.errorBody().string();
+                                Toast.makeText(SelfAddOneActivity.this, errorBody, Toast.LENGTH_SHORT).show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
 
                     @Override
@@ -95,28 +113,34 @@ public class SelfAddOneActivity extends AppCompatActivity {
                 });
     }
 
-    private List<TimeTableTwoRequestDto> makeTimeTableTwoRequestList(ArrayList<Schedule> scheduleDataList) {
-        List<TimeTableTwoRequestDto> timeTableTwoRequestDtoList = new ArrayList<>();
+    private TimeTableTwoRequestDto makeTimeTableTwoRequestDto(List<Schedule> scheduleDataList) {
+        List<TimeTableTwoRequestDto.timetableSubjectRequestDtoList> timetableSubjectRequestDtoList = new ArrayList<>();
         // 체크박스 선택한 것만 서버로 보내는 로직 필요
 
         for (Schedule schedule : scheduleDataList) {
-            TimeTableTwoRequestDto timeTableTwoRequestDto = new TimeTableTwoRequestDto();
-            timeTableTwoRequestDto.setSubjectName(schedule.getSubjectName());
-            timeTableTwoRequestDto.setSubjectId(schedule.getSubjectId());
+            TimeTableTwoRequestDto.timetableSubjectRequestDtoList timetableSubjectRequestDto = new TimeTableTwoRequestDto.timetableSubjectRequestDtoList();
+            timetableSubjectRequestDto.setSubjectName(schedule.getSubjectName());
+            timetableSubjectRequestDto.setSubjectId(schedule.getSubjectId());
 
-            TimeTableTwoRequestDto.ClassInfoRequestDtoList classInfo = new TimeTableTwoRequestDto.ClassInfoRequestDtoList();
+            TimeTableTwoRequestDto.timetableSubjectRequestDtoList.ClassInfoRequestDtoList classInfo = new TimeTableTwoRequestDto.timetableSubjectRequestDtoList.ClassInfoRequestDtoList();
             classInfo.setProfessor(schedule.getProfessor());
             classInfo.setClassDay(getClassDay(schedule.getClassDay()));
+
             classInfo.setStartTime(schedule.getStartTime());
             classInfo.setEndTime(schedule.getEndTime());
+
             classInfo.setClassRoom(schedule.getClassRoom());
 
-            timeTableTwoRequestDto.setClassInfoRequestDtoList(Collections.singletonList(classInfo));
-            timeTableTwoRequestDtoList.add(timeTableTwoRequestDto);
+            timetableSubjectRequestDto.setClassInfoRequestDtoList(Collections.singletonList(classInfo));
+            timetableSubjectRequestDtoList.add(timetableSubjectRequestDto);
         }
 
-        return timeTableTwoRequestDtoList;
+        TimeTableTwoRequestDto requestDto = new TimeTableTwoRequestDto();
+        requestDto.setTimetableSubjectRequestDtoList(timetableSubjectRequestDtoList);
+
+        return requestDto;
     }
+
 
     private String getClassDay(int day) {
         if (day == 0)
