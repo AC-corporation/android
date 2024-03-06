@@ -117,6 +117,7 @@ public class EditTimeTableActivity extends AppCompatActivity {
                 Button okayButton = dialogBinding.dialogOkayBtn;
                 builder.setView(dialogView);
                 AlertDialog dialog = builder.create();
+
                 cancelButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -254,6 +255,57 @@ public class EditTimeTableActivity extends AppCompatActivity {
             return getString(R.string.friday);
         else
             return getString(R.string.saturday);
+    }
+    private void tokenRefresh(){
+        TokenRefreshRequestDto tokenRequestDto = new TokenRefreshRequestDto();
+        tokenRequestDto.init(accessToken,refreshToken);
+        ServicePool.tokenRefreshService.TokenRefresh(tokenRequestDto)
+                .enqueue(new Callback<TokenRefreshResponseDto>() {
+                    @Override
+                    public void onResponse(Call<TokenRefreshResponseDto> call, Response<TokenRefreshResponseDto> response) {
+                        if(response.isSuccessful()){
+                            System.out.println("서버 통신 성공");
+                            Log.i("if",response.toString());
+                            Log.i("if",response.body().getMessage());
+                            Log.i("if",response.body().getCode().toString());
+                            String statusCode = response.body().getCode();
+                            switch (statusCode) {
+                                case "OK":
+                                    Log.i("tokenRefresh","토큰 재발급 성공");
+                                    saveToken(response.body().getData());
+                                    initDefaultData();
+                                    return;
+                                default:
+                                    // 기타 상황에 대한 처리
+                                    break;
+                            }
+                        }else{
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<TokenRefreshResponseDto> call, Throwable t) {
+                        System.out.println("서버 통신 실패");
+
+                    }
+                });
+    }
+    private void saveToken(TokenRefreshResponseDto.TokenRefreshDto tokenRefreshDto){
+        // accessToken, refreshToken, userId를 저장합니다.
+        preferenceUtil.setAccessToken(tokenRefreshDto.getAccessToken());
+        preferenceUtil.setRefreshToken(tokenRefreshDto.getRefreshToken());
+
+        // 저장된 토큰 확인
+        accessToken = preferenceUtil.getAccessToken(null);
+        refreshToken = preferenceUtil.getRefreshToken(null);
+
+        Log.i("Saved access token", accessToken != null ? accessToken : "null");
+        Log.i("Saved refresh token", refreshToken != null ? refreshToken : "null");
+    }
+    private void initDefaultData(){
+        preferenceUtil = MyApplication.getPreferences();
+        accessToken = preferenceUtil.getAccessToken("FAIL");
+        refreshToken = preferenceUtil.getRefreshToken("FAIL");
+        userId = preferenceUtil.getUserId(-1L);
     }
 
 }
