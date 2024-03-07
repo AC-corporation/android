@@ -36,11 +36,10 @@ public class MainPageActivity extends AppCompatActivity {
         binding = ActivityMainPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initBottomNavigation();
-        PreferenceUtil preferenceUtil = MyApplication.getPreferences();
-
-        Log.i(ACCESS_TOKEN, preferenceUtil.getAccessToken("Fail"));
-        Log.i(REFRESH_TOKEN, preferenceUtil.getRefreshToken("Fail"));
-        Log.i(USER_ID, "" + preferenceUtil.getUserId(-1L));
+        SharedPreferences preferences = getSharedPreferences(DB, MODE_PRIVATE);
+        Log.i(ACCESS_TOKEN, preferences.getString(ACCESS_TOKEN,""));
+        Log.i(REFRESH_TOKEN,preferences.getString(REFRESH_TOKEN,""));
+        Log.i(USER_ID, String.valueOf(preferences.getLong(USER_ID,0)));
     }
 
     private void initBottomNavigation() {
