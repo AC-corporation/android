@@ -74,10 +74,6 @@ public class TimeTableFragment extends Fragment{
             scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
         }
         binding = FragmentTimeTableBinding.inflate(inflater, container, false);
-        SharedPreferences preferences = this.getActivity().getSharedPreferences(DB, MODE_PRIVATE);
-        Log.i(ACCESS_TOKEN, preferences.getString(ACCESS_TOKEN,""));
-        Log.i(REFRESH_TOKEN,preferences.getString(REFRESH_TOKEN,""));
-        Log.i(USER_ID, String.valueOf(preferences.getLong(USER_ID,0)));
         binding.timetable.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
