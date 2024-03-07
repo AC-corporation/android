@@ -194,13 +194,14 @@ public class MyPageFragment extends Fragment {
         binding.tvGradeMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getContext(),MailWebViewActivity.class);
+                startActivity(intent);
+                getActivity().finish();
             }
         });
         binding.tvGradeContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
         binding.tvGradePersonal.setOnClickListener(new View.OnClickListener() {
