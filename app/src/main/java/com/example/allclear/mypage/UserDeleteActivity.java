@@ -71,10 +71,19 @@ public class UserDeleteActivity extends AppCompatActivity {
                             Log.i("if",response.body().getMessage());
                             Log.i("if",response.body().getCode().toString());
                             String statusCode = response.body().getCode();
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             switch (statusCode) {
+                                case "COMMON401":
+                                case "204":
+                                    Toast.makeText(getApplicationContext(),"서버 오류입니다 다시 로그인해주세요.",Toast.LENGTH_SHORT).show();
+                                    startActivity(intent);
+                                    finish();
+                                    return;
+                                case "4002":
+                                    Toast.makeText(getApplicationContext(),"비밀번호가 틀렸습니다.",Toast.LENGTH_SHORT).show();
+                                    return;
                                 case "OK":
                                     Toast.makeText(getApplicationContext(),"회원탈퇴에 성공했습니다.",Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                     startActivity(intent);
                                     finish();
                                     return;
