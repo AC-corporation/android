@@ -45,8 +45,6 @@ public class LoginActivity extends AppCompatActivity {
     private String refreshToken;
     private Long userId;
 
-//    private PreferenceUtil preferences = MyApplication.getPreferences();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
