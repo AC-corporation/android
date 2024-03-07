@@ -8,26 +8,17 @@ public class PreferenceUtil {
     private static final String PREFS = "prefs";
     private static final String Access_Token = "Access_Token";
     private static final String Refresh_Token = "Refresh_Token";
-    private static final Long User_Id = -1L;
-    private static final boolean AUTO_LOGIN = false;
-
-    public void setAutoLogin(Boolean bool) {
-        preferences.edit().putBoolean("AUTO_LOGIN", bool).commit();
-    }
-
-    public boolean getAutoLogin(Boolean defBool) {
-        return preferences.getBoolean("AUTO_LOGIN", defBool);
-    }
+    private static final String User_Id = "User_Id";
 
     public PreferenceUtil(Context context) {
         preferences = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE);
     }
     public void setUserId(Long value){
-        preferences.edit().putLong("User_Id", value).commit();
+        preferences.edit().putLong(User_Id, value).commit();
     }
 
     public Long getUserId(Long defValue){
-        return preferences.getLong("User_Id",defValue);
+        return preferences.getLong(User_Id,defValue);
     }
 
     public void setAccessToken(String value) {
