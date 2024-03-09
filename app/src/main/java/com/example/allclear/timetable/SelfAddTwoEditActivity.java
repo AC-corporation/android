@@ -1,6 +1,8 @@
 package com.example.allclear.timetable;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,11 +18,9 @@ import com.example.allclear.databinding.ActivitySelfAddTwoEditBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SelfAddTwoEditActivity extends AppCompatActivity {
-    Spinner spinner;
-    AdapterSpinner adapterSpinner;
-
     private ActivitySelfAddTwoEditBinding binding;
 
     private SpinnerCustomBinding spinnerCustomBinding;
@@ -34,6 +34,8 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
     int day;
     int size;
     ArrayList<Schedule> scheduleDataList;
+    private List<DataModel_timeplace> timeplaceList = new ArrayList<>();
+    addplacetimeadapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
         } else if (scheduleDataList==null) {
             size=0;
         }
+        displayDataInRecyclerView(timeplaceList);
 
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,8 +57,7 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        spinner = binding.daySpinner;
+        //spinner = binding.rvAddpalcetime.daySpinner;
         ArrayList<String> days = new ArrayList<>();
         days.add("월요일");
         days.add("화요일");
@@ -65,37 +67,42 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
         days.add("토요일");
         days.add("일요일");
         //ArrayList에 내가 스피너에 보여주고싶은 값 셋팅
-        adapterSpinner = new AdapterSpinner(this, days); //그 값을 넣어줌
-        spinner.setAdapter(adapterSpinner); //어댑터연결
+        //adapterSpinner = new AdapterSpinner(this, days); //그 값을 넣어줌
+        //spinner.setAdapter(adapterSpinner); //어댑터연결
         spinnerCustomBinding=SpinnerCustomBinding.inflate(getLayoutInflater());
 
         ImageButton downarrow=spinnerCustomBinding.ibDownArrow1;
         downarrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
+//                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                    @Override
+//                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                    }
+//
+//                    @Override
+//                    public void onNothingSelected(AdapterView<?> parent) {
+//                    }
+//                });
             }
         });
-
+        binding.tvAddPlaceTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addNewItem();
+            }
+        });
 
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 subtext=binding.etSubTextOne.getText().toString();
                 professor=binding.etProfessorName.getText().toString();
-                dayspinner=binding.daySpinner.getSelectedItem().toString();
+                //dayspinner=binding.daySpinner.getSelectedItem().toString();
                 day=getday(dayspinner);
-                start_time=binding.etStarttime.getText().toString();
-                end_time=binding.etEndtime.getText().toString();
-                place=binding.etPlace.getText().toString();
+                //start_time=binding.etStarttime.getText().toString();
+                //end_time=binding.etEndtime.getText().toString();
+                //place=binding.etPlace.getText().toString();
                 if (subtext.isEmpty())
                     Toast.makeText(SelfAddTwoEditActivity.this, "이름을 입력해주세요", Toast.LENGTH_SHORT).show();
                 else if(start_time.isEmpty())
@@ -170,5 +177,14 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
         setResult(RESULT_OK, intent);
         finish();
     }
-
+    private void displayDataInRecyclerView(List<DataModel_timeplace> timeplaceList) {
+        RecyclerView recyclerView = binding.rvAddpalcetime;
+        adapter = new addplacetimeadapter(timeplaceList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+    }
+    private void addNewItem() {
+        timeplaceList.add(new DataModel_timeplace("", "","",""));
+        adapter.notifyDataSetChanged();
+    }
 }
