@@ -75,11 +75,11 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.maketimetable.SelfAddOneActivity"
+            android:name=".timetable.maketimetable.selfadd.SelfAddOneActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.maketimetable.SelfAddTwoActivity"
+            android:name=".timetable.maketimetable.selfadd.SelfAddTwoActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

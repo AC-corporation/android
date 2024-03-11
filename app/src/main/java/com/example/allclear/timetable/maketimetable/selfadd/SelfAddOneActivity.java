@@ -1,4 +1,4 @@
-package com.example.allclear.timetable.maketimetable;
+package com.example.allclear.timetable.maketimetable.selfadd;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +19,8 @@ import com.example.allclear.data.request.TimeTableTwoRequestDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.databinding.ActivitySelfAddOneBinding;
 import com.example.allclear.schedule.Schedule;
+import com.example.allclear.timetable.maketimetable.EssentialSubjectActivity;
+import com.example.allclear.timetable.maketimetable.SelectMajorBaseActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -94,7 +96,7 @@ public class SelfAddOneActivity extends AppCompatActivity {
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
 
                         if (response.isSuccessful()) {
-                            Intent intent = new Intent(SelfAddOneActivity.this, SelectMajorBaseActivity.class);
+                            Intent intent = new Intent(SelfAddOneActivity.this, EssentialSubjectActivity.class);
                             startActivity(intent);
                         }else{
                             try {

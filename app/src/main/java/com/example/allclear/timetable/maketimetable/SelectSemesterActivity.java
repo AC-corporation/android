@@ -131,7 +131,7 @@ public class SelectSemesterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
                         if (response.isSuccessful() && response != null) {
-                            Intent intent = new Intent(SelectSemesterActivity.this, SelfAddOneActivity.class);
+                            Intent intent = new Intent(SelectSemesterActivity.this, SelectMajorBaseActivity.class);
                             startActivity(intent);
                         }
                     }
