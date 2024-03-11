@@ -24,9 +24,6 @@
             android:name=".schedule.TimeTableControlExample"
             android:exported="false" />
         <activity
-            android:name=".sql.SqlExample"
-            android:exported="false" />
-        <activity
             android:name=".timetable.SelfAddTwoEditActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -94,9 +91,6 @@
             android:name=".MainPageActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".auth.UsaintLoadingActivity"
-            android:exported="false" />
         <activity
             android:name=".auth.UsaintLoadingActivity"
             android:exported="false" />
