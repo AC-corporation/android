@@ -23,6 +23,14 @@ public class Schedule implements Serializable {
     private String textColor= "#ffffff";
     public Long timetableId;  // 속한 시간표의 ID
 
+    public Long getTimetableId() {
+        return timetableId;
+    }
+
+    public void setTimetableId(Long timetableId) {
+        this.timetableId = timetableId;
+    }
+
     public int getSubjectId() {return subjectId;}
 
     public void setSubjectId(int subjectId) {
