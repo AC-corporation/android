@@ -80,8 +80,7 @@ private ActivityEditTimeTableTwoBinding binding;
         //SelfAddTwoEditActivity에서 액티비티가 전환되었을 때
         if (requestCode == 10 && resultCode == RESULT_OK) {
             //사용자가 직접추가한 스케줄데이터를 ScheduleList에 추가
-            Schedule schedule= (Schedule) data.getSerializableExtra("schedule");
-            scheduleDataList.add(schedule);
+            scheduleDataList= (ArrayList<Schedule>) data.getSerializableExtra("addedschedulelist");
             scheduleEntityList=ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
             //토요일,일요일 유무에 따라 day 변경
             day=new String[]{"Mon", "Tue", "Wen", "Thu", "Fri"};

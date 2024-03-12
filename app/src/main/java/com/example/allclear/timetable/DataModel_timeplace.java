@@ -1,6 +1,8 @@
 package com.example.allclear.timetable;
 
-public class DataModel_timeplace {
+import java.io.Serializable;
+
+public class DataModel_timeplace implements Serializable {
     private String starttime;
     private String endtime;
     private String day;
@@ -13,7 +15,7 @@ public class DataModel_timeplace {
         this.place = place;
     }
 
-    public void setTime(String starttime) {
+    public void setStarttime(String starttime) {
         this.starttime=starttime;
     }
 
