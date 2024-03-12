@@ -164,7 +164,7 @@ public class SelectSemesterActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(@NonNull Call<TimeTableGenerateResponseDto> call, @NonNull Throwable t) {
-
+                        Toast.makeText(SelectSemesterActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

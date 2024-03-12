@@ -13,7 +13,6 @@ public class SelfAddSubjectOneActivity extends AppCompatActivity {
 
     private ActivitySelfAddSubjectOneBinding binding;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivitySelfAddSubjectOneBinding.inflate(getLayoutInflater());

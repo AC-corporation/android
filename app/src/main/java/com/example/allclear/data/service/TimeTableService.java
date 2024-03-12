@@ -9,6 +9,7 @@ import com.example.allclear.data.response.TimeTableEssentialResponseDto;
 import com.example.allclear.data.response.TimeTableGenerateResponseDto;
 import com.example.allclear.data.response.TimeTableGetResponseDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
+import com.example.allclear.data.response.TimeTableStepEightResponseDto;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -82,6 +83,12 @@ public interface TimeTableService {
             @Header("authorization") String authHeader,
             @Path("userId") long userId,
             @Body TimeTableGenerateRequestDto request
+    );
+
+    @GET("timetableGenerator/step8/{userId}")
+    Call<TimeTableStepEightResponseDto> getStepEight(
+            @Header("authorization") String authHeader,
+            @Path("userId") long userId
     );
 
 }
