@@ -1,4 +1,4 @@
-package com.example.allclear.timetable;
+package com.example.allclear.timetable.edit;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,11 +16,11 @@ import com.example.allclear.R;
 import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.TimeTableUpdateRequestDto;
+import com.example.allclear.databinding.ActivityEditTimeTableBinding;
 import com.example.allclear.databinding.ScheduleDeleteDialogBinding;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.MainPageActivity;
 import com.example.allclear.schedule.Schedule;
-import com.example.allclear.databinding.ActivityEditTimeTableBinding;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 import com.islandparadise14.mintable.tableinterface.OnScheduleClickListener;
 

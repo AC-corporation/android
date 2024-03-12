@@ -1,9 +1,6 @@
 package com.example.allclear.timetable;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,6 +14,7 @@ import android.view.ViewTreeObserver;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.schedule.Schedule;
 import com.example.allclear.databinding.FragmentTimeTableBinding;
+import com.example.allclear.timetable.edit.EditTimeTableActivity;
 import com.example.allclear.timetable.maketimetable.SelectSemesterActivity;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 

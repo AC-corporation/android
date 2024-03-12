@@ -31,7 +31,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.EditTimeTableTwoActivity"
+            android:name=".timetable.edit.EditTimeTableTwoActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -87,7 +87,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.EditTimeTableActivity"
+            android:name=".timetable.edit.EditTimeTableActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

@@ -14,6 +14,7 @@ import com.example.allclear.schedule.AdapterSpinner;
 import com.example.allclear.schedule.Schedule;
 import com.example.allclear.databinding.ActivitySelfAddTwoEditBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;
+import com.example.allclear.timetable.edit.EditTimeTableTwoActivity;
 
 import java.util.ArrayList;
 

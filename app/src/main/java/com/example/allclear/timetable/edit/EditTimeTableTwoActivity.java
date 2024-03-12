@@ -1,4 +1,4 @@
-package com.example.allclear.timetable;
+package com.example.allclear.timetable.edit;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.view.View;
 import com.example.allclear.databinding.ActivityEditTimeTableTwoBinding;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.schedule.Schedule;
+import com.example.allclear.timetable.SelfAddTwoEditActivity;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ private ActivityEditTimeTableTwoBinding binding;
         binding.tvSelfadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(EditTimeTableTwoActivity.this,SelfAddTwoEditActivity.class);
+                Intent intent = new Intent(EditTimeTableTwoActivity.this, SelfAddTwoEditActivity.class);
                 intent.putExtra("schedulelist",scheduleDataList);
                 startActivityForResult(intent,10);
             }
