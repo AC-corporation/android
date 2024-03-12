@@ -71,7 +71,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.maketimetable.EssentialSubjectActivity"
+            android:name=".timetable.maketimetable.essential.EssentialSubjectActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".timetable.maketimetable.EssentialSubjectActivity">
+    tools:context=".timetable.maketimetable.essential.EssentialSubjectActivity">
 
     <TextView
         android:id="@+id/tv_title"
@@ -84,7 +84,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_subject"
-                tools:listitem="@layout/item_time_table" />
+                tools:listitem="@layout/item_time_table_essential" />
 
             <Button
                 android:id="@+id/btn_generate"

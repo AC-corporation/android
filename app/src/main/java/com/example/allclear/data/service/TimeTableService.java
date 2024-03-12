@@ -4,6 +4,7 @@ import com.example.allclear.data.request.TimeTableOneRequestDto;
 import com.example.allclear.data.request.TimeTablePostRequestDto;
 import com.example.allclear.data.request.TimeTableEssentialRequestDto;
 import com.example.allclear.data.request.TimeTableTwoRequestDto;
+import com.example.allclear.data.response.TimeTableEssentialResponseDto;
 import com.example.allclear.data.response.TimeTableGetResponseDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
 
@@ -62,7 +63,7 @@ public interface TimeTableService {
     );
 
     @GET("timetableGenerator/step7/{userId}")
-    Call<TimeTableGetResponseDto> getStepSeven(
+    Call<TimeTableEssentialResponseDto> getStepSeven(
             @Header("authorization") String authHeader,
             @Path("userId") long userId
     );
