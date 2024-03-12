@@ -6,16 +6,18 @@ import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.allclear.MyApplication;
 import com.example.allclear.R;
 import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
+import com.example.allclear.data.request.TimeTableGenerateRequestDto;
 import com.example.allclear.data.request.TimeTableOneRequestDto;
+import com.example.allclear.data.response.TimeTableGenerateResponseDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.databinding.ActivitySelectSemesterBinding;
-import com.example.allclear.timetable.TimeTableFragment;
 
 import java.util.ArrayList;
 
@@ -32,6 +34,7 @@ public class SelectSemesterActivity extends AppCompatActivity {
     private ActivitySelectSemesterBinding binding;
 
     TimeTableOneRequestDto timeTableOneRequestDto;
+    TimeTableGenerateRequestDto timeTableGenerateRequestDto;
 
     NumberPicker npYearSemester;
     String selectedYear;
@@ -48,10 +51,17 @@ public class SelectSemesterActivity extends AppCompatActivity {
         binding = ActivitySelectSemesterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        getUserData();
         initBackClickListener();
         initNextBtnClickListener();
         setNumberPicker();
 
+    }
+
+    private void getUserData() {
+        preferenceUtil = MyApplication.getPreferences();
+        userId = preferenceUtil.getUserId(-1L);
+        accessToken = preferenceUtil.getAccessToken("FAIL");
     }
 
     private void initBackClickListener() {
@@ -67,17 +77,9 @@ public class SelectSemesterActivity extends AppCompatActivity {
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 체크 버튼 유무에 따라서 이동 달라집니다.
                 if (binding.cbEmptyTimeTable.isChecked()) {
-                    // 빈 시간표 만드는 로직 필요
-                    Intent intent = new Intent(SelectSemesterActivity.this, TimeTableFragment.class);
-                    startActivity(intent);
+                    postTimeTableGenerateToServer(accessToken, userId);
                 } else {
-
-                    preferenceUtil = MyApplication.getPreferences();
-                    userId = preferenceUtil.getUserId(-1L);
-                    accessToken = preferenceUtil.getAccessToken("FAIL");
-
                     postStepOneToServer(accessToken, userId);
                 }
             }
@@ -139,6 +141,30 @@ public class SelectSemesterActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<TimeTableResponseDto> call, Throwable t) {
                         Toast.makeText(SelectSemesterActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void postTimeTableGenerateToServer(String accessToken, Long userId) {
+
+        timeTableGenerateRequestDto = new TimeTableGenerateRequestDto();
+
+        timeTableGenerateRequestDto.setTableName("시간표 1");
+        timeTableGenerateRequestDto.setTableYear(Integer.parseInt(selectedYear));
+        timeTableGenerateRequestDto.setSemester(Integer.parseInt(selectedSemester));
+
+        ServicePool.timeTableService.postTimeTable("Bearer " + accessToken, userId, timeTableGenerateRequestDto)
+                .enqueue(new Callback<TimeTableGenerateResponseDto>() {
+                    @Override
+                    public void onResponse(@NonNull Call<TimeTableGenerateResponseDto> call, @NonNull Response<TimeTableGenerateResponseDto> response) {
+                        if (response.isSuccessful()) {
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<TimeTableGenerateResponseDto> call, @NonNull Throwable t) {
+
                     }
                 });
     }

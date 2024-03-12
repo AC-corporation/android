@@ -1,10 +1,12 @@
 package com.example.allclear.data.service;
 
+import com.example.allclear.data.request.TimeTableEssentialRequestDto;
+import com.example.allclear.data.request.TimeTableGenerateRequestDto;
 import com.example.allclear.data.request.TimeTableOneRequestDto;
 import com.example.allclear.data.request.TimeTablePostRequestDto;
-import com.example.allclear.data.request.TimeTableEssentialRequestDto;
 import com.example.allclear.data.request.TimeTableTwoRequestDto;
 import com.example.allclear.data.response.TimeTableEssentialResponseDto;
+import com.example.allclear.data.response.TimeTableGenerateResponseDto;
 import com.example.allclear.data.response.TimeTableGetResponseDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
 
@@ -73,6 +75,13 @@ public interface TimeTableService {
             @Header("authorization") String authHeader,
             @Path("userId") long userId,
             @Body TimeTableEssentialRequestDto request
+    );
+
+    @POST("timetable/{userId}")
+    Call<TimeTableGenerateResponseDto> postTimeTable(
+            @Header("authorization") String authHeader,
+            @Path("userId") long userId,
+            @Body TimeTableGenerateRequestDto request
     );
 
 }
