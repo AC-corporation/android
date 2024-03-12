@@ -22,7 +22,7 @@ import com.example.allclear.databinding.ActivitySelectGeneralElectiveBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;
 import com.example.allclear.schedule.AdapterSpinner;
 import com.example.allclear.timetable.maketimetable.MakeTimeTableAdapter;
-import com.example.allclear.timetable.maketimetable.selfadd.SelfAddOneActivity;
+import com.example.allclear.timetable.maketimetable.selfadd.personal.SelfAddPersonalOneActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +80,7 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<TimeTableResponseDto> call, @NonNull Response<TimeTableResponseDto> response) {
                         if (response.isSuccessful()) {
-                            Intent intent = new Intent(SelectGeneralElectiveActivity.this, SelfAddOneActivity.class);
+                            Intent intent = new Intent(SelectGeneralElectiveActivity.this, SelfAddPersonalOneActivity.class);
                             startActivity(intent);
                         }
                     }

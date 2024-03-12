@@ -109,7 +109,7 @@ public class EssentialSubjectActivity extends AppCompatActivity {
 
                             List<TimeTableEssentialResponseDto.timetableGeneratorSubjectResponseDtoList> subjectResponseDtoList = data.getSubjectResponseDtoList();
 
-                               Log.d("LYB", "자자 " + data.getSubjectResponseDtoList().toString());
+                             //  Log.d("LYB", "자자 " + data.getSubjectResponseDtoList().toString());
 
                                 initAdapter(subjectResponseDtoList);
                         }

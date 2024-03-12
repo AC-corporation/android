@@ -75,11 +75,11 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.maketimetable.selfadd.SelfAddOneActivity"
+            android:name=".timetable.maketimetable.selfadd.personal.SelfAddPersonalOneActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.maketimetable.selfadd.SelfAddTwoActivity"
+            android:name=".timetable.maketimetable.selfadd.personal.SelfAddPersonalTwoActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -96,6 +96,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".auth.UsaintLoadingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".timetable.maketimetable.selfadd.subject.SelfAddSubjectOneActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
