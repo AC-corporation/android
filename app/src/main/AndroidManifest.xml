@@ -21,6 +21,15 @@
             android:name=".schedule.TimeTableControlExample"
             android:exported="false" />
         <activity
+            android:name=".mypage.UserDeleteActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".mypage.MailWebViewActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".mypage.PasswordChangeActivity"
+            android:exported="false"/>
+        <activity
             android:name=".sql.SqlExample"
             android:exported="false" />
         <activity
