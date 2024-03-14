@@ -10,7 +10,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@null"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/iv_line3"
         app:layout_constraintTop_toTopOf="parent"/>
 
 

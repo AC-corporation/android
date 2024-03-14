@@ -1,5 +1,6 @@
 package com.example.allclear.timetable;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class addplacetimeadapter extends RecyclerView.Adapter<addplacetimeadapte
         data.setEndtime(holder.endtime.getText().toString());
         data.setPlace(holder.place.getText().toString());
         data.setDay(holder.spinner.getSelectedItem().toString());
+
         holder.starttime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -69,12 +71,16 @@ public class addplacetimeadapter extends RecyclerView.Adapter<addplacetimeadapte
                 }
             }
         });
-        holder.spinner.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    data.setDay(holder.spinner.getSelectedItem().toString());
-                }
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                data.setDay(holder.spinner.getSelectedItem().toString());
+                Log.d("day",holder.spinner.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
     }
