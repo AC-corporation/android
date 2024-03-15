@@ -46,7 +46,7 @@ public class PreferenceUtil {
         return preferences.getString(Refresh_Token,defValue);
     }
 
-    public void clearToken() {
+    public void clearLoginInfo() {
         preferences.edit().clear().apply();
     }
 }
