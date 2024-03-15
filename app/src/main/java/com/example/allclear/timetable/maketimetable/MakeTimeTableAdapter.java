@@ -15,13 +15,18 @@ import java.util.List;
 
 public class MakeTimeTableAdapter extends RecyclerView.Adapter<MakeTimeTableAdapter.SelectMajorBaseViewHolder> {
 
-    private List<TimeTableGetResponseDto.SubjectResponseDto> subjectResponseDtoList;
+    private final List<TimeTableGetResponseDto.SubjectResponseDto> subjectResponseDtoList;
 
-    private static List<Long> selectedSubjectIds = new ArrayList<>();
+    private static final List<Long> selectedSubjectIds = new ArrayList<>();
 
     public MakeTimeTableAdapter(List<TimeTableGetResponseDto.SubjectResponseDto> subjectResponseDtoList) {
-        this.subjectResponseDtoList = subjectResponseDtoList;
+        if (subjectResponseDtoList == null) {
+            this.subjectResponseDtoList = new ArrayList<>();
+        } else {
+            this.subjectResponseDtoList = subjectResponseDtoList;
+        }
     }
+
 
     @NonNull
     @Override
@@ -36,13 +41,10 @@ public class MakeTimeTableAdapter extends RecyclerView.Adapter<MakeTimeTableAdap
         TimeTableGetResponseDto.SubjectResponseDto subject = subjectResponseDtoList.get(position);
 
         holder.binding.tvTitle.setText(subject.getSubjectName());
+        holder.binding.tvYear.setText(String.valueOf(subject.getSubjectTime()));
 
-        if (!subject.classInfoResponseDtoList.isEmpty()) {
-            TimeTableGetResponseDto.SubjectResponseDto.ClassInfoResponseDto classInfo = subject.classInfoResponseDtoList.get(0);
-
-            holder.binding.tvProfessor.setText(classInfo.getProfessor());
-            holder.binding.tvYear.setText(String.valueOf(subject.getSubjectTime()));
-        }
+        TimeTableGetResponseDto.SubjectResponseDto.ClassInfoResponseDto classInfo = subject.classInfoResponseDtoList.get(0);
+        holder.binding.tvProfessor.setText(classInfo.getProfessor());
 
         // 체크박스 선택된 것들만 따로 리스트 만들기
         TimeTableGetResponseDto.SubjectResponseDto item = subjectResponseDtoList.get(position);

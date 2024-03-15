@@ -9,9 +9,9 @@ import androidx.room.PrimaryKey;
         childColumns = "semesterId"))
 public class Timetable {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public Long id;
 
     public String name;  // 시간표 이름 (예: "시간표1")
 
-    public int semesterId;  // 속한 학기의 ID
+    public Long semesterId;  // 속한 학기의 ID
 }

@@ -31,7 +31,7 @@ public class TimeTableControlExample extends AppCompatActivity {
     void manageTimetable(){
         //시간표 관리 예제
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "database-name").build();
+                AppDatabase.class, "DB").build();
 
         SemesterDao semesterDao = db.semesterDao();
         TimetableDao timetableDao = db.timetableDao();

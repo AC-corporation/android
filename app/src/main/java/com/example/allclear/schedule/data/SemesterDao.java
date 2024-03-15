@@ -3,10 +3,13 @@ package com.example.allclear.schedule.data;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Delete;
+import androidx.room.Update;
 
 import com.example.allclear.schedule.Semester;
 
 import java.util.List;
+import java.util.Locale;
 
 @Dao
 public interface SemesterDao {
@@ -14,8 +17,14 @@ public interface SemesterDao {
     List<Semester> getAll();
 
     @Insert
-    void insert(Semester semester);
+    Long insert(Semester semester);
 
-    // 필요한 메서드 추가...
+    @Query("SELECT * FROM Semester")
+    List<Semester> getAllSemesters();
+
+    @Delete
+    void delete(Semester semester);
+
+    @Update
+    void update(Semester semester);
 }
-

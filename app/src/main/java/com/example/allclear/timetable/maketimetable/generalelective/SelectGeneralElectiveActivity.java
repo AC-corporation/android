@@ -1,14 +1,19 @@
 package com.example.allclear.timetable.maketimetable.generalelective;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.allclear.MyApplication;
 import com.example.allclear.R;
+import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.TimeTablePostRequestDto;
 import com.example.allclear.data.response.TimeTableGetResponseDto;
@@ -18,7 +23,6 @@ import com.example.allclear.databinding.SpinnerCustomBinding;
 import com.example.allclear.schedule.AdapterSpinner;
 import com.example.allclear.timetable.maketimetable.EssentialSubjectActivity;
 import com.example.allclear.timetable.maketimetable.MakeTimeTableAdapter;
-import com.example.allclear.timetable.maketimetable.SelectMajorBaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +38,10 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
     private AdapterSpinner adapterSpinner;
     private SpinnerCustomBinding spinnerCustomBinding;
 
-    long userId = 1;
+    private PreferenceUtil preferenceUtil;
+    private Long userId;
+    private String accessToken;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +49,18 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
 
+        getUserData();
         initNextClickListener();
         initBackClickListener();
         getGeneralElectiveList();
         setGeneralSpinner();
 
+    }
+
+    private void getUserData() {
+        preferenceUtil = MyApplication.getPreferences();
+        userId = preferenceUtil.getUserId(-1L);
+        accessToken = preferenceUtil.getAccessToken("FAIL");
     }
 
     private void initNextClickListener() {
@@ -61,12 +75,14 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
     private void postStepSixToServer(long userId) {
         TimeTablePostRequestDto timeTablePostRequestDto = userSelectedId();
 
-        ServicePool.timeTableService.postStepSix(userId, timeTablePostRequestDto)
+        ServicePool.timeTableService.postStepThreeToSeven("Bearer " + accessToken, userId, timeTablePostRequestDto)
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
-                    public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
-                        Intent intent = new Intent(SelectGeneralElectiveActivity.this, EssentialSubjectActivity.class);
-                        startActivity(intent);
+                    public void onResponse(@NonNull Call<TimeTableResponseDto> call, @NonNull Response<TimeTableResponseDto> response) {
+                        if (response.isSuccessful()) {
+                            Intent intent = new Intent(SelectGeneralElectiveActivity.this, EssentialSubjectActivity.class);
+                            startActivity(intent);
+                        }
                     }
 
                     @Override
@@ -93,10 +109,10 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
     }
 
     private void getGeneralElectiveList() {
-        ServicePool.timeTableService.getStepSix(userId)
+        ServicePool.timeTableService.getStepSix("Bearer " + accessToken, userId)
                 .enqueue(new Callback<TimeTableGetResponseDto>() {
                     @Override
-                    public void onResponse(Call<TimeTableGetResponseDto> call, Response<TimeTableGetResponseDto> response) {
+                    public void onResponse(@NonNull Call<TimeTableGetResponseDto> call, @NonNull Response<TimeTableGetResponseDto> response) {
 
                         if (response.isSuccessful() && response.body() != null) {
                             TimeTableGetResponseDto responseBody = response.body();
@@ -126,7 +142,7 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
 
     private void initArgumentAdapter(List<TimeTableGetResponseDto.RequirementComponentResponseDto> requirementComponents) {
         SelectGeneralElectiveAdapter adapter = new SelectGeneralElectiveAdapter(requirementComponents);
-        binding.rvSelectGeneralElective.setAdapter(adapter);
+        binding.rvArgument.setAdapter(adapter);
     }
 
     private void setGeneralSpinner() {
@@ -137,6 +153,33 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
 
         ArrayList<String> general = new ArrayList<>();
 
+        general.add(getString(R.string.time_table_general_1));
+        general.add(getString(R.string.time_table_general_2));
+
+        adapterSpinner = new AdapterSpinner(this, general);
+        spinner.setAdapter(adapterSpinner);
+        spinnerCustomBinding = SpinnerCustomBinding.inflate(getLayoutInflater());
+
+        downArrowClickListener();
     }
+
+    private void downArrowClickListener() {
+        ImageButton downArrow = spinnerCustomBinding.ibDownArrow1;
+        downArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+            }
+        });
+    }
+
 
 }
