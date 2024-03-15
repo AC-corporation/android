@@ -27,7 +27,7 @@
             android:name=".sql.SqlExample"
             android:exported="false" />
         <activity
-            android:name=".timetable.SelfAddTwoEditActivity"
+            android:name=".timetable.edit.SelfAddTwoEditActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
