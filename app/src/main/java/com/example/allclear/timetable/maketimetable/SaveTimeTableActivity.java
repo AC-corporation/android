@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.allclear.MyApplication;
 import com.example.allclear.R;
 import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
+import com.example.allclear.data.request.TimeTableSaveRequestDto;
+import com.example.allclear.data.response.TimeTableSaveResponseDto;
 import com.example.allclear.data.response.TimeTableStepEightResponseDto;
 import com.example.allclear.databinding.ActivitySaveTimeTableBinding;
 import com.example.allclear.schedule.ChangeSchedule;
@@ -54,6 +57,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         getUserData();
         initBackBtnClickListener();
         getTimeTableGenerator();
+        initSaveBtnClickListener();
         showTimeTable();
     }
 
@@ -81,16 +85,48 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         });
     }
 
+
     private void getTimeTableGenerator() {
-        ServicePool.timeTableService.getStepEight("Bearer " + accessToken, userId)
-                .enqueue(new Callback<TimeTableStepEightResponseDto>() {
+        ServicePool.timeTableService.getStepEight("Bearer " + accessToken, userId).enqueue(new Callback<TimeTableStepEightResponseDto>() {
+            @Override
+            public void onResponse(Call<TimeTableStepEightResponseDto> call, Response<TimeTableStepEightResponseDto> response) {
+                // 가져온 시간표 화면으로 띄우는 로직 필요
+                Toast.makeText(SaveTimeTableActivity.this, "일단 성공~~", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<TimeTableStepEightResponseDto> call, Throwable t) {
+                Toast.makeText(SaveTimeTableActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void initSaveBtnClickListener() {
+        binding.btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postSaveTimeTable(accessToken, userId);
+            }
+        });
+    }
+
+    private void postSaveTimeTable(String accessToken, Long userId) {
+
+        // 이거 set하는 로직 필요
+        TimeTableSaveRequestDto timeTableSaveRequestDto = new TimeTableSaveRequestDto();
+
+        ServicePool.timeTableService.postSaveTimTable("Bearer " + accessToken, userId, timeTableSaveRequestDto)
+                .enqueue(new Callback<TimeTableSaveResponseDto>() {
                     @Override
-                    public void onResponse(Call<TimeTableStepEightResponseDto> call, Response<TimeTableStepEightResponseDto> response) {
-                        Toast.makeText(SaveTimeTableActivity.this, "일단 성공~~", Toast.LENGTH_SHORT).show();
+                    public void onResponse(@NonNull Call<TimeTableSaveResponseDto> call, @NonNull Response<TimeTableSaveResponseDto> response) {
+                        if (response.isSuccessful()) {
+                            Intent intent = new Intent(SaveTimeTableActivity.this, TimeTableFragment.class);
+                            startActivity(intent);
+                        }
                     }
 
                     @Override
-                    public void onFailure(Call<TimeTableStepEightResponseDto> call, Throwable t) {
+                    public void onFailure(@NonNull Call<TimeTableSaveResponseDto> call, Throwable t) {
                         Toast.makeText(SaveTimeTableActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
                     }
                 });
