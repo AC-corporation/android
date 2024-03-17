@@ -20,6 +20,7 @@ public class SelfAddSubjectOneActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         initNextBtnClickListener();
+        initBackBtnClickListener();
     }
 
     private void initNextBtnClickListener() {
@@ -28,6 +29,15 @@ public class SelfAddSubjectOneActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(SelfAddSubjectOneActivity.this, EssentialSubjectActivity.class);
                 startActivity(intent);
+            }
+        });
+    }
+
+    private void initBackBtnClickListener() {
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
     }
