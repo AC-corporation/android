@@ -36,7 +36,6 @@ public class SaveTimeTableActivity extends AppCompatActivity {
 
     private String[] stringDay;
     private ArrayList<Schedule> scheduleDataList = new ArrayList<Schedule>();
-
     private ArrayList<ScheduleEntity> scheduleEntityList = new ArrayList<>();
 
     String subtext;
@@ -49,7 +48,6 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     int size;
 
     Schedule schedule = new Schedule();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +68,6 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         binding.table.updateSchedules(scheduleEntityList);
     }
 
-
     private void getUserData() {
         preferenceUtil = MyApplication.getPreferences();
         userId = preferenceUtil.getUserId(-1L);
@@ -85,7 +82,6 @@ public class SaveTimeTableActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void getTimeTableGenerator() {
         ServicePool.timeTableService.getStepEight("Bearer " + accessToken, userId).enqueue(new Callback<TimeTableStepEightResponseDto>() {
@@ -156,7 +152,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     }
 
     private void showTimeTable() {
-        //사용자가 직접추가한 스케줄데이터를 ScheduleList에 추가
+        //서버 통신한 데이터를 ScheduleList에 추가
         scheduleDataList.add(schedule);
         scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
         //토요일,일요일 유무에 따라 day 변경
