@@ -34,18 +34,21 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     private Long userId;
     private String accessToken;
 
-    private String[] Stringday;
+    private String[] stringDay;
     private ArrayList<Schedule> scheduleDataList = new ArrayList<Schedule>();
 
     private ArrayList<ScheduleEntity> scheduleEntityList = new ArrayList<>();
 
     String subtext;
     String professor;
-    String start_time;
-    String end_time;
+    String startTime;
+    String endTime;
     String place;
+
     int day;
     int size;
+
+    Schedule schedule = new Schedule();
 
 
     @Override
@@ -58,14 +61,12 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         initBackBtnClickListener();
         getTimeTableGenerator();
         initSaveBtnClickListener();
-        showTimeTable();
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        // 포커스 걸기
         super.onWindowFocusChanged(hasFocus);
-        binding.table.initTable(Stringday);
+        binding.table.initTable(stringDay);
         binding.table.updateSchedules(scheduleEntityList);
     }
 
@@ -89,16 +90,88 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     private void getTimeTableGenerator() {
         ServicePool.timeTableService.getStepEight("Bearer " + accessToken, userId).enqueue(new Callback<TimeTableStepEightResponseDto>() {
             @Override
-            public void onResponse(Call<TimeTableStepEightResponseDto> call, Response<TimeTableStepEightResponseDto> response) {
-                // 가져온 시간표 화면으로 띄우는 로직 필요
-                Toast.makeText(SaveTimeTableActivity.this, "일단 성공~~", Toast.LENGTH_SHORT).show();
+            public void onResponse(@NonNull Call<TimeTableStepEightResponseDto> call, @NonNull Response<TimeTableStepEightResponseDto> response) {
+                if (response.isSuccessful()) {
+                    setTimeTable();
+                }
             }
 
             @Override
-            public void onFailure(Call<TimeTableStepEightResponseDto> call, Throwable t) {
+            public void onFailure(@NonNull Call<TimeTableStepEightResponseDto> call, @NonNull Throwable t) {
                 Toast.makeText(SaveTimeTableActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setTimeTable() {
+        // 서버통신에서 가져온 값으로 넣기
+        // subtext = binding.etSubTextOne.getText().toString();
+        // professor = binding.etProfessorName.getText().toString();
+        // datSpinner = binding.daySpinner.getSelectedItem().toString();
+        // day = getday(datSpinner);
+        // startTime = binding.etStarttime.getText().toString();
+        // endTime = binding.etEndtime.getText().toString();
+        // place = binding.etPlace.getText().toString();
+
+        checkConflict();
+    }
+
+    public void checkConflict() {
+        if (size == 0) {
+            addSchedule();
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (day == scheduleDataList.get(i).getClassDay()) {
+                    int addStart = timeToMinutes(startTime);
+                    int addEnd = timeToMinutes(endTime);
+                    int listStart = timeToMinutes(scheduleDataList.get(i).getStartTime());
+                    int listEnd = timeToMinutes(scheduleDataList.get(i).getEndTime());
+                    if ((addStart < listEnd) && (addEnd > listStart)) {
+                        Toast.makeText(SaveTimeTableActivity.this, "시간이 겹치는 일정이 존재합니다", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+            }
+            addSchedule();
+        }
+    }
+
+    private static int timeToMinutes(String time) {
+        String[] parts = time.split(":");
+        int hours = Integer.parseInt(parts[0]);
+        int minutes = Integer.parseInt(parts[1]);
+        return hours * 60 + minutes;
+    }
+
+    void addSchedule() {
+        schedule.setSubjectId(32);
+        schedule.setSubjectName(subtext);
+        schedule.setProfessor(professor);
+        schedule.setClassDay(day);
+        schedule.setStartTime(startTime);
+        schedule.setEndTime(endTime);
+        schedule.setClassRoom(place);
+
+        showTimeTable();
+    }
+
+    private void showTimeTable() {
+        //사용자가 직접추가한 스케줄데이터를 ScheduleList에 추가
+        scheduleDataList.add(schedule);
+        scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
+        //토요일,일요일 유무에 따라 day 변경
+        stringDay = new String[]{getString(R.string.Mon), getString(R.string.Tue), getString(R.string.Wen), getString(R.string.Thu), getString(R.string.Fri)};
+        int size = scheduleDataList.size();
+        if (size != 0) {
+            for (int i = 0; i < size; i++) {
+                if (5 == scheduleDataList.get(i).getClassDay()) {
+                    stringDay = new String[]{getString(R.string.Mon), getString(R.string.Tue), getString(R.string.Wen), getString(R.string.Thu), getString(R.string.Fri), getString(R.string.Sat)};
+                }
+                if (6 == scheduleDataList.get(i).getClassDay()) {
+                    stringDay = new String[]{getString(R.string.Mon), getString(R.string.Tue), getString(R.string.Wen), getString(R.string.Thu), getString(R.string.Fri), getString(R.string.Sat), getString(R.string.Sun)};
+                }
+            }
+        }
     }
 
     private void initSaveBtnClickListener() {
@@ -120,8 +193,11 @@ public class SaveTimeTableActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<TimeTableSaveResponseDto> call, @NonNull Response<TimeTableSaveResponseDto> response) {
                         if (response.isSuccessful()) {
+                            //갱신된 ScheduleList를 TimeTableFragment로 전달
                             Intent intent = new Intent(SaveTimeTableActivity.this, TimeTableFragment.class);
-                            startActivity(intent);
+                            intent.putExtra("scheduleList", scheduleDataList);
+                            setResult(RESULT_OK, intent);
+                            finish();
                         }
                     }
 
@@ -132,49 +208,4 @@ public class SaveTimeTableActivity extends AppCompatActivity {
                 });
     }
 
-    private void showTimeTable() {
-        //스케줄데이터를 전달받아 타임테이블에 보여지는 요소로 전환
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("schedulelist")) {
-            scheduleDataList = (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");
-            scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
-            //토요일,일요일 유무에 따라 day 변경
-            Stringday = new String[]{"Mon", "Tue", "Wen", "Thu", "Fri"};
-            int size = scheduleDataList.size();
-            if (size != 0) {
-                for (int i = 0; i < size; i++) {
-                    if (5 == scheduleDataList.get(i).getClassDay()) {
-                        Stringday = new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat"};
-                    }
-                    if (6 == scheduleDataList.get(i).getClassDay()) {
-                        Stringday = new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"};
-                    }
-                }
-            }
-        }
-
-    }
-
-    //시간문자열을 숫자로 변환해주는 함수
-    private static int timeToMinutes(String time) {
-        String[] parts = time.split(":");
-        int hours = Integer.parseInt(parts[0]);
-        int minutes = Integer.parseInt(parts[1]);
-        return hours * 60 + minutes;
-    }
-
-    void addSchedule() {
-        Schedule schedule = new Schedule();
-        schedule.setSubjectId(32);
-        schedule.setSubjectName(subtext);
-        schedule.setProfessor(professor);
-        schedule.setClassDay(day);
-        schedule.setStartTime(start_time);
-        schedule.setEndTime(end_time);
-        schedule.setClassRoom(place);
-        Intent intent = new Intent(SaveTimeTableActivity.this, TimeTableFragment.class);
-        intent.putExtra("schedule", schedule);
-        setResult(RESULT_OK, intent);
-        finish();
-    }
 }
