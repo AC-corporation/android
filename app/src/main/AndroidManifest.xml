@@ -33,11 +33,11 @@
             android:name=".sql.SqlExample"
             android:exported="false" />
         <activity
-            android:name=".timetable.SelfAddTwoEditActivity"
+            android:name=".timetable.edit.SelfAddTwoEditActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.EditTimeTableTwoActivity"
+            android:name=".timetable.edit.EditTimeTableTwoActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -77,15 +77,15 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.maketimetable.EssentialSubjectActivity"
+            android:name=".timetable.maketimetable.essential.EssentialSubjectActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.maketimetable.SelfAddOneActivity"
+            android:name=".timetable.maketimetable.selfadd.personal.SelfAddPersonalOneActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.maketimetable.SelfAddTwoActivity"
+            android:name=".timetable.maketimetable.selfadd.personal.SelfAddPersonalTwoActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -93,7 +93,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".timetable.EditTimeTableActivity"
+            android:name=".timetable.edit.EditTimeTableActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -103,6 +103,10 @@
         <activity
             android:name=".auth.UsaintLoadingActivity"
             android:exported="false" />
+        <activity
+            android:name=".timetable.maketimetable.selfadd.subject.SelfAddSubjectOneActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".auth.LoginActivity"
             android:exported="true"

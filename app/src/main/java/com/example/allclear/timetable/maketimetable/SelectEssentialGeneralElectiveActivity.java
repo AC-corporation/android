@@ -50,7 +50,6 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
         initNextClickListener();
         initBackClickListener();
         getEssentialGeneralList();
-        setYearSpinner();
 
     }
 
@@ -140,43 +139,6 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
             binding.tvComponentResultOne.setText(textOne);
             binding.tvComponentOne.setText(componentOne.getRequirementArgument());
         }
-    }
-
-
-    private void setYearSpinner() {
-        // 선택한 spinner 학년으로 리사이클러뷰 필터링 하는 로직 필요
-        spinner = binding.yearSpinner;
-
-        ArrayList<String> years = new ArrayList<>();
-
-        years.add(getString(R.string.first_year));
-        years.add(getString(R.string.second_year));
-        years.add(getString(R.string.third_year));
-        years.add(getString(R.string.fourth_year));
-
-        adapterSpinner = new AdapterSpinner(this, years);
-        spinner.setAdapter(adapterSpinner);
-        spinnerCustomBinding = SpinnerCustomBinding.inflate(getLayoutInflater());
-
-        downArrowClickListener();
-    }
-
-    private void downArrowClickListener() {
-        ImageButton downArrow = spinnerCustomBinding.ibDownArrow1;
-        downArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
-            }
-        });
     }
 
 }
