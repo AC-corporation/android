@@ -30,8 +30,8 @@
             android:name=".mypage.PasswordChangeActivity"
             android:exported="false"/>
         <activity
-            android:name=".sql.SqlExample"
-            android:exported="false" />
+        android:name=".auth.UsaintUpdateActivity"
+        android:exported="false" />
         <activity
             android:name=".timetable.SelfAddTwoEditActivity"
             android:exported="false"
