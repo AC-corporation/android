@@ -16,6 +16,14 @@
     <string name="friday">금</string>
     <string name="saturday">토</string>
 
+    <string name="Mon">Mon</string>
+    <string name="Tue">Tue</string>
+    <string name="Wen">Wen</string>
+    <string name="Thu">Thu</string>
+    <string name="Fri">Fri</string>
+    <string name="Sat">Sat</string>
+    <string name="Sun">Sun</string>
+
     <string name="first_year">1학년</string>
     <string name="second_year">2학년</string>
     <string name="third_year">3학년</string>

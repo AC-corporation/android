@@ -1,4 +1,4 @@
-package com.example.allclear.timetable.maketimetable;
+package com.example.allclear.timetable.maketimetable.selfadd.personal;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,8 +17,10 @@ import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.TimeTableTwoRequestDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
-import com.example.allclear.databinding.ActivitySelfAddOneBinding;
+import com.example.allclear.databinding.ActivitySelfAddPersonalOneBinding;
 import com.example.allclear.schedule.Schedule;
+import com.example.allclear.timetable.maketimetable.essential.EssentialSubjectActivity;
+import com.example.allclear.timetable.maketimetable.selfadd.subject.SelfAddSubjectOneActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,9 +31,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SelfAddOneActivity extends AppCompatActivity {
+public class SelfAddPersonalOneActivity extends AppCompatActivity {
 
-    private ActivitySelfAddOneBinding binding;
+    private ActivitySelfAddPersonalOneBinding binding;
     private ArrayList<Schedule> scheduleDataList = new ArrayList();
 
     private PreferenceUtil preferenceUtil;
@@ -40,7 +42,7 @@ public class SelfAddOneActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        binding = ActivitySelfAddOneBinding.inflate(getLayoutInflater());
+        binding = ActivitySelfAddPersonalOneBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
 
@@ -54,7 +56,7 @@ public class SelfAddOneActivity extends AppCompatActivity {
         binding.btnPlusSelfAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SelfAddOneActivity.this, SelfAddTwoActivity.class);
+                Intent intent = new Intent(SelfAddPersonalOneActivity.this, SelfAddPersonalTwoActivity.class);
                 intent.putExtra("schedulelist", scheduleDataList);
                 startActivityForResult(intent, 100);
             }
@@ -94,12 +96,12 @@ public class SelfAddOneActivity extends AppCompatActivity {
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
 
                         if (response.isSuccessful()) {
-                            Intent intent = new Intent(SelfAddOneActivity.this, SelectMajorBaseActivity.class);
+                            Intent intent = new Intent(SelfAddPersonalOneActivity.this, SelfAddSubjectOneActivity.class);
                             startActivity(intent);
-                        }else{
+                        } else {
                             try {
                                 String errorBody = response.errorBody().string();
-                                Toast.makeText(SelfAddOneActivity.this, errorBody, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SelfAddPersonalOneActivity.this, errorBody, Toast.LENGTH_SHORT).show();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -108,7 +110,7 @@ public class SelfAddOneActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<TimeTableResponseDto> call, Throwable t) {
-                        Toast.makeText(SelfAddOneActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SelfAddPersonalOneActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
