@@ -80,88 +80,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_professor_name" />
 
-    <Spinner
-        android:id="@+id/day_spinner"
-        android:layout_width="wrap_content"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_addpalcetime"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@null"
+        android:scrollbars="vertical"
         app:layout_constraintStart_toStartOf="@+id/btn_add"
         app:layout_constraintTop_toBottomOf="@id/iv_line2"/>
-
-    <EditText
-        android:id="@+id/et_starttime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20sp"
-        android:hint="9:00"
-        android:textColor="@color/gray"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:background="@color/transparent"
-        app:layout_constraintBottom_toBottomOf="@id/day_spinner"
-        app:layout_constraintStart_toEndOf="@id/day_spinner"
-        app:layout_constraintTop_toTopOf="@id/day_spinner"/>
-
-    <TextView
-        android:id="@+id/tv_tilde"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="~"
-        android:textColor="@color/gray"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:background="@color/transparent"
-        app:layout_constraintBottom_toBottomOf="@id/day_spinner"
-        app:layout_constraintStart_toEndOf="@id/et_starttime"
-        app:layout_constraintTop_toTopOf="@id/day_spinner"/>
-
-    <EditText
-        android:id="@+id/et_endtime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="10:30"
-        android:textColor="@color/gray"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:background="@color/transparent"
-        app:layout_constraintBottom_toBottomOf="@id/day_spinner"
-        app:layout_constraintStart_toEndOf="@id/tv_tilde"
-        app:layout_constraintTop_toTopOf="@id/day_spinner"/>
-
-
-    <ImageView
-        android:id="@+id/iv_line3"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_line"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_endtime" />
-
-    <EditText
-        android:id="@+id/et_place"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@color/transparent"
-        android:hint="장소"
-        android:textColorHint="@color/secondary"
-        android:inputType="text"
-        android:textColor="@color/secondary"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/btn_add"
-        app:layout_constraintTop_toBottomOf="@id/iv_line3" />
-
-    <ImageView
-        android:id="@+id/iv_line4"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_line"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_place" />
 
     <TextView
         android:id="@+id/tv_add_place_time"
@@ -174,7 +100,7 @@
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/btn_add"
-        app:layout_constraintTop_toBottomOf="@id/iv_line4" />
+        app:layout_constraintTop_toBottomOf="@id/rv_addpalcetime" />
 
     <Button
         android:id="@+id/btn_add"
