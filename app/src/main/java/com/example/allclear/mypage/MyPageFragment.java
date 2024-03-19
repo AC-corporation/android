@@ -20,6 +20,7 @@ import com.example.allclear.auth.UsaintLoginActivity;
 import com.example.allclear.auth.UsaintUpdateActivity;
 import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
+import com.example.allclear.data.request.ChangePasswordRequestDto;
 import com.example.allclear.data.request.LoginRequestDto;
 import com.example.allclear.data.request.TokenRefreshRequestDto;
 import com.example.allclear.data.response.LoginResponseDto;
@@ -196,7 +197,80 @@ public class MyPageFragment extends Fragment {
         Log.i("Saved refresh token", refreshToken != null ? refreshToken : "null");
     }
     private void clickListener(){
+        binding.cvMyPage1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //다이얼로그
+                Intent intent = new Intent(getContext(),PasswordChangeActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+        binding.tvGradeMail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),MailWebViewActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+        binding.tvGradeContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        binding.tvGradePersonal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+        binding.tvGradeLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userLogout();
+            }
+        });
+        binding.tvUserDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),UserDeleteActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+    }
+    private void userLogout(){
+        ServicePool.userDataService.logout("Bearer "+accessToken,userId)
+                .enqueue(new Callback<UserDataResponseDto>() {
+                    @Override
+                    public void onResponse(Call<UserDataResponseDto> call, Response<UserDataResponseDto> response) {
+                        if(response.isSuccessful()){
+                            System.out.println("서버 통신 성공");
+                            Log.i("if",response.toString());
+                            Log.i("if",response.body().getMessage());
+                            Log.i("if",response.body().getCode().toString());
+                            String statusCode = response.body().getCode();
+                            switch (statusCode) {
+                                case "OK":
+                                    Toast.makeText(getContext(),"로그아웃에 성공했습니다.",Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getContext(),LoginActivity.class);
+                                    startActivity(intent);
+                                    getActivity().finish();
+                                    return;
+                                default:
+                                    // 기타 상황에 대한 처리
+                                    break;
+                            }
+                        }else{
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserDataResponseDto> call, Throwable t) {
+
+                    }
+                });
     }
     @Override
     public void onDestroyView() {

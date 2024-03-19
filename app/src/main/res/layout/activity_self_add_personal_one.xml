@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".timetable.maketimetable.SelfAddOneActivity">
+    tools:context=".timetable.maketimetable.selfadd.personal.SelfAddPersonalOneActivity">
 
     <TextView
         android:id="@+id/tv_title"
@@ -13,13 +13,23 @@
         android:layout_marginTop="35dp"
         android:fontFamily="@font/poppins_bold"
         android:gravity="center"
-        android:text="직접 추가"
+        android:text="개인 일정 추가"
         android:textColor="@color/black"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="추가된 일정에 맞춰 과목들이 자동으로 추천됩니다"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
     <ImageButton
         android:id="@+id/btn_back"
@@ -36,13 +46,13 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title">
+        app:layout_constraintTop_toBottomOf="@id/tv_sub_title">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

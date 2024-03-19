@@ -18,7 +18,7 @@
             android:text="성적"
             android:textColor="@color/black"
             android:fontFamily="@font/poppins_bold"
-            android:textSize="25sp"
+            android:textSize="36sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -50,6 +50,7 @@
                         android:id="@+id/tv_grade_total_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
                         android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:text="전체 평점" />
@@ -58,6 +59,7 @@
                         android:id="@+id/tv_grade_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="40dp"
                         android:layout_marginLeft="10dp"
@@ -68,6 +70,7 @@
                         android:id="@+id/tv_grade_get_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
                         android:layout_marginTop="10dp"
                         android:text="취득 학점" />
 
@@ -75,6 +78,7 @@
                         android:id="@+id/tv_grade_get"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
                         android:text="133" />
@@ -125,9 +129,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
+                    android:fontFamily="@font/poppins_bold"
                     android:text="2023학년 1학기"
                     android:textColor="@color/black"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

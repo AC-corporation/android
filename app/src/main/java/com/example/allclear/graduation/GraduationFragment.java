@@ -66,7 +66,11 @@ public class GraduationFragment extends Fragment {
         Log.i(REFRESH_TOKEN, preferences.getString(REFRESH_TOKEN, ""));
         Log.i(USER_ID, String.valueOf(preferences.getLong(USER_ID, 0)));
 
-        checkServer(preferences.getString(ACCESS_TOKEN, ""), preferences.getLong(USER_ID, 0));
+        preferenceUtil = MyApplication.getPreferences();
+        userId = preferenceUtil.getUserId(-1L);
+        accessToken = preferenceUtil.getAccessToken("FAIL");
+
+        checkServer(accessToken, userId);
 
         return binding.getRoot();
     }

@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.allclear.R;
-import com.example.allclear.databinding.ActivitySelfAddTwoBinding;
+import com.example.allclear.databinding.ActivitySelfAddPersonalTwoBinding;
 import com.example.allclear.databinding.ActivitySelfAddTwoEditBinding;
 import com.example.allclear.databinding.ItemviewAddtimeandplaceBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;

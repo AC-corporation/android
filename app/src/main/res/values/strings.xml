@@ -16,17 +16,31 @@
     <string name="friday">금</string>
     <string name="saturday">토</string>
 
+    <string name="Mon">Mon</string>
+    <string name="Tue">Tue</string>
+    <string name="Wen">Wen</string>
+    <string name="Thu">Thu</string>
+    <string name="Fri">Fri</string>
+    <string name="Sat">Sat</string>
+    <string name="Sun">Sun</string>
+
     <string name="first_year">1학년</string>
     <string name="second_year">2학년</string>
     <string name="third_year">3학년</string>
     <string name="fourth_year">4학년</string>
 
-    <string name="criteria">%d/%d</string>
+    <string name="criteria">%.0f/%.0f</string>
 
     <string name="graduation_result">%.0f/%.0f</string>
     <string name="graduation_total">졸업필수 요건</string>
     <string name="graduation_general">교양</string>
     <string name="graduation_major">전공</string>
     <string name="graduation_criteria">충족 %d/%d</string>
+
+    <string name="time_table_year">년</string>
+    <string name="time_table_first_semester">1학기</string>
+    <string name="time_table_second_semester">2학기</string>
+    <string name="time_table_general_1">공동체/리더십</string>
+    <string name="time_table_general_2">의사소통/글로벌</string>
 
 </resources>

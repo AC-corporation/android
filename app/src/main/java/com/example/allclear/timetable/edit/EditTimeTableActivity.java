@@ -1,4 +1,4 @@
-package com.example.allclear.timetable;
+package com.example.allclear.timetable.edit;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,27 +15,21 @@ import android.widget.Toast;
 
 import com.example.allclear.MyApplication;
 import com.example.allclear.R;
-import com.example.allclear.auth.LoginActivity;
 import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
-import com.example.allclear.data.request.TimeTableTwoRequestDto;
 import com.example.allclear.data.request.TimeTableUpdateRequestDto;
 import com.example.allclear.data.request.TokenRefreshRequestDto;
-import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.data.response.TokenRefreshResponseDto;
-import com.example.allclear.data.response.UserDataResponseDto;
+import com.example.allclear.databinding.ActivityEditTimeTableBinding;
 import com.example.allclear.databinding.ScheduleDeleteDialogBinding;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.MainPageActivity;
 import com.example.allclear.schedule.Schedule;
-import com.example.allclear.databinding.ActivityEditTimeTableBinding;
-import com.example.allclear.timetable.maketimetable.SelfAddOneActivity;
-import com.example.allclear.timetable.maketimetable.SelectMajorBaseActivity;
+import com.example.allclear.timetable.edit.EditTimeTableTwoActivity;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 import com.islandparadise14.mintable.tableinterface.OnScheduleClickListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;

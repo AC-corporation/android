@@ -1,8 +1,8 @@
-package com.example.allclear.timetable;
-
+package com.example.allclear.timetable.edit;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,10 +13,14 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.allclear.schedule.AdapterSpinner;
-import com.example.allclear.schedule.Schedule;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.allclear.databinding.ActivitySelfAddTwoEditBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;
+import com.example.allclear.schedule.AdapterSpinner;
+import com.example.allclear.schedule.Schedule;
+import com.example.allclear.timetable.DataModel_timeplace;
+import com.example.allclear.timetable.addplacetimeadapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +40,12 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
         binding = ActivitySelfAddTwoEditBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
-        Intent intent=getIntent();
-        scheduleDataList= (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");
-        if(scheduleDataList!=null){
-            size=scheduleDataList.size();
-        } else if (scheduleDataList==null) {
-            size=0;
+        Intent intent = getIntent();
+        scheduleDataList = (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");
+        if (scheduleDataList != null) {
+            size = scheduleDataList.size();
+        } else if (scheduleDataList == null) {
+            size = 0;
         }
         timeplaceList.add(new DataModel_timeplace("","","",""));
         displayDataInRecyclerView(timeplaceList);
@@ -114,6 +118,7 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
         }
         checkconflict();
     }
+
     //선택요일을 정수로 변환해주는 함수
     protected int getday(String day) {
         if (day.equals("월요일"))
@@ -130,6 +135,7 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
             return 5;
         else return 6;
     }
+
     //시간문자열을 숫자로 변환해주는 함수
     private static int timeToMinutes(String time) {
         String[] parts = time.split(":");
@@ -137,6 +143,7 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
         int minutes = Integer.parseInt(parts[1]);
         return hours * 60 + minutes;
     }
+
     void addschedule() {
         for(int i=0;i<count;i++){
             Schedule schedule = new Schedule();
@@ -149,7 +156,7 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
             schedule.setClassRoom(timeplaceList.get(i).getPlace());
             scheduleDataList.add(schedule);
         }
-        Intent intent = new Intent(SelfAddTwoEditActivity.this, EditTimeTableTwoActivity.class);
+        Intent intent = new Intent(SelfAddTwoEditActivity.this, com.example.allclear.timetable.edit.EditTimeTableTwoActivity.class);
         intent.putExtra("addedschedulelist", scheduleDataList);
         setResult(RESULT_OK, intent);
         finish();
