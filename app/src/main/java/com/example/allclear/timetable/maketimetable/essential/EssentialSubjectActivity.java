@@ -1,5 +1,6 @@
 package com.example.allclear.timetable.maketimetable.essential;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.example.allclear.data.response.TimeTableEssentialResponseDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.databinding.ActivityEssentialSubjectBinding;
 import com.example.allclear.timetable.maketimetable.MakeTimeTableAdapter;
+import com.example.allclear.timetable.maketimetable.SaveTimeTableActivity;
 
 import java.util.List;
 import java.util.Objects;
@@ -68,8 +70,8 @@ public class EssentialSubjectActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<TimeTableResponseDto> call, @NonNull Response<TimeTableResponseDto> response) {
                         if (response.isSuccessful()) {
-//                            Intent intent = new Intent(EssentialSubjectActivity.this, SaveTimeTableActivity.class);
-//                            startActivity(intent);
+                            Intent intent = new Intent(EssentialSubjectActivity.this, SaveTimeTableActivity.class);
+                            startActivity(intent);
                         }
                     }
 
@@ -105,9 +107,7 @@ public class EssentialSubjectActivity extends AppCompatActivity {
                             TimeTableEssentialResponseDto responseBody = response.body();
                             TimeTableEssentialResponseDto.TimeTableResponseData data = responseBody.getData();
 
-                            List<TimeTableEssentialResponseDto.timetableGeneratorSubjectResponseDtoList> subjectResponseDtoList = data.getSubjectResponseDtoList();
-
-                            //  Log.d("LYB",data.getSubjectResponseDtoList().toString());
+                            List<TimeTableEssentialResponseDto.timetableGeneratorSubjectResponseDtoList> subjectResponseDtoList = data.getTimetableGeneratorSubjectResponseDtoList();
 
                             initAdapter(subjectResponseDtoList);
                         }
