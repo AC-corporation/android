@@ -22,6 +22,7 @@ import com.example.allclear.timetable.TimeTableFragment;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -88,7 +89,10 @@ public class SaveTimeTableActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<TimeTableStepEightResponseDto> call, @NonNull Response<TimeTableStepEightResponseDto> response) {
                 if (response.isSuccessful()) {
-                    setTimeTable();
+                    TimeTableStepEightResponseDto responseBody = response.body();
+                    assert responseBody != null;
+                    List<TimeTableStepEightResponseDto.TimeTableData.TimeTable> timeTable = responseBody.getTimeTableData().getTimetableList();
+                    setTimeTable(timeTable);
                 }
             }
 
@@ -99,17 +103,31 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         });
     }
 
-    private void setTimeTable() {
-        // 서버통신에서 가져온 값으로 넣기
-        // subtext = binding.etSubTextOne.getText().toString();
-        // professor = binding.etProfessorName.getText().toString();
-        // datSpinner = binding.daySpinner.getSelectedItem().toString();
-        // day = getday(datSpinner);
-        // startTime = binding.etStarttime.getText().toString();
-        // endTime = binding.etEndtime.getText().toString();
-        // place = binding.etPlace.getText().toString();
+    private void setTimeTable(List<TimeTableStepEightResponseDto.TimeTableData.TimeTable> timeTable) {
+        // 서버 통신에서 가져온 값으로 넣기
+        if (timeTable == null) {
+            Toast.makeText(this, "생성된 추천 시간표가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+        } else {
+            for (TimeTableStepEightResponseDto.TimeTableData.TimeTable entry : timeTable) {
+                List<TimeTableStepEightResponseDto.TimeTableData.TimeTable.timetableSubjectResponseDtoList> subjects = entry.getTimetableSubjectResponseDtoList();
 
-        checkConflict();
+                for (TimeTableStepEightResponseDto.TimeTableData.TimeTable.timetableSubjectResponseDtoList subject : subjects) {
+                    List<TimeTableStepEightResponseDto.TimeTableData.TimeTable.timetableSubjectResponseDtoList.ClassInfo> classInfoList = subject.getClassInfoResponseDtoList();
+
+                    for (TimeTableStepEightResponseDto.TimeTableData.TimeTable.timetableSubjectResponseDtoList.ClassInfo classInfo : classInfoList) {
+                        subtext = subject.getSubjectName();
+                        professor = classInfo.getProfessor();
+                        day = Integer.parseInt(classInfo.getClassDay());
+                        startTime = classInfo.getStartTime();
+                        endTime = classInfo.getEndTime();
+                        place = classInfo.getClassRoom();
+
+                        // 시간표 충돌 확인
+                        checkConflict();
+                    }
+                }
+            }
+        }
     }
 
     public void checkConflict() {

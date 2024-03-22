@@ -17,7 +17,6 @@ import com.example.allclear.data.request.TimeTableEssentialRequestDto;
 import com.example.allclear.data.response.TimeTableEssentialResponseDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.databinding.ActivityEssentialSubjectBinding;
-import com.example.allclear.timetable.maketimetable.MakeTimeTableAdapter;
 import com.example.allclear.timetable.maketimetable.SaveTimeTableActivity;
 
 import java.util.List;
@@ -65,25 +64,29 @@ public class EssentialSubjectActivity extends AppCompatActivity {
     private void postStepSevenToServer(long userId) {
         TimeTableEssentialRequestDto timeTableEssentialRequestDto = userIdSelected();
 
-        ServicePool.timeTableService.postStepSeven("Bearer " + accessToken, userId, timeTableEssentialRequestDto)
-                .enqueue(new Callback<TimeTableResponseDto>() {
-                    @Override
-                    public void onResponse(@NonNull Call<TimeTableResponseDto> call, @NonNull Response<TimeTableResponseDto> response) {
-                        if (response.isSuccessful()) {
-                            Intent intent = new Intent(EssentialSubjectActivity.this, SaveTimeTableActivity.class);
-                            startActivity(intent);
+        if (timeTableEssentialRequestDto.timetableGeneratorSubjectIdList.size() == 0) {
+            Toast.makeText(this, "한 과목 이상 선택해주세요.", Toast.LENGTH_SHORT).show();
+        } else {
+            ServicePool.timeTableService.postStepSeven("Bearer " + accessToken, userId, timeTableEssentialRequestDto)
+                    .enqueue(new Callback<TimeTableResponseDto>() {
+                        @Override
+                        public void onResponse(@NonNull Call<TimeTableResponseDto> call, @NonNull Response<TimeTableResponseDto> response) {
+                            if (response.isSuccessful()) {
+                                Intent intent = new Intent(EssentialSubjectActivity.this, SaveTimeTableActivity.class);
+                                startActivity(intent);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(@NonNull Call<TimeTableResponseDto> call, @NonNull Throwable t) {
-                        Toast.makeText(EssentialSubjectActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(@NonNull Call<TimeTableResponseDto> call, @NonNull Throwable t) {
+                            Toast.makeText(EssentialSubjectActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 
     private TimeTableEssentialRequestDto userIdSelected() {
-        List<Long> selectedIds = MakeTimeTableAdapter.getSelectedSubjectIds();
+        List<Long> selectedIds = EssentialSubjectAdapter.getSelectedSubjectIds();
         TimeTableEssentialRequestDto timeTableEssentialRequestDto = new TimeTableEssentialRequestDto();
         timeTableEssentialRequestDto.setTimetableGeneratorSubjectIdList(selectedIds);
         return timeTableEssentialRequestDto;

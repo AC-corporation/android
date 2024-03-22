@@ -40,8 +40,15 @@ public class EssentialSubjectAdapter extends RecyclerView.Adapter<EssentialSubje
         TimeTableEssentialResponseDto.timetableGeneratorSubjectResponseDtoList subject = subjectResponseDtoList.get(position);
         holder.binding.tvTitle.setText(subject.getSubjectName());
 
-        TimeTableEssentialResponseDto.timetableGeneratorSubjectResponseDtoList.classInfoResponseDtoList classInfo = subject.gettimetableGeneratorSubjectResponseDtoList().get(position);
-        holder.binding.tvProfessor.setText(classInfo.getProfessor());
+        // 해당 위치에 있는 classInfoResponseDtoList 가져오기
+        List<TimeTableEssentialResponseDto.timetableGeneratorSubjectResponseDtoList.classInfoResponseDtoList> classInfoList = subject.gettimetableGeneratorSubjectResponseDtoList();
+
+        // 예외 처리: classInfoList가 null이거나 비어있는 경우
+        if (classInfoList != null && !classInfoList.isEmpty()) {
+            // 첫 번째 classInfoResponseDtoList 가져오기
+            TimeTableEssentialResponseDto.timetableGeneratorSubjectResponseDtoList.classInfoResponseDtoList classInfo = classInfoList.get(0);
+            holder.binding.tvProfessor.setText(classInfo.getProfessor());
+        }
 
         // 체크박스 선택된 것들만 따로 리스트 만들기
         TimeTableEssentialResponseDto.timetableGeneratorSubjectResponseDtoList item = subjectResponseDtoList.get(position);
