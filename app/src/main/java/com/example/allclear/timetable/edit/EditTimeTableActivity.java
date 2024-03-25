@@ -43,7 +43,8 @@ public class EditTimeTableActivity extends AppCompatActivity {
 
     private ArrayList<Schedule> scheduleDataList=new ArrayList<Schedule>();
     public ArrayList<ScheduleEntity> scheduleEntityList= new ArrayList<>();
-    long timetableId=1;
+    //시간표에 맞게 할당해야 함
+    long timetableId=4;
     static final String DB = "allClear";
 
     private PreferenceUtil preferenceUtil;
