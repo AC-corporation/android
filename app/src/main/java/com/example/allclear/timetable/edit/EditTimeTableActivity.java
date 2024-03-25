@@ -44,8 +44,6 @@ public class EditTimeTableActivity extends AppCompatActivity {
     private ArrayList<Schedule> scheduleDataList=new ArrayList<Schedule>();
     public ArrayList<ScheduleEntity> scheduleEntityList= new ArrayList<>();
     long timetableId=1;
-    static final String ACCESS_TOKEN = "Access_Token";
-    static final String REFRESH_TOKEN = "Refresh_Token";
     static final String DB = "allClear";
 
     private PreferenceUtil preferenceUtil;
@@ -54,13 +52,17 @@ public class EditTimeTableActivity extends AppCompatActivity {
     private String refreshToken;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityEditTimeTableBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        SharedPreferences preferences =getSharedPreferences(DB, MODE_PRIVATE);
-        String accessToken=preferences.getString(ACCESS_TOKEN, "");
+
+        preferenceUtil = MyApplication.getPreferences();
+
+        accessToken = preferenceUtil.getAccessToken(null);
+
         //스케줄데이터를 전달받아 타임테이블에 보여지는 요소로 전환
         Intent intent=getIntent();
         if(intent != null && intent.hasExtra("schedulelist")){
@@ -162,7 +164,7 @@ public class EditTimeTableActivity extends AppCompatActivity {
                             startActivity(intent);
                         }else{
                             if(response.code() == 403){
-                                //tokenRefresh();
+                                tokenRefresh();
                             }
                         }
                     }
@@ -176,7 +178,7 @@ public class EditTimeTableActivity extends AppCompatActivity {
 
     private  TimeTableUpdateRequestDto makeTimeTableUpdateRequestDto(ArrayList<Schedule> scheduleDataList) {
         TimeTableUpdateRequestDto TimeTableUpdateRequestDto=new TimeTableUpdateRequestDto();
-        TimeTableUpdateRequestDto.setTableName(String.valueOf(binding.tvSubTitle));
+        TimeTableUpdateRequestDto.setTableName(binding.tvSubTitle.getText().toString());
         List<TimeTableUpdateRequestDto.TimetableSubjectRequestDto> timetableSubjectRequestDtoList=new ArrayList<>();
 
 
