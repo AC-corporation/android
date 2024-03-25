@@ -2,7 +2,6 @@ package com.example.allclear.timetable.maketimetable.essential;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -23,7 +22,6 @@ import com.example.allclear.databinding.DialogAddConditionBinding;
 import com.example.allclear.timetable.maketimetable.SaveTimeTableActivity;
 
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,6 +33,14 @@ public class EssentialSubjectActivity extends AppCompatActivity {
     private PreferenceUtil preferenceUtil;
     private Long userId;
     private String accessToken;
+
+    private int maxBaseCredit;
+    private int maxMajorCredit;
+
+    private boolean checkMaxBaseCredit;
+    private boolean isMaxBaseValid;
+    private boolean checkMaxMajorCredit;
+    private boolean isMaxMajorValid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +72,12 @@ public class EssentialSubjectActivity extends AppCompatActivity {
 
     private void postStepSevenToServer(long userId) {
         TimeTableEssentialRequestDto timeTableEssentialRequestDto = userIdSelected();
+
+        timeTableEssentialRequestDto.setMinCredit(0);
+        timeTableEssentialRequestDto.setMinMajorCredit(0);
+
+        timeTableEssentialRequestDto.setMaxCredit(maxBaseCredit);
+        timeTableEssentialRequestDto.setMaxMajorCredit(maxMajorCredit);
 
         if (timeTableEssentialRequestDto.timetableGeneratorSubjectIdList.size() == 0) {
             Toast.makeText(this, "한 과목 이상 선택해주세요.", Toast.LENGTH_SHORT).show();
@@ -122,7 +134,6 @@ public class EssentialSubjectActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Call<TimeTableEssentialResponseDto> call, @NonNull Throwable t) {
                         Toast.makeText(EssentialSubjectActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
-                        Log.d("LYB", Objects.requireNonNull(t.getMessage()));
                     }
                 });
     }
@@ -153,9 +164,32 @@ public class EssentialSubjectActivity extends AppCompatActivity {
         dialogBinding.btnSaveCredit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 저장 버튼을 눌렀을 때 최소, 최대 확인하는 로직
+                try {
+                    maxBaseCredit = Integer.parseInt(dialogBinding.etBaseCredit.getText().toString());
+                    checkMaxBaseCredit = true;
 
-                dialog.dismiss();
+                    maxMajorCredit = Integer.parseInt(dialogBinding.etMajorCredit.getText().toString());
+                    checkMaxMajorCredit = true;
+
+                    if (maxBaseCredit > 22 || maxMajorCredit > 22) {
+                        Toast.makeText(EssentialSubjectActivity.this, R.string.essential_max_error, Toast.LENGTH_SHORT).show();
+                        isMaxBaseValid = maxBaseCredit <= 22;
+                        isMaxMajorValid = false;
+                    } else {
+                        isMaxBaseValid = true;
+                        isMaxMajorValid = true;
+                    }
+
+                } catch (NumberFormatException e) {
+                    Toast.makeText(EssentialSubjectActivity.this, R.string.essential_input_error, Toast.LENGTH_SHORT).show();
+                    checkMaxBaseCredit = false;
+                    checkMaxMajorCredit = false;
+                    e.printStackTrace();
+                }
+
+                if (checkMaxBaseCredit && checkMaxMajorCredit && isMaxBaseValid && isMaxMajorValid) {
+                    dialog.dismiss();
+                }
             }
         });
 

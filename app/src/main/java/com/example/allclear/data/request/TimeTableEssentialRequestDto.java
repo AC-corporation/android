@@ -16,7 +16,24 @@ public class TimeTableEssentialRequestDto {
     @SerializedName("timetableGeneratorSubjectIdList")
     public List<Long> timetableGeneratorSubjectIdList;
 
+    public void setMinCredit(int minCredit) {
+        this.minCredit = minCredit;
+    }
+
+    public void setMaxCredit(int maxCredit) {
+        this.maxCredit = maxCredit;
+    }
+
+    public void setMinMajorCredit(int minMajorCredit) {
+        this.maxMajorCredit = minMajorCredit;
+    }
+
+    public void setMaxMajorCredit(int maxMajorCredit) {
+        this.maxMajorCredit = maxMajorCredit;
+    }
+
     public void setTimetableGeneratorSubjectIdList(List<Long> timetableGeneratorSubjectIdList) {
         this.timetableGeneratorSubjectIdList = timetableGeneratorSubjectIdList;
     }
+
 }
