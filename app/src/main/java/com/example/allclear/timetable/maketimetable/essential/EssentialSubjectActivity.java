@@ -1,12 +1,15 @@
 package com.example.allclear.timetable.maketimetable.essential;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.allclear.MyApplication;
@@ -33,6 +36,8 @@ public class EssentialSubjectActivity extends AppCompatActivity {
     private Long userId;
     private String accessToken;
 
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivityEssentialSubjectBinding.inflate(getLayoutInflater());
@@ -43,7 +48,7 @@ public class EssentialSubjectActivity extends AppCompatActivity {
         initNextClickListener();
         initBackClickListener();
         getEssentialSubject();
-
+        initDialogListener();
     }
 
     private void getUserData() {
@@ -127,6 +132,23 @@ public class EssentialSubjectActivity extends AppCompatActivity {
     private void initAdapter(List<TimeTableEssentialResponseDto.timetableGeneratorSubjectResponseDtoList> subjectResponseDtoList) {
         EssentialSubjectAdapter adapter = new EssentialSubjectAdapter(subjectResponseDtoList);
         binding.rvEssentialSubject.setAdapter(adapter);
+    }
+
+    private void initDialogListener() {
+        binding.btnAddCondition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = (LayoutInflater) v.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View dialogView = inflater.inflate(R.layout.dialog_add_condition, null);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setView(dialogView);
+
+                AlertDialog dialog = builder.create();
+
+                dialog.show();
+            }
+        });
     }
 
 }
