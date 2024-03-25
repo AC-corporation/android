@@ -40,16 +40,18 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     private ArrayList<Schedule> scheduleDataList = new ArrayList<Schedule>();
     private ArrayList<ScheduleEntity> scheduleEntityList = new ArrayList<>();
 
+
     String subtext;
     String professor;
     String startTime;
     String endTime;
     String place;
+    long timetableId;
 
     int day;
     int size;
 
-    Schedule schedule = new Schedule();
+//    Schedule schedule = new Schedule();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +112,8 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         } else {
             for (TimeTableStepEightResponseDto.TimeTableData.TimeTable entry : timeTable) {
                 List<TimeTableStepEightResponseDto.TimeTableData.TimeTable.timetableSubjectResponseDtoList> subjects = entry.getTimetableSubjectResponseDtoList();
+
+                timetableId = entry.getTimetableId();
 
                 for (TimeTableStepEightResponseDto.TimeTableData.TimeTable.timetableSubjectResponseDtoList subject : subjects) {
                     List<TimeTableStepEightResponseDto.TimeTableData.TimeTable.timetableSubjectResponseDtoList.ClassInfo> classInfoList = subject.getClassInfoResponseDtoList();
@@ -173,7 +177,9 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     }
 
     void addSchedule() {
-        //   schedule.setSubjectId(32);
+        Schedule schedule = new Schedule();
+
+        schedule.setSubjectId(timetableId);
         schedule.setSubjectName(subtext);
         schedule.setProfessor(professor);
         schedule.setClassDay(day);
@@ -181,26 +187,40 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         schedule.setEndTime(endTime);
         schedule.setClassRoom(place);
 
-        showTimeTable();
+        showTimeTable(schedule);
     }
 
-    private void showTimeTable() {
-        //서버 통신한 데이터를 ScheduleList에 추가
-        scheduleDataList.add(schedule);
+    private void showTimeTable(Schedule newSchedule) {
+        // 서버 통신한 데이터를 ScheduleList에 추가
+        scheduleDataList.add(newSchedule);
         scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
-        //토요일,일요일 유무에 따라 day 변경
-        stringDay = new String[]{getString(R.string.Mon), getString(R.string.Tue), getString(R.string.Wen), getString(R.string.Thu), getString(R.string.Fri)};
-        int size = scheduleDataList.size();
-        if (size != 0) {
-            for (int i = 0; i < size; i++) {
-                if (5 == scheduleDataList.get(i).getClassDay()) {
-                    stringDay = new String[]{getString(R.string.Mon), getString(R.string.Tue), getString(R.string.Wen), getString(R.string.Thu), getString(R.string.Fri), getString(R.string.Sat)};
-                }
-                if (6 == scheduleDataList.get(i).getClassDay()) {
-                    stringDay = new String[]{getString(R.string.Mon), getString(R.string.Tue), getString(R.string.Wen), getString(R.string.Thu), getString(R.string.Fri), getString(R.string.Sat), getString(R.string.Sun)};
-                }
+        // 토요일, 일요일 유무에 따라 day 변경
+        boolean hasSaturday = false;
+        boolean hasSunday = false;
+        for (Schedule schedule : scheduleDataList) {
+            if (schedule.getClassDay() == 5) {
+                hasSaturday = true;
+            } else if (schedule.getClassDay() == 6) {
+                hasSunday = true;
             }
         }
+
+        ArrayList<String> updatedStringDayList = new ArrayList<>();
+        updatedStringDayList.add(getString(R.string.Mon));
+        updatedStringDayList.add(getString(R.string.Tue));
+        updatedStringDayList.add(getString(R.string.Wen));
+        updatedStringDayList.add(getString(R.string.Thu));
+        updatedStringDayList.add(getString(R.string.Fri));
+
+        if (hasSaturday) {
+            updatedStringDayList.add(getString(R.string.Sat));
+        }
+        if (hasSunday) {
+            updatedStringDayList.add(getString(R.string.Sun));
+        }
+
+        // String 배열로 변환
+        stringDay = updatedStringDayList.toArray(new String[0]);
     }
 
     private void initSaveBtnClickListener() {

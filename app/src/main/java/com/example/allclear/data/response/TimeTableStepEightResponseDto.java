@@ -46,6 +46,10 @@ public class TimeTableStepEightResponseDto {
             @SerializedName("timetableSubjectResponseDtoList")
             private List<timetableSubjectResponseDtoList> timetableSubjectResponseDtoList;
 
+            public long getTimetableId() {
+                return timetableId;
+            }
+
             public List<timetableSubjectResponseDtoList> getTimetableSubjectResponseDtoList() {
                 return timetableSubjectResponseDtoList;
             }
@@ -60,12 +64,14 @@ public class TimeTableStepEightResponseDto {
                 @SerializedName("classInfoResponseDtoList")
                 private List<ClassInfo> classInfoResponseDtoList;
 
-                public String getSubjectName(){
+                public String getSubjectName() {
                     return subjectName;
                 }
-                public  List<ClassInfo> getClassInfoResponseDtoList(){
+
+                public List<ClassInfo> getClassInfoResponseDtoList() {
                     return classInfoResponseDtoList;
                 }
+
                 public static class ClassInfo {
                     @SerializedName("professor")
                     private String professor;
