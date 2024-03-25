@@ -195,32 +195,18 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         scheduleDataList.add(newSchedule);
         scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
         // 토요일, 일요일 유무에 따라 day 변경
-        boolean hasSaturday = false;
-        boolean hasSunday = false;
-        for (Schedule schedule : scheduleDataList) {
-            if (schedule.getClassDay() == 5) {
-                hasSaturday = true;
-            } else if (schedule.getClassDay() == 6) {
-                hasSunday = true;
+        stringDay = new String[]{getString(R.string.Mon), getString(R.string.Tue), getString(R.string.Wen), getString(R.string.Thu), getString(R.string.Fri)};
+        int size = scheduleDataList.size();
+        if (size != 0) {
+            for (int i = 0; i < size; i++) {
+                if (5 == scheduleDataList.get(i).getClassDay()) {
+                    stringDay = new String[]{getString(R.string.Mon), getString(R.string.Tue), getString(R.string.Wen), getString(R.string.Thu), getString(R.string.Fri), getString(R.string.Sat)};
+                }
+                if (6 == scheduleDataList.get(i).getClassDay()) {
+                    stringDay = new String[]{getString(R.string.Mon), getString(R.string.Tue), getString(R.string.Wen), getString(R.string.Thu), getString(R.string.Fri), getString(R.string.Sat), getString(R.string.Sun)};
+                }
             }
         }
-
-        ArrayList<String> updatedStringDayList = new ArrayList<>();
-        updatedStringDayList.add(getString(R.string.Mon));
-        updatedStringDayList.add(getString(R.string.Tue));
-        updatedStringDayList.add(getString(R.string.Wen));
-        updatedStringDayList.add(getString(R.string.Thu));
-        updatedStringDayList.add(getString(R.string.Fri));
-
-        if (hasSaturday) {
-            updatedStringDayList.add(getString(R.string.Sat));
-        }
-        if (hasSunday) {
-            updatedStringDayList.add(getString(R.string.Sun));
-        }
-
-        // String 배열로 변환
-        stringDay = updatedStringDayList.toArray(new String[0]);
     }
 
     private void initSaveBtnClickListener() {
