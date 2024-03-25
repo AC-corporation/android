@@ -1,6 +1,5 @@
 package com.example.allclear.timetable.maketimetable.essential;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +19,7 @@ import com.example.allclear.data.request.TimeTableEssentialRequestDto;
 import com.example.allclear.data.response.TimeTableEssentialResponseDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.databinding.ActivityEssentialSubjectBinding;
+import com.example.allclear.databinding.DialogAddConditionBinding;
 import com.example.allclear.timetable.maketimetable.SaveTimeTableActivity;
 
 import java.util.List;
@@ -35,8 +35,6 @@ public class EssentialSubjectActivity extends AppCompatActivity {
     private PreferenceUtil preferenceUtil;
     private Long userId;
     private String accessToken;
-
-    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,17 +136,31 @@ public class EssentialSubjectActivity extends AppCompatActivity {
         binding.btnAddCondition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LayoutInflater inflater = (LayoutInflater) v.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View dialogView = inflater.inflate(R.layout.dialog_add_condition, null);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setView(dialogView);
-
-                AlertDialog dialog = builder.create();
-
-                dialog.show();
+                showCreditDialog(v);
             }
         });
     }
+
+    private void showCreditDialog(View v) {
+        DialogAddConditionBinding dialogBinding = DialogAddConditionBinding.inflate(LayoutInflater.from(v.getContext()));
+        View dialogView = dialogBinding.getRoot();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+
+        dialogBinding.btnSaveCredit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 저장 버튼을 눌렀을 때 최소, 최대 확인하는 로직
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
 
 }

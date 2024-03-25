@@ -39,14 +39,16 @@
         app:layout_constraintStart_toEndOf="@id/et_base_credit"
         app:layout_constraintTop_toBottomOf="@id/tv_dialog_title" />
 
-    <Button
+    <TextView
         android:id="@+id/btn_save_credit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/round_btn"
-        android:backgroundTint="@color/first_blue"
+        android:layout_marginEnd="10dp"
         android:text="저장하기"
+        android:textColor="@color/blue"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_major_credit" />
 
