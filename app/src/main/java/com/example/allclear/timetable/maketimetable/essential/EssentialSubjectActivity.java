@@ -34,8 +34,8 @@ public class EssentialSubjectActivity extends AppCompatActivity {
     private Long userId;
     private String accessToken;
 
-    private int maxBaseCredit;
-    private int maxMajorCredit;
+    private int maxBaseCredit = 0;
+    private int maxMajorCredit = 0;
 
     private boolean checkMaxBaseCredit;
     private boolean isMaxBaseValid;
@@ -81,6 +81,8 @@ public class EssentialSubjectActivity extends AppCompatActivity {
 
         if (timeTableEssentialRequestDto.timetableGeneratorSubjectIdList.size() == 0) {
             Toast.makeText(this, "한 과목 이상 선택해주세요.", Toast.LENGTH_SHORT).show();
+        } else if (maxBaseCredit == 0 && maxMajorCredit == 0) {
+            Toast.makeText(this, "최대 학점을 설정해주세요", Toast.LENGTH_SHORT).show();
         } else {
             ServicePool.timeTableService.postStepSeven("Bearer " + accessToken, userId, timeTableEssentialRequestDto)
                     .enqueue(new Callback<TimeTableResponseDto>() {

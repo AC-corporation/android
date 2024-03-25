@@ -27,11 +27,11 @@ public class TimeTableStepEightResponseDto {
         private int totalPage;
         @SerializedName("totalElement")
         private int totalElement;
-        @SerializedName("timetableList")
-        private List<TimeTable> timetableList;
+        @SerializedName("timetableResponseDto")
+        private List<TimeTable> timetableResponseDto;
 
-        public List<TimeTable> getTimetableList() {
-            return timetableList;
+        public List<TimeTable> getTimetableResponseDto() {
+            return timetableResponseDto;
         }
 
         public static class TimeTable {

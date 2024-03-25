@@ -23,6 +23,7 @@ import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -91,7 +92,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     TimeTableStepEightResponseDto responseBody = response.body();
                     assert responseBody != null;
-                    List<TimeTableStepEightResponseDto.TimeTableData.TimeTable> timeTable = responseBody.getTimeTableData().getTimetableList();
+                    List<TimeTableStepEightResponseDto.TimeTableData.TimeTable> timeTable = responseBody.getTimeTableData().getTimetableResponseDto();
                     setTimeTable(timeTable);
                 }
             }
@@ -104,7 +105,6 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     }
 
     private void setTimeTable(List<TimeTableStepEightResponseDto.TimeTableData.TimeTable> timeTable) {
-        // 서버 통신에서 가져온 값으로 넣기
         if (timeTable == null) {
             Toast.makeText(this, "생성된 추천 시간표가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
         } else {
@@ -117,7 +117,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
                     for (TimeTableStepEightResponseDto.TimeTableData.TimeTable.timetableSubjectResponseDtoList.ClassInfo classInfo : classInfoList) {
                         subtext = subject.getSubjectName();
                         professor = classInfo.getProfessor();
-                        day = Integer.parseInt(classInfo.getClassDay());
+                        day = makeDayToInt(classInfo.getClassDay());
                         startTime = classInfo.getStartTime();
                         endTime = classInfo.getEndTime();
                         place = classInfo.getClassRoom();
@@ -130,7 +130,22 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         }
     }
 
-    public void checkConflict() {
+    private int makeDayToInt(String day) {
+        if (Objects.equals(day, getString(R.string.monday)))
+            return 0;
+        else if (Objects.equals(day, getString(R.string.tuesday)))
+            return 1;
+        else if (Objects.equals(day, getString(R.string.wednesday)))
+            return 2;
+        else if (Objects.equals(day, getString(R.string.thursday)))
+            return 3;
+        else if (Objects.equals(day, getString(R.string.friday)))
+            return 4;
+        else
+            return 5;
+    }
+
+    private void checkConflict() {
         if (size == 0) {
             addSchedule();
         } else {
@@ -158,7 +173,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     }
 
     void addSchedule() {
-        schedule.setSubjectId(32);
+        //   schedule.setSubjectId(32);
         schedule.setSubjectName(subtext);
         schedule.setProfessor(professor);
         schedule.setClassDay(day);
@@ -198,7 +213,6 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     }
 
     private void postSaveTimeTable(String accessToken, Long userId) {
-
         // 이거 set하는 로직 필요
         TimeTableSaveRequestDto timeTableSaveRequestDto = new TimeTableSaveRequestDto();
 
