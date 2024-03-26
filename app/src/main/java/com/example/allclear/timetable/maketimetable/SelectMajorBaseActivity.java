@@ -38,6 +38,7 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
 
     String selectedYear;
     String selectedSemester;
+    String timeTableName;
 
 
     @Override
@@ -65,6 +66,7 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
         if (intent != null) {
             selectedYear = intent.getStringExtra("selectedYear");
             selectedSemester = intent.getStringExtra("selectedSemester");
+            timeTableName = intent.getStringExtra("timeTableName");
         }
     }
 
@@ -90,6 +92,7 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
                             Intent intent = new Intent(SelectMajorBaseActivity.this, SelectEssentialGeneralElectiveActivity.class);
                             intent.putExtra("selectedYear", selectedYear);
                             intent.putExtra("selectedSemester", selectedSemester);
+                            intent.putExtra("timeTableName", timeTableName);
                             startActivity(intent);
                         }
 

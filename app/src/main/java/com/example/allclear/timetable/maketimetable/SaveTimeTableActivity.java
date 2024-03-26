@@ -61,6 +61,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
 
     String selectedYear;
     String selectedSemester;
+    String timeTableName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
 
         getUserData();
         getSemesterData();
+        setTimeTableName();
         initBackBtnClickListener();
         getTimeTableGenerator();
         initSaveBtnClickListener();
@@ -94,9 +96,13 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         if (intent != null) {
             selectedYear = intent.getStringExtra("selectedYear");
             selectedSemester = intent.getStringExtra("selectedSemester");
+            timeTableName = intent.getStringExtra("timeTableName");
         }
     }
 
+    private void setTimeTableName() {
+        binding.tvSubTitle.setText(timeTableName);
+    }
 
     private void initBackBtnClickListener() {
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
@@ -284,7 +290,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
 
                 // 시간표 추가
                 Timetable timetable = new Timetable();
-                timetable.name = "시간표1";
+                timetable.name = timeTableName;
                 timetable.semesterId = semesterId;  // 삽입된 학기의 ID를 시간표에 설정
                 long timetableId = timetableDao.insert(timetable);  // 삽입된 row ID를 저장
 

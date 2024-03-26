@@ -41,6 +41,7 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
 
     String selectedYear;
     String selectedSemester;
+    String timeTableName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
         if (intent != null) {
             selectedYear = intent.getStringExtra("selectedYear");
             selectedSemester = intent.getStringExtra("selectedSemester");
+            timeTableName = intent.getStringExtra("timeTableName");
         }
     }
 
@@ -90,6 +92,7 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
                             Intent intent = new Intent(SelectGeneralElectiveActivity.this, SelfAddPersonalOneActivity.class);
                             intent.putExtra("selectedYear", selectedYear);
                             intent.putExtra("selectedSemester", selectedSemester);
+                            intent.putExtra("timeTableName", timeTableName);
                             startActivity(intent);
                         }
                     }

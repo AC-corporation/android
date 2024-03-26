@@ -41,6 +41,7 @@ public class SelfAddPersonalOneActivity extends AppCompatActivity {
 
     String selectedYear;
     String selectedSemester;
+    String timeTableName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class SelfAddPersonalOneActivity extends AppCompatActivity {
         if (intent != null) {
             selectedYear = intent.getStringExtra("selectedYear");
             selectedSemester = intent.getStringExtra("selectedSemester");
+            timeTableName = intent.getStringExtra("timeTableName");
         }
     }
 
@@ -112,6 +114,7 @@ public class SelfAddPersonalOneActivity extends AppCompatActivity {
                             Intent intent = new Intent(SelfAddPersonalOneActivity.this, SelfAddSubjectOneActivity.class);
                             intent.putExtra("selectedYear", selectedYear);
                             intent.putExtra("selectedSemester", selectedSemester);
+                            intent.putExtra("timeTableName", timeTableName);
                             startActivity(intent);
                         } else {
                             try {

@@ -44,6 +44,7 @@ public class EssentialSubjectActivity extends AppCompatActivity {
 
     String selectedYear;
     String selectedSemester;
+    String timeTableName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class EssentialSubjectActivity extends AppCompatActivity {
         if (intent != null) {
             selectedYear = intent.getStringExtra("selectedYear");
             selectedSemester = intent.getStringExtra("selectedSemester");
+            timeTableName = intent.getStringExtra("timeTableName");
         }
     }
 
@@ -94,9 +96,9 @@ public class EssentialSubjectActivity extends AppCompatActivity {
         timeTableEssentialRequestDto.setMaxMajorCredit(maxMajorCredit);
 
         if (timeTableEssentialRequestDto.timetableGeneratorSubjectIdList.size() == 0) {
-            Toast.makeText(this, "한 과목 이상 선택해주세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.essential_one_subject, Toast.LENGTH_SHORT).show();
         } else if (maxBaseCredit == 0 && maxMajorCredit == 0) {
-            Toast.makeText(this, "최대 학점을 설정해주세요", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.essential_max_credit, Toast.LENGTH_SHORT).show();
         } else {
             ServicePool.timeTableService.postStepSeven("Bearer " + accessToken, userId, timeTableEssentialRequestDto)
                     .enqueue(new Callback<TimeTableResponseDto>() {
@@ -106,6 +108,7 @@ public class EssentialSubjectActivity extends AppCompatActivity {
                                 Intent intent = new Intent(EssentialSubjectActivity.this, SaveTimeTableActivity.class);
                                 intent.putExtra("selectedYear", selectedYear);
                                 intent.putExtra("selectedSemester", selectedSemester);
+                                intent.putExtra("timeTableName", timeTableName);
                                 startActivity(intent);
                             }
                         }
