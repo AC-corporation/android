@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.allclear.MainPageActivity;
 import com.example.allclear.MyApplication;
 import com.example.allclear.R;
 import com.example.allclear.data.PreferenceUtil;
@@ -81,7 +82,10 @@ public class SelectSemesterActivity extends AppCompatActivity {
                 if (binding.cbEmptyTimeTable.isChecked()) {
                     postTimeTableGenerateToServer(accessToken, userId);
                 } else {
-                    timeTableName = binding.etTimetableName.getText().toString();
+                    if (timeTableName == null)
+                        timeTableName = getString(R.string.timetableName_base);
+                    else
+                        timeTableName = binding.etTimetableName.getText().toString();
                     postStepOneToServer(accessToken, userId);
                 }
             }
@@ -163,7 +167,11 @@ public class SelectSemesterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<TimeTableGenerateResponseDto> call, @NonNull Response<TimeTableGenerateResponseDto> response) {
                         if (response.isSuccessful()) {
-                            finish();
+                            assert response.body() != null;
+                            long timetableId = response.body().getData();
+                            Intent intent = new Intent(SelectSemesterActivity.this, MainPageActivity.class);
+                            intent.putExtra("timetableId", timetableId);
+                            startActivity(intent);
                         }
                     }
 

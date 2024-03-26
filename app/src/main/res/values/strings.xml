@@ -50,5 +50,6 @@
     <string name="timetable_save">시간표를 저장했습니다</string>
 
     <string name="selected_year_semester">%s학년 %s학기</string>
+    <string name="timetableName_base">시간표 1</string>
 
 </resources>
