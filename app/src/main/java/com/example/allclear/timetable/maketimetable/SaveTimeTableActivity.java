@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.allclear.MainPageActivity;
 import com.example.allclear.MyApplication;
 import com.example.allclear.R;
 import com.example.allclear.data.PreferenceUtil;
@@ -18,7 +19,6 @@ import com.example.allclear.data.response.TimeTableStepEightResponseDto;
 import com.example.allclear.databinding.ActivitySaveTimeTableBinding;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.schedule.Schedule;
-import com.example.allclear.timetable.TimeTableFragment;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
@@ -40,7 +40,6 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     private ArrayList<Schedule> scheduleDataList = new ArrayList<Schedule>();
     private ArrayList<ScheduleEntity> scheduleEntityList = new ArrayList<>();
 
-
     String subtext;
     String professor;
     String startTime;
@@ -50,8 +49,6 @@ public class SaveTimeTableActivity extends AppCompatActivity {
 
     int day;
     int size;
-
-//    Schedule schedule = new Schedule();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +123,6 @@ public class SaveTimeTableActivity extends AppCompatActivity {
                         endTime = classInfo.getEndTime();
                         place = classInfo.getClassRoom();
 
-                        // 시간표 충돌 확인
                         checkConflict();
                     }
                 }
@@ -191,9 +187,9 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     }
 
     private void showTimeTable(Schedule newSchedule) {
-        // 서버 통신한 데이터를 ScheduleList에 추가
         scheduleDataList.add(newSchedule);
         scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
+
         // 토요일, 일요일 유무에 따라 day 변경
         stringDay = new String[]{getString(R.string.Mon), getString(R.string.Tue), getString(R.string.Wen), getString(R.string.Thu), getString(R.string.Fri)};
         int size = scheduleDataList.size();
@@ -219,19 +215,19 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     }
 
     private void postSaveTimeTable(String accessToken, Long userId) {
-        // 이거 set하는 로직 필요
         TimeTableSaveRequestDto timeTableSaveRequestDto = new TimeTableSaveRequestDto();
+
+        timeTableSaveRequestDto.setTimetableGeneratorTimetableId(timetableId);
 
         ServicePool.timeTableService.postSaveTimTable("Bearer " + accessToken, userId, timeTableSaveRequestDto)
                 .enqueue(new Callback<TimeTableSaveResponseDto>() {
                     @Override
                     public void onResponse(@NonNull Call<TimeTableSaveResponseDto> call, @NonNull Response<TimeTableSaveResponseDto> response) {
                         if (response.isSuccessful()) {
-                            //갱신된 ScheduleList를 TimeTableFragment로 전달
-                            Intent intent = new Intent(SaveTimeTableActivity.this, TimeTableFragment.class);
+                            Intent intent = new Intent(SaveTimeTableActivity.this, MainPageActivity.class);
                             intent.putExtra("scheduleList", scheduleDataList);
                             setResult(RESULT_OK, intent);
-                            finish();
+                            startActivity(intent);
                         }
                     }
 
