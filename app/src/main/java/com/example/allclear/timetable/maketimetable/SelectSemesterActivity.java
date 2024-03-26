@@ -57,7 +57,6 @@ public class SelectSemesterActivity extends AppCompatActivity {
         initBackClickListener();
         initNextBtnClickListener();
         setNumberPicker();
-        setTimeTableName();
     }
 
     private void getUserData() {
@@ -82,6 +81,7 @@ public class SelectSemesterActivity extends AppCompatActivity {
                 if (binding.cbEmptyTimeTable.isChecked()) {
                     postTimeTableGenerateToServer(accessToken, userId);
                 } else {
+                    timeTableName = binding.etTimetableName.getText().toString();
                     postStepOneToServer(accessToken, userId);
                 }
             }
@@ -173,9 +173,4 @@ public class SelectSemesterActivity extends AppCompatActivity {
                     }
                 });
     }
-
-    private void setTimeTableName() {
-        timeTableName = binding.etTimetableName.getText().toString();
-    }
-
 }
