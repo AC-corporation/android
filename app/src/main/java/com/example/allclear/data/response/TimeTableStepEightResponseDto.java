@@ -14,6 +14,10 @@ public class TimeTableStepEightResponseDto {
     @SerializedName("data")
     private TimeTableData data;
 
+    public TimeTableData getTimeTableData() {
+        return data;
+    }
+
     public static class TimeTableData {
         @SerializedName("currentPage")
         private int currentPage;
@@ -23,8 +27,12 @@ public class TimeTableStepEightResponseDto {
         private int totalPage;
         @SerializedName("totalElement")
         private int totalElement;
-        @SerializedName("timetableList")
-        private List<TimeTable> timetableList;
+        @SerializedName("timetableResponseDto")
+        private List<TimeTable> timetableResponseDto;
+
+        public List<TimeTable> getTimetableResponseDto() {
+            return timetableResponseDto;
+        }
 
         public static class TimeTable {
             @SerializedName("timetableId")
@@ -36,9 +44,17 @@ public class TimeTableStepEightResponseDto {
             @SerializedName("semester")
             private int semester;
             @SerializedName("timetableSubjectResponseDtoList")
-            private List<TimetableSubject> timetableSubjectResponseDtoList;
+            private List<timetableSubjectResponseDtoList> timetableSubjectResponseDtoList;
 
-            public static class TimetableSubject {
+            public long getTimetableId() {
+                return timetableId;
+            }
+
+            public List<timetableSubjectResponseDtoList> getTimetableSubjectResponseDtoList() {
+                return timetableSubjectResponseDtoList;
+            }
+
+            public static class timetableSubjectResponseDtoList {
                 @SerializedName("timetableSubjectId")
                 private long timetableSubjectId;
                 @SerializedName("subjectId")
@@ -47,6 +63,14 @@ public class TimeTableStepEightResponseDto {
                 private String subjectName;
                 @SerializedName("classInfoResponseDtoList")
                 private List<ClassInfo> classInfoResponseDtoList;
+
+                public String getSubjectName() {
+                    return subjectName;
+                }
+
+                public List<ClassInfo> getClassInfoResponseDtoList() {
+                    return classInfoResponseDtoList;
+                }
 
                 public static class ClassInfo {
                     @SerializedName("professor")
@@ -59,6 +83,26 @@ public class TimeTableStepEightResponseDto {
                     private String endTime;
                     @SerializedName("classRoom")
                     private String classRoom;
+
+                    public String getProfessor() {
+                        return professor;
+                    }
+
+                    public String getClassDay() {
+                        return classDay;
+                    }
+
+                    public String getStartTime() {
+                        return startTime;
+                    }
+
+                    public String getEndTime() {
+                        return endTime;
+                    }
+
+                    public String getClassRoom() {
+                        return classRoom;
+                    }
                 }
             }
         }

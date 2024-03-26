@@ -19,10 +19,10 @@ public class TimeTableEssentialResponseDto {
     }
 
     public static class TimeTableResponseData {
-        private List<timetableGeneratorSubjectResponseDtoList> subjectResponseDtoList;
+        public List<timetableGeneratorSubjectResponseDtoList> timetableGeneratorSubjectResponseDtoList;
 
-        public List<timetableGeneratorSubjectResponseDtoList> getSubjectResponseDtoList() {
-            return subjectResponseDtoList;
+        public List<timetableGeneratorSubjectResponseDtoList> getTimetableGeneratorSubjectResponseDtoList() {
+            return timetableGeneratorSubjectResponseDtoList;
         }
     }
 
@@ -36,7 +36,7 @@ public class TimeTableEssentialResponseDto {
         @SerializedName("classInfoResponseDtoList")
         private List<classInfoResponseDtoList> classInfoResponseDtoList;
 
-        public List<classInfoResponseDtoList> getClassInfoResponseDtoList() {
+        public List<classInfoResponseDtoList> gettimetableGeneratorSubjectResponseDtoList() {
             return classInfoResponseDtoList;
         }
 

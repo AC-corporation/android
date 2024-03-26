@@ -33,7 +33,7 @@ public class TimeTableUpdateRequestDto {
         private String subjectName;
 
         @SerializedName("subjectId")
-        private int subjectId;
+        private long subjectId;
 
         @SerializedName("classInfoRequestDtoList")
         private List<ClassInfoRequestDto> classInfoRequestDtoList;
@@ -44,10 +44,10 @@ public class TimeTableUpdateRequestDto {
         public void setSubjectName(String subjectName){
             this.subjectName=subjectName;
         }
-        public int getSubjectId(){
+        public long getSubjectId(){
             return subjectId;
         }
-        public void setSubjectId(int subjectId){
+        public void setSubjectId(long subjectId){
             this.subjectId=subjectId;
         }
         public List<ClassInfoRequestDto>getClassInfoRequestDtoList(){
