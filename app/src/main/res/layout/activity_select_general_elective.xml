@@ -57,6 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:fontFamily="@font/poppins_bold"
                     android:background="@null"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -118,6 +119,7 @@
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/big_button"
                     android:backgroundTint="@color/first_blue"
+                    android:fontFamily="@font/poppins_bold"
                     android:gravity="center"
                     android:scaleType="fitCenter"
                     android:text="다음"

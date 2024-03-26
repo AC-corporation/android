@@ -13,6 +13,8 @@
         android:layout_marginTop="35dp"
         android:gravity="center"
         android:text="시간표 만들기"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/black"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,6 +31,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/et_timetable_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="시간표 1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
     <NumberPicker
         android:id="@+id/np_year_semester"
         android:layout_width="wrap_content"
@@ -44,6 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:buttonTint="@color/first_blue"
+        android:fontFamily="@font/poppins_regular"
         android:text="빈 시간표 만들기"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/btn_next"
@@ -57,6 +69,7 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/big_button"
         android:backgroundTint="@color/first_blue"
+        android:fontFamily="@font/poppins_bold"
         android:gravity="center"
         android:scaleType="fitCenter"
         android:text="@string/btn_next"

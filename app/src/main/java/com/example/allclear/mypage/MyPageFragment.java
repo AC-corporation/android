@@ -1,9 +1,6 @@
 package com.example.allclear.mypage;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,14 +13,10 @@ import android.widget.Toast;
 
 import com.example.allclear.MyApplication;
 import com.example.allclear.auth.LoginActivity;
-import com.example.allclear.auth.UsaintLoginActivity;
 import com.example.allclear.auth.UsaintUpdateActivity;
 import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
-import com.example.allclear.data.request.ChangePasswordRequestDto;
-import com.example.allclear.data.request.LoginRequestDto;
 import com.example.allclear.data.request.TokenRefreshRequestDto;
-import com.example.allclear.data.response.LoginResponseDto;
 import com.example.allclear.data.response.TokenRefreshResponseDto;
 import com.example.allclear.data.response.UserDataResponseDto;
 import com.example.allclear.databinding.FragmentMyPageBinding;
@@ -77,6 +70,7 @@ public class MyPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentMyPageBinding.inflate(inflater, container, false);
+        preferenceUtil = MyApplication.getPreferences();
         initDefaultData();
         initUserData();
         clickListener();
@@ -253,6 +247,8 @@ public class MyPageFragment extends Fragment {
                             String statusCode = response.body().getCode();
                             switch (statusCode) {
                                 case "OK":
+                                    //자동 로그인 헤제, 토큰 삭제
+                                    preferenceUtil.clearLoginInfo();
                                     Toast.makeText(getContext(),"로그아웃에 성공했습니다.",Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getContext(),LoginActivity.class);
                                     startActivity(intent);

@@ -36,11 +36,13 @@ public class GradeResponseDto {
 
         public static class SemesterGradeDto {
             @SerializedName("semesterGradeId")
-            public
-            long semesterGradeId;
+            public long semesterGradeId;
 
             @SerializedName("semesterAverageGrade")
             public String semesterAverageGrade;
+
+            @SerializedName("semesterTitle")
+            public String semesterTitle;
 
             @SerializedName("semesterSubjectDtoList")
             public

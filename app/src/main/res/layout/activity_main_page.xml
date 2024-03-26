@@ -7,21 +7,18 @@
     android:orientation="vertical"
     tools:context=".MainPageActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/containers"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/containers"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
-    </androidx.fragment.app.FragmentContainerView>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigationview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:itemBackground="@color/white"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_menu" />
-
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigationview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:itemBackground="@color/white"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_menu" />
 </LinearLayout>

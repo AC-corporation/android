@@ -2,12 +2,14 @@ package com.example.allclear.timetable.maketimetable;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.allclear.MainPageActivity;
 import com.example.allclear.MyApplication;
 import com.example.allclear.R;
 import com.example.allclear.data.PreferenceUtil;
@@ -22,6 +24,8 @@ import com.example.allclear.timetable.TimeTableFragment;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,11 +47,14 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     String startTime;
     String endTime;
     String place;
+    long timetableId;
 
     int day;
     int size;
 
-    Schedule schedule = new Schedule();
+    String selectedYear;
+    String selectedSemester;
+    String timeTableName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +63,8 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getUserData();
+        getSemesterData();
+        setTimeTableName();
         initBackBtnClickListener();
         getTimeTableGenerator();
         initSaveBtnClickListener();
@@ -74,6 +83,19 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         accessToken = preferenceUtil.getAccessToken("FAIL");
     }
 
+    private void getSemesterData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            selectedYear = intent.getStringExtra("selectedYear");
+            selectedSemester = intent.getStringExtra("selectedSemester");
+            timeTableName = intent.getStringExtra("timeTableName");
+        }
+    }
+
+    private void setTimeTableName() {
+        binding.tvSubTitle.setText(timeTableName);
+    }
+
     private void initBackBtnClickListener() {
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +110,10 @@ public class SaveTimeTableActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<TimeTableStepEightResponseDto> call, @NonNull Response<TimeTableStepEightResponseDto> response) {
                 if (response.isSuccessful()) {
-                    setTimeTable();
+                    TimeTableStepEightResponseDto responseBody = response.body();
+                    assert responseBody != null;
+                    List<TimeTableStepEightResponseDto.TimeTableData.TimeTable> timeTable = responseBody.getTimeTableData().getTimetableResponseDto();
+                    setTimeTable(timeTable);
                 }
             }
 
@@ -99,20 +124,49 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         });
     }
 
-    private void setTimeTable() {
-        // 서버통신에서 가져온 값으로 넣기
-        // subtext = binding.etSubTextOne.getText().toString();
-        // professor = binding.etProfessorName.getText().toString();
-        // datSpinner = binding.daySpinner.getSelectedItem().toString();
-        // day = getday(datSpinner);
-        // startTime = binding.etStarttime.getText().toString();
-        // endTime = binding.etEndtime.getText().toString();
-        // place = binding.etPlace.getText().toString();
+    private void setTimeTable(List<TimeTableStepEightResponseDto.TimeTableData.TimeTable> timeTable) {
+        if (timeTable == null) {
+            Toast.makeText(this, "생성된 추천 시간표가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+        } else {
+            for (TimeTableStepEightResponseDto.TimeTableData.TimeTable entry : timeTable) {
+                List<TimeTableStepEightResponseDto.TimeTableData.TimeTable.timetableSubjectResponseDtoList> subjects = entry.getTimetableSubjectResponseDtoList();
 
-        checkConflict();
+                timetableId = entry.getTimetableId();
+
+                for (TimeTableStepEightResponseDto.TimeTableData.TimeTable.timetableSubjectResponseDtoList subject : subjects) {
+                    List<TimeTableStepEightResponseDto.TimeTableData.TimeTable.timetableSubjectResponseDtoList.ClassInfo> classInfoList = subject.getClassInfoResponseDtoList();
+
+                    for (TimeTableStepEightResponseDto.TimeTableData.TimeTable.timetableSubjectResponseDtoList.ClassInfo classInfo : classInfoList) {
+                        subtext = subject.getSubjectName();
+                        professor = classInfo.getProfessor();
+                        day = makeDayToInt(classInfo.getClassDay());
+                        startTime = classInfo.getStartTime();
+                        endTime = classInfo.getEndTime();
+                        place = classInfo.getClassRoom();
+
+                        checkConflict();
+                    }
+                }
+            }
+        }
     }
 
-    public void checkConflict() {
+    private int makeDayToInt(String day) {
+        if (Objects.equals(day, getString(R.string.monday)))
+            return 0;
+        else if (Objects.equals(day, getString(R.string.tuesday)))
+            return 1;
+        else if (Objects.equals(day, getString(R.string.wednesday)))
+            return 2;
+        else if (Objects.equals(day, getString(R.string.thursday)))
+            return 3;
+        else if (Objects.equals(day, getString(R.string.friday)))
+            return 4;
+        else
+            return 5;
+    }
+
+    private void checkConflict() {
         if (size == 0) {
             addSchedule();
         } else {
@@ -140,6 +194,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     }
 
     void addSchedule() {
+        Schedule schedule = new Schedule();
         schedule.setSubjectId(32L);
         schedule.setSubjectName(subtext);
         schedule.setProfessor(professor);
@@ -148,14 +203,14 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         schedule.setEndTime(endTime);
         schedule.setClassRoom(place);
 
-        showTimeTable();
+        showTimeTable(schedule);
     }
 
-    private void showTimeTable() {
-        //서버 통신한 데이터를 ScheduleList에 추가
-        scheduleDataList.add(schedule);
+    private void showTimeTable(Schedule newSchedule) {
+        scheduleDataList.add(newSchedule);
         scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
-        //토요일,일요일 유무에 따라 day 변경
+
+        // 토요일, 일요일 유무에 따라 day 변경
         stringDay = new String[]{getString(R.string.Mon), getString(R.string.Tue), getString(R.string.Wen), getString(R.string.Thu), getString(R.string.Fri)};
         int size = scheduleDataList.size();
         if (size != 0) {
@@ -180,20 +235,20 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     }
 
     private void postSaveTimeTable(String accessToken, Long userId) {
-
-        // 이거 set하는 로직 필요
         TimeTableSaveRequestDto timeTableSaveRequestDto = new TimeTableSaveRequestDto();
+
+        timeTableSaveRequestDto.setTimetableGeneratorTimetableId(timetableId);
 
         ServicePool.timeTableService.postSaveTimTable("Bearer " + accessToken, userId, timeTableSaveRequestDto)
                 .enqueue(new Callback<TimeTableSaveResponseDto>() {
                     @Override
                     public void onResponse(@NonNull Call<TimeTableSaveResponseDto> call, @NonNull Response<TimeTableSaveResponseDto> response) {
                         if (response.isSuccessful()) {
-                            //갱신된 ScheduleList를 TimeTableFragment로 전달
-                            Intent intent = new Intent(SaveTimeTableActivity.this, TimeTableFragment.class);
+                            Toast.makeText(SaveTimeTableActivity.this, R.string.timetable_save, Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(SaveTimeTableActivity.this, MainPageActivity.class);
                             intent.putExtra("scheduleList", scheduleDataList);
                             setResult(RESULT_OK, intent);
-                            finish();
+                            startActivity(intent);
                         }
                     }
 

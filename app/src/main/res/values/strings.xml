@@ -43,4 +43,13 @@
     <string name="time_table_general_1">공동체/리더십</string>
     <string name="time_table_general_2">의사소통/글로벌</string>
 
+    <string name="essential_one_subject">한 과목 이상 선택해주세요.</string>
+    <string name="essential_max_credit">최대 학점을 설정해주세요</string>
+    <string name="essential_input_error">최댓값을 올바르게 입력해주세요</string>
+    <string name="essential_max_error">최대 22학점까지 설정 가능합니다</string>
+    <string name="timetable_save">시간표를 저장했습니다</string>
+
+    <string name="selected_year_semester">%s학년 %s학기</string>
+    <string name="timetableName_base">시간표 1</string>
+
 </resources>

@@ -13,21 +13,40 @@ public class SelfAddSubjectOneActivity extends AppCompatActivity {
 
     private ActivitySelfAddSubjectOneBinding binding;
 
+    String selectedYear;
+    String selectedSemester;
+    String timeTableName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivitySelfAddSubjectOneBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
 
+        getSemesterData();
         initNextBtnClickListener();
         initBackBtnClickListener();
     }
+
+
+    private void getSemesterData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            selectedYear = intent.getStringExtra("selectedYear");
+            selectedSemester = intent.getStringExtra("selectedSemester");
+            timeTableName = intent.getStringExtra("timeTableName");
+        }
+    }
+
 
     private void initNextBtnClickListener() {
         binding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SelfAddSubjectOneActivity.this, EssentialSubjectActivity.class);
+                intent.putExtra("selectedYear", selectedYear);
+                intent.putExtra("selectedSemester", selectedSemester);
+                intent.putExtra("timeTableName", timeTableName);
                 startActivity(intent);
             }
         });

@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
+import androidx.fragment.app.Fragment;
+
+import com.example.allclear.databinding.FragmentTimeTableBinding;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.schedule.Schedule;
 import com.example.allclear.databinding.FragmentTimeTableBinding;
@@ -22,7 +25,7 @@ import com.islandparadise14.mintable.tableinterface.OnScheduleClickListener;
 
 import java.util.ArrayList;
 
-public class TimeTableFragment extends Fragment{
+public class TimeTableFragment extends Fragment {
     static final String ACCESS_TOKEN = "Access_Token";
     static final String REFRESH_TOKEN = "Refresh_Token";
     static final String USER_ID = "User_Id";
@@ -33,10 +36,10 @@ public class TimeTableFragment extends Fragment{
 
     private String mParam1;
     private String mParam2;
+
     public TimeTableFragment() {
         // Required empty public constructor
     }
-
 
     public static TimeTableFragment newInstance(String param1, String param2) {
         TimeTableFragment fragment = new TimeTableFragment();
@@ -58,32 +61,50 @@ public class TimeTableFragment extends Fragment{
 
     private FragmentTimeTableBinding binding;
     private String[] day = {"Mon", "Tue", "Wen", "Thu", "Fri"};
-    private ArrayList<Schedule> scheduleDataList=new ArrayList<Schedule>();
+    private ArrayList<Schedule> scheduleDataList = new ArrayList<Schedule>();
     private ArrayList<ScheduleEntity> scheduleEntityList = new ArrayList<>();
-    public void setTimeTable(){
+
+    public void setTimeTable() {
         binding.timetable.initTable(day);
         binding.timetable.updateSchedules(scheduleEntityList);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        binding = FragmentTimeTableBinding.inflate(inflater, container, false);
+
+        getScheduleData();
+        timeTableClickListener();
+        addClickListener();
+        editClickListener();
+        menuClickListener();
+
+        return binding.getRoot();
+    }
+
+    private void getScheduleData() {
         //스케줄데이터를 전달받아 타임테이블에 보여지는 요소로 전환
-        Intent intent=getActivity().getIntent();
-        if(intent != null && intent.hasExtra("schedulelist")){
-            scheduleDataList=(ArrayList<Schedule>)intent.getSerializableExtra("schedulelist");
-            scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
+        Intent intent = getActivity().getIntent();
+        if (intent != null && intent.hasExtra("schedulelist")) {
+            scheduleDataList = (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");
+            scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
             //토요일,일요일 유무에 따라 day 변경
-            int size=scheduleDataList.size();
-            if(size!=0){
-                for(int i=0;i<size;i++){
-                    if(5==scheduleDataList.get(i).getClassDay()){
-                        day= new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat"};}
-                    if(6==scheduleDataList.get(i).getClassDay()){
-                        day= new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat","Sun"};}
+            int size = scheduleDataList.size();
+            if (size != 0) {
+                for (int i = 0; i < size; i++) {
+                    if (5 == scheduleDataList.get(i).getClassDay()) {
+                        day = new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat"};
+                    }
+                    if (6 == scheduleDataList.get(i).getClassDay()) {
+                        day = new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"};
+                    }
                 }
             }
         }
-        binding = FragmentTimeTableBinding.inflate(inflater, container, false);
+    }
+
+    private void timeTableClickListener() {
         binding.timetable.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
@@ -107,11 +128,9 @@ public class TimeTableFragment extends Fragment{
                 v.getViewTreeObserver().removeOnWindowFocusChangeListener(null);
             }
         });
-        btnClick();
-        return binding.getRoot();
     }
 
-    private void btnClick() {
+    private void addClickListener() {
         binding.imgAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,14 +138,20 @@ public class TimeTableFragment extends Fragment{
                 startActivity(intent);
             }
         });
+    }
+
+    private void editClickListener() {
         binding.imgEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), EditTimeTableActivity.class);
-                intent.putExtra("schedulelist",scheduleDataList);
+                intent.putExtra("schedulelist", scheduleDataList);
                 startActivity(intent);
             }
         });
+    }
+
+    private void menuClickListener() {
         binding.imgMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -154,7 +179,7 @@ public class TimeTableFragment extends Fragment{
 
     @Override
     public void onDestroyView() {
-        Log.i("Fragment","onDestroyView()");
+        Log.i("Fragment", "onDestroyView()");
         binding = null;
         super.onDestroyView();
     }

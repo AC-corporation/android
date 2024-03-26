@@ -3,8 +3,6 @@ package com.example.allclear.timetable.maketimetable;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -22,7 +20,6 @@ import com.example.allclear.databinding.ActivitySelectEssentialGeneralElectiveBi
 import com.example.allclear.databinding.SpinnerCustomBinding;
 import com.example.allclear.schedule.AdapterSpinner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -40,6 +37,12 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
     private Long userId;
     private String accessToken;
 
+
+    String selectedYear;
+    String selectedSemester;
+    String timeTableName;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,7 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getUserData();
+        getSemesterData();
         initNextClickListener();
         initBackClickListener();
         getEssentialGeneralList();
@@ -57,6 +61,15 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
         preferenceUtil = MyApplication.getPreferences();
         userId = preferenceUtil.getUserId(-1L);
         accessToken = preferenceUtil.getAccessToken("FAIL");
+    }
+
+    private void getSemesterData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            selectedYear = intent.getStringExtra("selectedYear");
+            selectedSemester = intent.getStringExtra("selectedSemester");
+            timeTableName = intent.getStringExtra("timeTableName");
+        }
     }
 
     private void initNextClickListener() {
@@ -76,6 +89,9 @@ public class SelectEssentialGeneralElectiveActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
                         Intent intent = new Intent(SelectEssentialGeneralElectiveActivity.this, SelectMajorActivity.class);
+                        intent.putExtra("selectedYear", selectedYear);
+                        intent.putExtra("selectedSemester", selectedSemester);
+                        intent.putExtra("timeTableName", timeTableName);
                         startActivity(intent);
                     }
 
