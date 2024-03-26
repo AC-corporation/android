@@ -224,6 +224,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<TimeTableSaveResponseDto> call, @NonNull Response<TimeTableSaveResponseDto> response) {
                         if (response.isSuccessful()) {
+                            Toast.makeText(SaveTimeTableActivity.this, R.string.timetable_save, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SaveTimeTableActivity.this, MainPageActivity.class);
                             intent.putExtra("scheduleList", scheduleDataList);
                             setResult(RESULT_OK, intent);
