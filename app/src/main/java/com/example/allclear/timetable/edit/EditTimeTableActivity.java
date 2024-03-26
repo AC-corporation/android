@@ -30,6 +30,7 @@ import com.islandparadise14.mintable.model.ScheduleEntity;
 import com.islandparadise14.mintable.tableinterface.OnScheduleClickListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -125,15 +126,22 @@ public class EditTimeTableActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         String name=entity.getScheduleName();
-                        int size=scheduleDataList.size();
-                        for(int i=0;i<size;i++){
-                            if(name==scheduleDataList.get(i).getSubjectName())
-                                scheduleDataList.remove(i);
+                        Iterator<Schedule> it = scheduleDataList.iterator();
+                        while(it.hasNext()) {
+                            Schedule schedule = it.next();
+                            if(schedule.getSubjectName().equals(name)) {
+                                it.remove();
                             }
+                        }
+//                      int size=scheduleDataList.size();
+//                        for(int i=0;i<size;i++){
+//                            if(name==scheduleDataList.get(i).getSubjectName())
+//                                scheduleDataList.remove(i);
+//                            }
                         scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
                         //토요일,일요일 유무에 따라 day 변경
                         day=new String[]{"Mon", "Tue", "Wen", "Thu", "Fri"};
-                        size=scheduleDataList.size();
+                        int size=scheduleDataList.size();
                         if(size!=0){
                             for(int i=0;i<size;i++){
                                 if(5==scheduleDataList.get(i).getClassDay()){
