@@ -102,8 +102,7 @@ public class ListTimeTableActivity extends AppCompatActivity {
     }
 
     void updateList() {
-        timeTableListRequestDto = new TimeTableListRequestDto(userId);
-        ServicePool.timeTableListRequestService.GetTimeTable("Bearer " + accessToken, userId, timeTableListRequestDto)
+        ServicePool.timeTableListRequestService.GetTimeTable("Bearer " + accessToken, userId)
                 .enqueue(new Callback<TimeTableListResponseDto>() {
                     @Override
                     public void onResponse(Call<TimeTableListResponseDto> call, Response<TimeTableListResponseDto> response) {

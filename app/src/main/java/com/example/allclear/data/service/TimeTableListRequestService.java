@@ -11,5 +11,5 @@ import retrofit2.http.Path;
 
 public interface TimeTableListRequestService {
     @GET("timetable/list/{userId}")
-    Call<TimeTableListResponseDto> GetTimeTable(@Header("Authorization") String authHeader, @Path("userId") Long userId, @Body TimeTableListRequestDto timeTableListRequestDto);
+    Call<TimeTableListResponseDto> GetTimeTable(@Header("Authorization") String authHeader, @Path("userId") Long userId);
 }
