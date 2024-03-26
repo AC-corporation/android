@@ -90,6 +90,13 @@ public class GradeFragment extends Fragment {
         //학기 순서 뒤집기(1-1 부터 나오게)
         Collections.reverse(gradeData.data.semesterGradeDtoList);
 
+        //학기 이름 추출하기
+        String[] semester_names = new String[gradeData.data.semesterGradeDtoList.size()];
+        int count = 0;
+        for(GradeResponseDto.GradeData.SemesterGradeDto semester : gradeData.data.semesterGradeDtoList) {
+            semester_names[count++] = semester.semesterTitle;
+        }
+
         // 학점 데이터를 생성합니다.
         ArrayList<Entry> entries = new ArrayList<>();
         for(int i = 0; i < gradeData.data.semesterGradeDtoList.size(); i++) {
@@ -119,12 +126,7 @@ public class GradeFragment extends Fragment {
         dataSet.setValueFormatter(formatter);
 
         // X축 라벨을 설정
-        String[] semesters = new String[gradeData.data.semesterGradeDtoList.size()];
-        for(int i = 0; i < gradeData.data.semesterGradeDtoList.size(); i++) {
-            int year = (i / 2) + 1;
-            int semester = (i % 2) + 1;
-            semesters[i] = year + "-" + semester;
-        }
+        String[] semesters = semester_names;
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);  // X축을 하단에 위치
         xAxis.setValueFormatter(new IndexAxisValueFormatter(semesters));

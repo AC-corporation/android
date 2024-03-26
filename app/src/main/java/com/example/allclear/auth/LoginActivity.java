@@ -45,8 +45,6 @@ public class LoginActivity extends AppCompatActivity {
     private String refreshToken;
     private Long userId;
 
-//    private PreferenceUtil preferences = MyApplication.getPreferences();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -313,7 +311,7 @@ public class LoginActivity extends AppCompatActivity {
     //자동 로그인을 활성화를 관리하는 함수
     private void manage_auto_login() {
         CheckBox cb = binding.cbAutoLogin;
-        PreferenceUtil preferenceUtil = MyApplication.getPreferences();
+        preferenceUtil = MyApplication.getPreferences();
         preferenceUtil.setAutoLogin(cb.isChecked());
     }
 

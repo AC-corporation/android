@@ -1,5 +1,8 @@
 package com.example.allclear.timetable.edit;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.allclear.databinding.ActivityEditTimeTableTwoBinding;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.schedule.Schedule;
+import com.example.allclear.timetable.edit.EditTimeTableActivity;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
@@ -64,7 +68,7 @@ public class EditTimeTableTwoActivity extends AppCompatActivity {
         binding.tvSelfadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(EditTimeTableTwoActivity.this, SelfAddTwoEditActivity.class);
+                Intent intent = new Intent(EditTimeTableTwoActivity.this, com.example.allclear.timetable.edit.SelfAddTwoEditActivity.class);
                 intent.putExtra("schedulelist", scheduleDataList);
                 startActivityForResult(intent, 10);
             }
@@ -84,9 +88,8 @@ public class EditTimeTableTwoActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 10 && resultCode == RESULT_OK) {
             //사용자가 직접추가한 스케줄데이터를 ScheduleList에 추가
-            Schedule schedule = (Schedule) data.getSerializableExtra("schedule");
-            scheduleDataList.add(schedule);
-            scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
+            scheduleDataList= (ArrayList<Schedule>) data.getSerializableExtra("addedschedulelist");
+            scheduleEntityList=ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
             //토요일,일요일 유무에 따라 day 변경
             day = new String[]{"Mon", "Tue", "Wen", "Thu", "Fri"};
             int size = scheduleDataList.size();

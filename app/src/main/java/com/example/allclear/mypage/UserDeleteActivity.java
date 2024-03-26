@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.example.allclear.MainPageActivity;
 import com.example.allclear.MyApplication;
-import com.example.allclear.R;
 import com.example.allclear.auth.LoginActivity;
 import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
@@ -84,6 +83,9 @@ public class UserDeleteActivity extends AppCompatActivity {
                                     return;
                                 case "OK":
                                     Toast.makeText(getApplicationContext(),"회원탈퇴에 성공했습니다.",Toast.LENGTH_SHORT).show();
+                                    //토큰 삭제, 자동 로그인 헤제
+                                    PreferenceUtil preferences  = MyApplication.getPreferences();
+                                    preferences.clearLoginInfo();
                                     startActivity(intent);
                                     finish();
                                     return;
