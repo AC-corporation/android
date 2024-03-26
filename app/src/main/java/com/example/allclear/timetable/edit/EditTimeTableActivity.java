@@ -30,6 +30,7 @@ import com.islandparadise14.mintable.model.ScheduleEntity;
 import com.islandparadise14.mintable.tableinterface.OnScheduleClickListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -43,9 +44,8 @@ public class EditTimeTableActivity extends AppCompatActivity {
 
     private ArrayList<Schedule> scheduleDataList=new ArrayList<Schedule>();
     public ArrayList<ScheduleEntity> scheduleEntityList= new ArrayList<>();
-    long timetableId=1;
-    static final String ACCESS_TOKEN = "Access_Token";
-    static final String REFRESH_TOKEN = "Refresh_Token";
+    //시간표에 맞게 할당해야 함
+    long timetableId=4;
     static final String DB = "allClear";
 
     private PreferenceUtil preferenceUtil;
@@ -54,13 +54,17 @@ public class EditTimeTableActivity extends AppCompatActivity {
     private String refreshToken;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityEditTimeTableBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        SharedPreferences preferences =getSharedPreferences(DB, MODE_PRIVATE);
-        String accessToken=preferences.getString(ACCESS_TOKEN, "");
+
+        preferenceUtil = MyApplication.getPreferences();
+
+        accessToken = preferenceUtil.getAccessToken(null);
+
         //스케줄데이터를 전달받아 타임테이블에 보여지는 요소로 전환
         Intent intent=getIntent();
         if(intent != null && intent.hasExtra("schedulelist")){
@@ -122,15 +126,22 @@ public class EditTimeTableActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         String name=entity.getScheduleName();
-                        int size=scheduleDataList.size();
-                        for(int i=0;i<size;i++){
-                            if(name==scheduleDataList.get(i).getSubjectName())
-                                scheduleDataList.remove(i);
+                        Iterator<Schedule> it = scheduleDataList.iterator();
+                        while(it.hasNext()) {
+                            Schedule schedule = it.next();
+                            if(schedule.getSubjectName().equals(name)) {
+                                it.remove();
                             }
+                        }
+//                      int size=scheduleDataList.size();
+//                        for(int i=0;i<size;i++){
+//                            if(name==scheduleDataList.get(i).getSubjectName())
+//                                scheduleDataList.remove(i);
+//                            }
                         scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
                         //토요일,일요일 유무에 따라 day 변경
                         day=new String[]{"Mon", "Tue", "Wen", "Thu", "Fri"};
-                        size=scheduleDataList.size();
+                        int size=scheduleDataList.size();
                         if(size!=0){
                             for(int i=0;i<size;i++){
                                 if(5==scheduleDataList.get(i).getClassDay()){
@@ -162,7 +173,7 @@ public class EditTimeTableActivity extends AppCompatActivity {
                             startActivity(intent);
                         }else{
                             if(response.code() == 403){
-                                //tokenRefresh();
+                                tokenRefresh();
                             }
                         }
                     }
@@ -176,7 +187,7 @@ public class EditTimeTableActivity extends AppCompatActivity {
 
     private  TimeTableUpdateRequestDto makeTimeTableUpdateRequestDto(ArrayList<Schedule> scheduleDataList) {
         TimeTableUpdateRequestDto TimeTableUpdateRequestDto=new TimeTableUpdateRequestDto();
-        TimeTableUpdateRequestDto.setTableName(String.valueOf(binding.tvSubTitle));
+        TimeTableUpdateRequestDto.setTableName(binding.tvSubTitle.getText().toString());
         List<TimeTableUpdateRequestDto.TimetableSubjectRequestDto> timetableSubjectRequestDtoList=new ArrayList<>();
 
 
