@@ -47,4 +47,6 @@
     <string name="essential_max_error">최대 22학점까지 설정 가능합니다</string>
     <string name="timetable_save">시간표를 저장했습니다</string>
 
+    <string name="selected_year_semester">%s학년 %s학기</string>
+
 </resources>

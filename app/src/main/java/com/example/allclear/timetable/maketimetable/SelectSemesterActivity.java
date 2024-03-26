@@ -134,6 +134,8 @@ public class SelectSemesterActivity extends AppCompatActivity {
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
                         if (response.isSuccessful() && response != null) {
                             Intent intent = new Intent(SelectSemesterActivity.this, SelectMajorBaseActivity.class);
+                            intent.putExtra("selectedYear", selectedYear);
+                            intent.putExtra("selectedSemester", selectedSemester);
                             startActivity(intent);
                         }
                     }

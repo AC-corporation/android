@@ -19,7 +19,6 @@ import com.example.allclear.data.request.TimeTableTwoRequestDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.databinding.ActivitySelfAddPersonalOneBinding;
 import com.example.allclear.schedule.Schedule;
-import com.example.allclear.timetable.maketimetable.essential.EssentialSubjectActivity;
 import com.example.allclear.timetable.maketimetable.selfadd.subject.SelfAddSubjectOneActivity;
 
 import java.io.IOException;
@@ -40,17 +39,31 @@ public class SelfAddPersonalOneActivity extends AppCompatActivity {
     private Long userId;
     private String accessToken;
 
+    String selectedYear;
+    String selectedSemester;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivitySelfAddPersonalOneBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
 
+        getSemesterData();
         initSelfAddClickListener();
         initNextClickListener();
         initBackClickListener();
 
     }
+
+
+    private void getSemesterData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            selectedYear = intent.getStringExtra("selectedYear");
+            selectedSemester = intent.getStringExtra("selectedSemester");
+        }
+    }
+
 
     private void initSelfAddClickListener() {
         binding.btnPlusSelfAdd.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +110,8 @@ public class SelfAddPersonalOneActivity extends AppCompatActivity {
 
                         if (response.isSuccessful()) {
                             Intent intent = new Intent(SelfAddPersonalOneActivity.this, SelfAddSubjectOneActivity.class);
+                            intent.putExtra("selectedYear", selectedYear);
+                            intent.putExtra("selectedSemester", selectedSemester);
                             startActivity(intent);
                         } else {
                             try {

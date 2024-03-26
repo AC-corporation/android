@@ -42,6 +42,9 @@ public class EssentialSubjectActivity extends AppCompatActivity {
     private boolean checkMaxMajorCredit;
     private boolean isMaxMajorValid;
 
+    String selectedYear;
+    String selectedSemester;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivityEssentialSubjectBinding.inflate(getLayoutInflater());
@@ -49,6 +52,7 @@ public class EssentialSubjectActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getUserData();
+        getSemesterData();
         initNextClickListener();
         initBackClickListener();
         getEssentialSubject();
@@ -60,6 +64,16 @@ public class EssentialSubjectActivity extends AppCompatActivity {
         userId = preferenceUtil.getUserId(-1L);
         accessToken = preferenceUtil.getAccessToken("FAIL");
     }
+
+
+    private void getSemesterData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            selectedYear = intent.getStringExtra("selectedYear");
+            selectedSemester = intent.getStringExtra("selectedSemester");
+        }
+    }
+
 
     private void initNextClickListener() {
         binding.btnGenerate.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +104,8 @@ public class EssentialSubjectActivity extends AppCompatActivity {
                         public void onResponse(@NonNull Call<TimeTableResponseDto> call, @NonNull Response<TimeTableResponseDto> response) {
                             if (response.isSuccessful()) {
                                 Intent intent = new Intent(EssentialSubjectActivity.this, SaveTimeTableActivity.class);
+                                intent.putExtra("selectedYear", selectedYear);
+                                intent.putExtra("selectedSemester", selectedSemester);
                                 startActivity(intent);
                             }
                         }

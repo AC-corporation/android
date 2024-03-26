@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import com.example.allclear.MainPageActivity;
 import com.example.allclear.MyApplication;
@@ -19,11 +20,19 @@ import com.example.allclear.data.response.TimeTableStepEightResponseDto;
 import com.example.allclear.databinding.ActivitySaveTimeTableBinding;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.schedule.Schedule;
+import com.example.allclear.schedule.Semester;
+import com.example.allclear.schedule.Timetable;
+import com.example.allclear.schedule.data.AppDatabase;
+import com.example.allclear.schedule.data.ScheduleDao;
+import com.example.allclear.schedule.data.SemesterDao;
+import com.example.allclear.schedule.data.TimetableDao;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,6 +59,9 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     int day;
     int size;
 
+    String selectedYear;
+    String selectedSemester;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivitySaveTimeTableBinding.inflate(getLayoutInflater());
@@ -57,9 +69,11 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getUserData();
+        getSemesterData();
         initBackBtnClickListener();
         getTimeTableGenerator();
         initSaveBtnClickListener();
+        saveTimeTableToData();
     }
 
     @Override
@@ -74,6 +88,15 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         userId = preferenceUtil.getUserId(-1L);
         accessToken = preferenceUtil.getAccessToken("FAIL");
     }
+
+    private void getSemesterData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            selectedYear = intent.getStringExtra("selectedYear");
+            selectedSemester = intent.getStringExtra("selectedSemester");
+        }
+    }
+
 
     private void initBackBtnClickListener() {
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
@@ -237,6 +260,44 @@ public class SaveTimeTableActivity extends AppCompatActivity {
                         Toast.makeText(SaveTimeTableActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void saveTimeTableToData() {
+
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                                AppDatabase.class, "DB")
+                        .fallbackToDestructiveMigration()  // 이 줄을 추가
+                        .build();
+
+                SemesterDao semesterDao = db.semesterDao();
+                TimetableDao timetableDao = db.timetableDao();
+                ScheduleDao scheduleDao = db.scheduleDao();
+
+                // 학기 추가
+                Semester semester = new Semester();
+                semester.name = getString(R.string.selected_year_semester, selectedYear, selectedSemester);
+                long semesterId = semesterDao.insert(semester);  // 삽입된 row ID를 저장
+
+                // 시간표 추가
+                Timetable timetable = new Timetable();
+                timetable.name = "시간표1";
+                timetable.semesterId = semesterId;  // 삽입된 학기의 ID를 시간표에 설정
+                long timetableId = timetableDao.insert(timetable);  // 삽입된 row ID를 저장
+
+                // 스케쥴 추가
+                Schedule schedule = new Schedule();
+
+                // 스케쥴 정보 설정
+                schedule.timetableId = timetableId;  // 삽입된 시간표의 ID를 스케쥴에 설정
+                scheduleDao.insert(schedule);
+
+            }
+
+        });
     }
 
 }

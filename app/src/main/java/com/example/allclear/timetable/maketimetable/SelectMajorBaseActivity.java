@@ -3,8 +3,6 @@ package com.example.allclear.timetable.maketimetable;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -22,7 +20,6 @@ import com.example.allclear.databinding.ActivitySelectMajorBaseBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;
 import com.example.allclear.schedule.AdapterSpinner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,6 +36,9 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
     private Long userId;
     private String accessToken;
 
+    String selectedYear;
+    String selectedSemester;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,7 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getUserData();
+        getSemesterData();
         initNextClickListener();
         initBackClickListener();
         getMajorBaseList();
@@ -57,6 +58,14 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
         preferenceUtil = MyApplication.getPreferences();
         userId = preferenceUtil.getUserId(-1L);
         accessToken = preferenceUtil.getAccessToken("FAIL");
+    }
+
+    private void getSemesterData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            selectedYear = intent.getStringExtra("selectedYear");
+            selectedSemester = intent.getStringExtra("selectedSemester");
+        }
     }
 
     private void initNextClickListener() {
@@ -79,6 +88,8 @@ public class SelectMajorBaseActivity extends AppCompatActivity {
 
                         if (response.isSuccessful()) {
                             Intent intent = new Intent(SelectMajorBaseActivity.this, SelectEssentialGeneralElectiveActivity.class);
+                            intent.putExtra("selectedYear", selectedYear);
+                            intent.putExtra("selectedSemester", selectedSemester);
                             startActivity(intent);
                         }
 

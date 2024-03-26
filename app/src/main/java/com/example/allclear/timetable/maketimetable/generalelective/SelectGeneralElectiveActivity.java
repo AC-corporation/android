@@ -3,8 +3,6 @@ package com.example.allclear.timetable.maketimetable.generalelective;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -24,7 +22,6 @@ import com.example.allclear.schedule.AdapterSpinner;
 import com.example.allclear.timetable.maketimetable.MakeTimeTableAdapter;
 import com.example.allclear.timetable.maketimetable.selfadd.personal.SelfAddPersonalOneActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -42,6 +39,8 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
     private Long userId;
     private String accessToken;
 
+    String selectedYear;
+    String selectedSemester;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +49,10 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getUserData();
+        getSemesterData();
         initNextClickListener();
         initBackClickListener();
         getGeneralElectiveList();
-     //   setGeneralSpinner();
 
     }
 
@@ -72,6 +71,14 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
         });
     }
 
+    private void getSemesterData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            selectedYear = intent.getStringExtra("selectedYear");
+            selectedSemester = intent.getStringExtra("selectedSemester");
+        }
+    }
+
     private void postStepSixToServer(long userId) {
         TimeTablePostRequestDto timeTablePostRequestDto = userSelectedId();
 
@@ -81,6 +88,8 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
                     public void onResponse(@NonNull Call<TimeTableResponseDto> call, @NonNull Response<TimeTableResponseDto> response) {
                         if (response.isSuccessful()) {
                             Intent intent = new Intent(SelectGeneralElectiveActivity.this, SelfAddPersonalOneActivity.class);
+                            intent.putExtra("selectedYear", selectedYear);
+                            intent.putExtra("selectedSemester", selectedSemester);
                             startActivity(intent);
                         }
                     }
@@ -144,42 +153,5 @@ public class SelectGeneralElectiveActivity extends AppCompatActivity {
         SelectGeneralElectiveAdapter adapter = new SelectGeneralElectiveAdapter(requirementComponents);
         binding.rvArgument.setAdapter(adapter);
     }
-
-    private void setGeneralSpinner() {
-        // 교선 spinner는 논의 후 추가 작성하겠습니다.
-        // 필터링 로직 필요
-
-        spinner = binding.generalSpinner;
-
-        ArrayList<String> general = new ArrayList<>();
-
-        general.add(getString(R.string.time_table_general_1));
-        general.add(getString(R.string.time_table_general_2));
-
-        adapterSpinner = new AdapterSpinner(this, general);
-        spinner.setAdapter(adapterSpinner);
-        spinnerCustomBinding = SpinnerCustomBinding.inflate(getLayoutInflater());
-
-        downArrowClickListener();
-    }
-
-    private void downArrowClickListener() {
-        ImageButton downArrow = spinnerCustomBinding.ibDownArrow1;
-        downArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
-            }
-        });
-    }
-
 
 }
