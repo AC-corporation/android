@@ -147,7 +147,7 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
     void addschedule() {
         for(int i=0;i<count;i++){
             Schedule schedule = new Schedule();
-            schedule.setSubjectId(32);
+            schedule.setSubjectId(null);
             schedule.setSubjectName(subtext);
             schedule.setProfessor(professor);
             schedule.setClassDay(getday(timeplaceList.get(i).getDay()));

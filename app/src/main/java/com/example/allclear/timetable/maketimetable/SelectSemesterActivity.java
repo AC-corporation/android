@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.allclear.MainPageActivity;
 import com.example.allclear.MyApplication;
 import com.example.allclear.R;
 import com.example.allclear.data.PreferenceUtil;
@@ -39,11 +40,13 @@ public class SelectSemesterActivity extends AppCompatActivity {
     NumberPicker npYearSemester;
     String selectedYear;
     String selectedSemester;
+    String timeTableName;
 
     private PreferenceUtil preferenceUtil;
     private Long userId;
     private String accessToken;
     private String refreshToken;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +58,6 @@ public class SelectSemesterActivity extends AppCompatActivity {
         initBackClickListener();
         initNextBtnClickListener();
         setNumberPicker();
-
     }
 
     private void getUserData() {
@@ -80,6 +82,10 @@ public class SelectSemesterActivity extends AppCompatActivity {
                 if (binding.cbEmptyTimeTable.isChecked()) {
                     postTimeTableGenerateToServer(accessToken, userId);
                 } else {
+                    if (timeTableName == null)
+                        timeTableName = getString(R.string.timetableName_base);
+                    else
+                        timeTableName = binding.etTimetableName.getText().toString();
                     postStepOneToServer(accessToken, userId);
                 }
             }
@@ -90,7 +96,7 @@ public class SelectSemesterActivity extends AppCompatActivity {
         npYearSemester = binding.npYearSemester;
 
         // 학년 어떻게 할지 논의 필요
-        String[] years = {"2022", "2023", "2024"};
+        String[] years = {"2023", "2024"};
         String[] semesters = {getString(R.string.time_table_first_semester), getString(R.string.time_table_second_semester)};
 
         // 년도와 학기를 합친 배열 생성
@@ -132,8 +138,11 @@ public class SelectSemesterActivity extends AppCompatActivity {
                 .enqueue(new Callback<TimeTableResponseDto>() {
                     @Override
                     public void onResponse(Call<TimeTableResponseDto> call, Response<TimeTableResponseDto> response) {
-                        if (response.isSuccessful() && response != null) {
+                        if (response.isSuccessful()) {
                             Intent intent = new Intent(SelectSemesterActivity.this, SelectMajorBaseActivity.class);
+                            intent.putExtra("selectedYear", selectedYear);
+                            intent.putExtra("selectedSemester", selectedSemester);
+                            intent.putExtra("timeTableName", timeTableName);
                             startActivity(intent);
                         }
                     }
@@ -149,7 +158,7 @@ public class SelectSemesterActivity extends AppCompatActivity {
 
         timeTableGenerateRequestDto = new TimeTableGenerateRequestDto();
 
-        timeTableGenerateRequestDto.setTableName("시간표 1");
+        timeTableGenerateRequestDto.setTableName(timeTableName);
         timeTableGenerateRequestDto.setTableYear(Integer.parseInt(selectedYear));
         timeTableGenerateRequestDto.setSemester(Integer.parseInt(selectedSemester));
 
@@ -158,7 +167,11 @@ public class SelectSemesterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<TimeTableGenerateResponseDto> call, @NonNull Response<TimeTableGenerateResponseDto> response) {
                         if (response.isSuccessful()) {
-                            finish();
+                            assert response.body() != null;
+                            long timetableId = response.body().getData();
+                            Intent intent = new Intent(SelectSemesterActivity.this, MainPageActivity.class);
+                            intent.putExtra("timetableId", timetableId);
+                            startActivity(intent);
                         }
                     }
 
@@ -168,5 +181,4 @@ public class SelectSemesterActivity extends AppCompatActivity {
                     }
                 });
     }
-
 }

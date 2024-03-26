@@ -32,6 +32,10 @@ public class SelectMajorActivity extends AppCompatActivity {
     private Long userId;
     private String accessToken;
 
+    String selectedYear;
+    String selectedSemester;
+    String timeTableName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,7 @@ public class SelectMajorActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getUserData();
+        getSemesterData();
         initNextClickListener();
         initBackClickListener();
         getMajorList();
@@ -49,6 +54,15 @@ public class SelectMajorActivity extends AppCompatActivity {
         preferenceUtil = MyApplication.getPreferences();
         userId = preferenceUtil.getUserId(-1L);
         accessToken = preferenceUtil.getAccessToken("FAIL");
+    }
+
+    private void getSemesterData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            selectedYear = intent.getStringExtra("selectedYear");
+            selectedSemester = intent.getStringExtra("selectedSemester");
+            timeTableName = intent.getStringExtra("timeTableName");
+        }
     }
 
     private void initNextClickListener() {
@@ -70,6 +84,9 @@ public class SelectMajorActivity extends AppCompatActivity {
                     public void onResponse(@NonNull Call<TimeTableResponseDto> call, @NonNull Response<TimeTableResponseDto> response) {
                         if (response.isSuccessful()) {
                             Intent intent = new Intent(SelectMajorActivity.this, SelectGeneralElectiveActivity.class);
+                            intent.putExtra("selectedYear", selectedYear);
+                            intent.putExtra("selectedSemester", selectedSemester);
+                            intent.putExtra("timeTableName", timeTableName);
                             startActivity(intent);
                         }
 

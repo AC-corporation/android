@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 public class Schedule implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    private int subjectId;
+    private Long subjectId;
     private String subjectName;
     private String professor;
     private int classDay;
@@ -33,7 +33,8 @@ public class Schedule implements Serializable {
 
     public int getSubjectId() {return subjectId;}
 
-    public void setSubjectId(int subjectId) {
+
+    public void setSubjectId(Long subjectId) {
         this.subjectId = subjectId;
     }
 

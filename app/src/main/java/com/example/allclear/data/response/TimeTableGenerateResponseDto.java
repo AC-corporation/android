@@ -11,4 +11,8 @@ public class TimeTableGenerateResponseDto {
     private String message;
     @SerializedName("data")
     private Long data;
+
+    public long getData() {
+        return data;
+    }
 }

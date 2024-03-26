@@ -152,7 +152,7 @@ public class SelfAddPersonalTwoActivity extends AppCompatActivity {
 
     void addschedule() {
         Schedule schedule = new Schedule();
-        schedule.setSubjectId(32);
+        schedule.setSubjectId(32L);
         schedule.setSubjectName(subtext);
         schedule.setProfessor(professor);
         schedule.setClassDay(day);
