@@ -18,20 +18,26 @@
         tools:replace="android:theme"
         tools:targetApi="31">
         <activity
+            android:name=".timetable.edit.EditTimeTableTwoUndergraduateMajorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".timetable.edit.EditTimeTableTwoGroupActivity"
+            android:exported="false" />
+        <activity
             android:name=".schedule.TimeTableControlExample"
             android:exported="false" />
         <activity
             android:name=".mypage.UserDeleteActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".mypage.MailWebViewActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".mypage.PasswordChangeActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
-        android:name=".auth.UsaintUpdateActivity"
-        android:exported="false" />
+            android:name=".auth.UsaintUpdateActivity"
+            android:exported="false" />
         <activity
             android:name=".timetable.edit.SelfAddTwoEditActivity"
             android:exported="false"
