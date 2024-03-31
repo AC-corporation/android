@@ -30,9 +30,6 @@
             android:name=".mypage.PasswordChangeActivity"
             android:exported="false"/>
         <activity
-        android:name=".auth.UsaintUpdateActivity"
-        android:exported="false" />
-        <activity
             android:name=".timetable.edit.SelfAddTwoEditActivity"
             android:exported="false"
             android:screenOrientation="portrait" />

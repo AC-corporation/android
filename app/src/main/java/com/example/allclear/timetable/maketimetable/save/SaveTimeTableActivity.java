@@ -20,6 +20,7 @@ import com.example.allclear.data.response.TimeTableStepEightResponseDto;
 import com.example.allclear.databinding.ActivitySaveTimeTableBinding;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.schedule.Schedule;
+import com.example.allclear.timetable.TimeTableFragment;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;

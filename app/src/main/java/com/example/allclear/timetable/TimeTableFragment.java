@@ -2,6 +2,10 @@ package com.example.allclear.timetable;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +17,11 @@ import androidx.fragment.app.Fragment;
 import com.example.allclear.databinding.FragmentTimeTableBinding;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.schedule.Schedule;
+import com.example.allclear.databinding.FragmentTimeTableBinding;
 import com.example.allclear.timetable.edit.EditTimeTableActivity;
 import com.example.allclear.timetable.maketimetable.SelectSemesterActivity;
 import com.islandparadise14.mintable.model.ScheduleEntity;
+import com.islandparadise14.mintable.tableinterface.OnScheduleClickListener;
 
 import java.util.ArrayList;
 
@@ -151,6 +157,22 @@ public class TimeTableFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ListTimeTableActivity.class);
                 startActivity(intent);
+            }
+        });
+        binding.timetable.setOnScheduleClickListener(new OnScheduleClickListener() {
+            @Override
+            public void scheduleClicked(@NonNull ScheduleEntity scheduleEntity) {
+                String schedulename=scheduleEntity.getScheduleName();
+                String professor=null;
+                int size=scheduleDataList.size();
+                for(int i=0;i<size;i++){
+                    if(schedulename==scheduleDataList.get(i).getSubjectName())
+                        professor=scheduleDataList.get(i).getProfessor();
+                }
+                String place=scheduleEntity.getRoomInfo();
+                ScheduleBottomSheetFragment bottomSheet = new ScheduleBottomSheetFragment(schedulename,professor,place);
+                bottomSheet.show(getActivity().getSupportFragmentManager(), bottomSheet.getTag());
+
             }
         });
     }
