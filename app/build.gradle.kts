@@ -87,4 +87,6 @@ dependencies {
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
 
+    implementation ("com.github.JakeWharton:ViewPagerIndicator:2.4.1")
+
 }

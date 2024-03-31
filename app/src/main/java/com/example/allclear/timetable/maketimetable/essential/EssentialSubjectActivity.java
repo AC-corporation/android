@@ -19,7 +19,7 @@ import com.example.allclear.data.response.TimeTableEssentialResponseDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.databinding.ActivityEssentialSubjectBinding;
 import com.example.allclear.databinding.DialogAddConditionBinding;
-import com.example.allclear.timetable.maketimetable.SaveTimeTableActivity;
+import com.example.allclear.timetable.maketimetable.save.SaveTimeTableActivity;
 
 import java.util.List;
 

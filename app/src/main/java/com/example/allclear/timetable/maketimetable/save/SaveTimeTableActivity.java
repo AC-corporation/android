@@ -1,13 +1,13 @@
-package com.example.allclear.timetable.maketimetable;
+package com.example.allclear.timetable.maketimetable.save;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.allclear.MainPageActivity;
 import com.example.allclear.MyApplication;
@@ -61,6 +61,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
 
+        initViewPager();
         getUserData();
         getSemesterData();
         setTimeTableName();
@@ -69,11 +70,40 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         initSaveBtnClickListener();
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        binding.table.initTable(stringDay);
-        binding.table.updateSchedules(scheduleEntityList);
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        binding.table.initTable(stringDay);
+//        binding.table.updateSchedules(scheduleEntityList);
+//    }
+
+    private void initViewPager() {
+        ViewPager vpMainActivity = findViewById(R.id.vpMainActivity);
+        CircleIndicator ciMainActivity = findViewById(R.id.ciMainActivity);
+
+        // Init adapter
+        MainAdapter adapter = new MainAdapter(getSupportFragmentManager());
+
+        // Init viewpager
+        vpMainActivity.setAdapter(adapter);
+
+        vpMainActivity.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                ciMainActivity.selectDot(position);
+            }
+        });
+
+        // Init indicator
+        ciMainActivity.createDotPanel(5, R.drawable.indicator_dot_off, R.drawable.indicator_dot_on, 0);
     }
 
     private void getUserData() {
@@ -194,8 +224,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
 
     void addSchedule() {
         Schedule schedule = new Schedule();
-
-        schedule.setSubjectId(timetableId);
+        schedule.setSubjectId(32L);
         schedule.setSubjectName(subtext);
         schedule.setProfessor(professor);
         schedule.setClassDay(day);
