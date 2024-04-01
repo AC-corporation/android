@@ -31,7 +31,7 @@ public class Schedule implements Serializable {
         this.timetableId = timetableId;
     }
 
-    public long getSubjectId() {return subjectId;}
+    public Long getSubjectId() {return subjectId;}
 
 
     public void setSubjectId(Long subjectId) {

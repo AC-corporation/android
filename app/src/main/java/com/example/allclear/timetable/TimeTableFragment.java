@@ -166,10 +166,17 @@ public class TimeTableFragment extends Fragment {
                 String professor=null;
                 int size=scheduleDataList.size();
                 for(int i=0;i<size;i++){
-                    if(schedulename==scheduleDataList.get(i).getSubjectName())
+                    if(schedulename.equals(scheduleDataList.get(i).getSubjectName()))
                         professor=scheduleDataList.get(i).getProfessor();
                 }
-                String place=scheduleEntity.getRoomInfo();
+
+                StringBuilder sb = new StringBuilder();
+                for(int i=0;i<size;i++){
+                    if(schedulename.equals(scheduleDataList.get(i).getSubjectName())) {
+                        sb.append(scheduleDataList.get(i).getClassRoom()).append(",");
+                    }
+                }
+                String place=sb.substring(0, sb.length() - 1);
                 ScheduleBottomSheetFragment bottomSheet = new ScheduleBottomSheetFragment(schedulename,professor,place);
                 bottomSheet.show(getActivity().getSupportFragmentManager(), bottomSheet.getTag());
 
