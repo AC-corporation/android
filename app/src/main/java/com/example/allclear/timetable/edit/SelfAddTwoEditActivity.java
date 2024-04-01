@@ -47,7 +47,7 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
         } else if (scheduleDataList == null) {
             size = 0;
         }
-        timeplaceList.add(new DataModel_timeplace("","","",""));
+        timeplaceList.add(new DataModel_timeplace("09:00","10:00","",""));
         displayDataInRecyclerView(timeplaceList);
 
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
@@ -163,12 +163,12 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
     }
     private void displayDataInRecyclerView(List<DataModel_timeplace> timeplaceList) {
         RecyclerView recyclerView = binding.rvAddpalcetime;
-        adapter = new addplacetimeadapter(timeplaceList);
+        adapter = new addplacetimeadapter(this,timeplaceList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
     private void addNewItem() {
-        timeplaceList.add(new DataModel_timeplace("", "","",""));
+        timeplaceList.add(new DataModel_timeplace("09:00", "10:00","",""));
         adapter.notifyDataSetChanged();
     }
 }
