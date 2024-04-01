@@ -9,31 +9,29 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.allclear.databinding.ActivitySelfAddPersonalTwoBinding;
 import com.example.allclear.databinding.SpinnerCustomBinding;
 import com.example.allclear.schedule.AdapterSpinner;
 import com.example.allclear.schedule.Schedule;
+import com.example.allclear.timetable.DataModel_timeplace;
+import com.example.allclear.timetable.addplacetimeadapter;
+import com.example.allclear.timetable.edit.SelfAddTwoEditActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SelfAddPersonalTwoActivity extends AppCompatActivity {
-    Spinner spinner;
-    AdapterSpinner adapterSpinner;
-
     private ActivitySelfAddPersonalTwoBinding binding;
-
-    private SpinnerCustomBinding spinnerCustomBinding;
-
     String subtext;
     String professor;
-    String dayspinner;
-    String start_time;
-    String end_time;
-    String place;
-    int day;
     int size;
+    int count;
     ArrayList<Schedule> scheduleDataList;
+    private List<DataModel_timeplace> timeplaceList = new ArrayList<>();
+    addplacetimeadapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +45,8 @@ public class SelfAddPersonalTwoActivity extends AppCompatActivity {
         } else if (scheduleDataList == null) {
             size = 0;
         }
+        timeplaceList.add(new DataModel_timeplace("09:00","10:00","",""));
+        displayDataInRecyclerView(timeplaceList);
 
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,75 +54,65 @@ public class SelfAddPersonalTwoActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        spinner = binding.daySpinner;
-        ArrayList<String> days = new ArrayList<>();
-        days.add("월요일");
-        days.add("화요일");
-        days.add("수요일");
-        days.add("목요일");
-        days.add("금요일");
-        days.add("토요일");
-        days.add("일요일");
-        //ArrayList에 내가 스피너에 보여주고싶은 값 셋팅
-        adapterSpinner = new AdapterSpinner(this, days); //그 값을 넣어줌
-        spinner.setAdapter(adapterSpinner); //어댑터연결
-        spinnerCustomBinding = SpinnerCustomBinding.inflate(getLayoutInflater());
-
-        ImageButton downarrow = spinnerCustomBinding.ibDownArrow1;
-        downarrow.setOnClickListener(new View.OnClickListener() {
+        binding.tvAddPlaceTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
+                addNewItem();
             }
         });
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                subtext = binding.etSubTextOne.getText().toString();
-                professor = binding.etProfessorName.getText().toString();
-                dayspinner = binding.daySpinner.getSelectedItem().toString();
-                day = getday(dayspinner);
-                start_time = binding.etStarttime.getText().toString();
-                end_time = binding.etEndtime.getText().toString();
-                place = binding.etPlace.getText().toString();
+                subtext=binding.etSubTextOne.getText().toString();
+                professor=binding.etProfessorName.getText().toString();
+                count=timeplaceList.size();
                 if (subtext.isEmpty())
                     Toast.makeText(SelfAddPersonalTwoActivity.this, "이름을 입력해주세요", Toast.LENGTH_SHORT).show();
-                else
-                    //시간이 겹치는 지 확인하는 함수
-                    checkconflict();
+                else {
+                    checkempty();
+                }
             }
         });
     }
-
-    public void checkconflict() {
-
-        if (size == 0) {
-            //스케줄데이터를 SelfAddOneActivity로 전달하는 함수
+    public void checkconflict(){
+        if(size==0){
+            //스케줄데이터를 EditTimeTableTwoActivity로 전달하는 함수
             addschedule();
-        } else {
-            for (int i = 0; i < size; i++) {
-                if (day == scheduleDataList.get(i).getClassDay()) {
-                    int addstart = timeToMinutes(start_time);
-                    int addend = timeToMinutes(end_time);
-                    int liststart = timeToMinutes(scheduleDataList.get(i).getStartTime());
-                    int listend = timeToMinutes(scheduleDataList.get(i).getEndTime());
-                    if ((addstart < listend) && (addend > liststart)) {
-                        Toast.makeText(SelfAddPersonalTwoActivity.this, "시간이 겹치는 일정이 존재합니다", Toast.LENGTH_SHORT).show();
-                        return;
+        }
+        else {
+            for(int j=0;j<count;j++){
+                for(int i=0;i<size;i++){
+                    if(getday(timeplaceList.get(j).getDay())==scheduleDataList.get(i).getClassDay()){
+                        int addstart=timeToMinutes(timeplaceList.get(j).getStarttime());
+                        int addend=timeToMinutes(timeplaceList.get(j).getEndtime());
+                        int liststart=timeToMinutes(scheduleDataList.get(i).getStartTime());
+                        int listend=timeToMinutes(scheduleDataList.get(i).getEndTime());
+                        if((addstart<listend)&&(addend>liststart)){
+                            Toast.makeText(SelfAddPersonalTwoActivity.this, "시간이 겹치는 일정이 존재합니다", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                     }
                 }
             }
             addschedule();
         }
+    }
+    public void checkempty(){
+        for(int i=0;i<count;i++){
+            if(timeplaceList.get(i).getStarttime().isEmpty()) {
+                Toast.makeText(SelfAddPersonalTwoActivity.this, "시작시간을 입력해주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else if(timeplaceList.get(i).getEndtime().isEmpty()) {
+                Toast.makeText(SelfAddPersonalTwoActivity.this, "종료시간을 입력해주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else if(timeplaceList.get(i).getStarttime().equals(timeplaceList.get(i).getEndtime())) {
+                Toast.makeText(SelfAddPersonalTwoActivity.this, "시작시간과 종료시간을 다르게 입력해주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        checkconflict();
     }
 
     //선택요일을 정수로 변환해주는 함수
@@ -149,19 +139,34 @@ public class SelfAddPersonalTwoActivity extends AppCompatActivity {
         int minutes = Integer.parseInt(parts[1]);
         return hours * 60 + minutes;
     }
-
     void addschedule() {
         Schedule schedule = new Schedule();
-        schedule.setSubjectId(32L);
+        schedule.setSubjectId(null);
         schedule.setSubjectName(subtext);
         schedule.setProfessor(professor);
-        schedule.setClassDay(day);
-        schedule.setStartTime(start_time);
-        schedule.setEndTime(end_time);
-        schedule.setClassRoom(place);
+        //리사이클러뷰에 띄울 데이터 넘겨줄 로직 필요
+        for(int i=0;i<count;i++){
+            schedule.setClassDay(getday(timeplaceList.get(i).getDay()));
+            schedule.setStartTime(timeplaceList.get(i).getStarttime());
+            schedule.setEndTime(timeplaceList.get(i).getEndtime());
+            schedule.setClassRoom(timeplaceList.get(i).getPlace());
+            scheduleDataList.add(schedule);
+        }
         Intent intent = new Intent(SelfAddPersonalTwoActivity.this, SelfAddPersonalOneActivity.class);
         intent.putExtra("schedule", schedule);
         setResult(RESULT_OK, intent);
         finish();
     }
+    private void displayDataInRecyclerView(List<DataModel_timeplace> timeplaceList) {
+        RecyclerView recyclerView = binding.rvAddpalcetime;
+        adapter = new addplacetimeadapter(this,timeplaceList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+    }
+    private void addNewItem() {
+        timeplaceList.add(new DataModel_timeplace("09:00", "10:00","",""));
+        adapter.notifyDataSetChanged();
+    }
+
+
 }
