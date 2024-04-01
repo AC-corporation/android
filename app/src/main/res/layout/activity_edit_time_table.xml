@@ -23,6 +23,7 @@
         android:id="@+id/tv_sub_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minHeight="12dp"
         android:text="시간표 1"
         android:fontFamily="@font/poppins_regular"
         android:textColor="@color/gray"
