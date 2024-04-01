@@ -170,20 +170,47 @@ public class TimeTableFragment extends Fragment {
                         professor=scheduleDataList.get(i).getProfessor();
                 }
 
-                StringBuilder sb = new StringBuilder();
+                StringBuilder place_sb = new StringBuilder();
                 for(int i=0;i<size;i++){
                     if(schedulename.equals(scheduleDataList.get(i).getSubjectName())) {
-                        sb.append(scheduleDataList.get(i).getClassRoom()).append(",");
+                        place_sb.append(scheduleDataList.get(i).getClassRoom()).append(",");
                     }
                 }
-                String place=sb.substring(0, sb.length() - 1);
-                ScheduleBottomSheetFragment bottomSheet = new ScheduleBottomSheetFragment(schedulename,professor,place);
+                String place=place_sb.substring(0, place_sb.length() - 1);
+
+                StringBuilder time_sb = new StringBuilder();
+
+                for(int i=0;i<size;i++){
+                    if(schedulename.equals(scheduleDataList.get(i).getSubjectName())) {
+                        StringBuilder day_sb = new StringBuilder();
+                        day_sb.append(getday(scheduleDataList.get(i).getClassDay())).append(":")
+                                .append(scheduleDataList.get(i).getStartTime()).append("-").append(scheduleDataList.get(i).getEndTime());
+                        time_sb.append(day_sb.toString()).append(",");
+                    }
+                }
+                String time=time_sb.substring(0, time_sb.length() - 1);
+                ScheduleBottomSheetFragment bottomSheet = new ScheduleBottomSheetFragment(schedulename,professor,place,time);
                 bottomSheet.show(getActivity().getSupportFragmentManager(), bottomSheet.getTag());
 
             }
         });
     }
 
+    protected String  getday(int day) {
+        if (day==0)
+            return "월";
+        else if (day==1)
+            return "화";
+        else if (day==2)
+            return "수";
+        else if (day==3)
+            return "목";
+        else if (day==4)
+            return "금";
+        else if (day==5)
+            return "토";
+        else return "일";
+    }
     @Override
     public void onDestroyView() {
         Log.i("Fragment", "onDestroyView()");

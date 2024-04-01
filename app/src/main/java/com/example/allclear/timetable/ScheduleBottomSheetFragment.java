@@ -16,11 +16,13 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     private String schedulename;
     private String professor;
     private String place;
+    private String time;
 
-    public ScheduleBottomSheetFragment(String schedulename,String professor,String place) {
+    public ScheduleBottomSheetFragment(String schedulename,String professor,String place,String time) {
         this.schedulename=schedulename;
         this.professor=professor;
         this.place=place;
+        this.time=time;
     }
 
     @Override
@@ -30,10 +32,12 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         TextView tv_schedulename = binding.tvSchedulename;
         TextView tv_professor = binding.tvProfessor;
         TextView tv_place = binding.tvPlace;
+        TextView tv_time = binding.tvTime;
 
         tv_schedulename.setText(schedulename);
         tv_professor.setText(professor);
         tv_place.setText(place);
+        tv_time.setText(time);
         return binding.getRoot();
     }
 }
