@@ -2,25 +2,38 @@ package com.example.allclear.timetable.maketimetable.save;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-public class MainAdapter extends FragmentPagerAdapter {
+public class MainAdapter extends FragmentStateAdapter {
 
-    public MainAdapter(FragmentManager fm) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+    public int mCount;
+
+    public MainAdapter(FragmentActivity fa, int count) {
+        super(fa);
+        mCount = count;
     }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
-        // 페이지에 해당하는 프래그먼트를 반환
-        return SaveTimeTableFragment.newInstance(position);
+    public Fragment createFragment(int position) {
+        int index = getRealPosition(position);
+
+        // 수정 필요
+        if (index == 0) return new SaveTimeTableFragment();
+        else if (index == 1) return new SaveTimeTableFragment();
+        else if (index == 2) return new SaveTimeTableFragment();
+        else return new SaveTimeTableFragment();
+
     }
 
     @Override
-    public int getCount() {
-        // 페이지의 총 수를 반환
-        return 5;
+    public int getItemCount() {
+        return 2000;
     }
+
+    public int getRealPosition(int position) {
+        return position % mCount;
+    }
+
 }

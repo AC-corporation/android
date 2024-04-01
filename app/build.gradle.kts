@@ -88,5 +88,7 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:2.6.1")
 
     implementation ("com.github.JakeWharton:ViewPagerIndicator:2.4.1")
+    implementation ("androidx.viewpager2:viewpager2:1.0.0")
+    implementation ("me.relex:circleindicator:2.1.6")
 
 }

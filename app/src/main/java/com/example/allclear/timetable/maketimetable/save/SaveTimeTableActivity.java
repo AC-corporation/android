@@ -7,7 +7,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
+import androidx.core.view.ViewCompat;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.allclear.MainPageActivity;
 import com.example.allclear.MyApplication;
@@ -20,13 +22,13 @@ import com.example.allclear.data.response.TimeTableStepEightResponseDto;
 import com.example.allclear.databinding.ActivitySaveTimeTableBinding;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.schedule.Schedule;
-import com.example.allclear.timetable.TimeTableFragment;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import me.relex.circleindicator.CircleIndicator3;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -55,6 +57,11 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     String selectedYear;
     String selectedSemester;
     String timeTableName;
+    int indicatorCount;
+    private ViewPager2 mPager;
+    private FragmentStateAdapter pagerAdapter;
+    private int num_page = 4;
+    private CircleIndicator3 mIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +69,14 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
 
-        initViewPager();
+        viewPager();
+
         getUserData();
         getSemesterData();
         setTimeTableName();
         initBackBtnClickListener();
         getTimeTableGenerator();
-        initSaveBtnClickListener();
+//        initSaveBtnClickListener();
     }
 
 //    @Override
@@ -78,33 +86,57 @@ public class SaveTimeTableActivity extends AppCompatActivity {
 //        binding.table.updateSchedules(scheduleEntityList);
 //    }
 
-    private void initViewPager() {
-        ViewPager vpMainActivity = findViewById(R.id.vpMainActivity);
-        CircleIndicator ciMainActivity = findViewById(R.id.ciMainActivity);
+    private void viewPager() {
+        //ViewPager2
+        mPager = findViewById(R.id.viewpager);
+        //Adapter
+        pagerAdapter = new MainAdapter(this, num_page);
+        mPager.setAdapter(pagerAdapter);
+        //Indicator
+        mIndicator = findViewById(R.id.indicator);
+        mIndicator.setViewPager(mPager);
+        mIndicator.createIndicators(num_page, 0);
+        //ViewPager Setting
+        mPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        mPager.setCurrentItem(1000);
+        mPager.setOffscreenPageLimit(3);
 
-        // Init adapter
-        MainAdapter adapter = new MainAdapter(getSupportFragmentManager());
-
-        // Init viewpager
-        vpMainActivity.setAdapter(adapter);
-
-        vpMainActivity.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-
+        mPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                if (positionOffsetPixels == 0) {
+                    mPager.setCurrentItem(position);
+                }
             }
 
             @Override
             public void onPageSelected(int position) {
-                ciMainActivity.selectDot(position);
+                super.onPageSelected(position);
+                mIndicator.animatePageSelected(position % num_page);
             }
+
         });
 
-        // Init indicator
-        ciMainActivity.createDotPanel(5, R.drawable.indicator_dot_off, R.drawable.indicator_dot_on, 0);
+
+        final float pageMargin = getResources().getDimensionPixelOffset(R.dimen.pageMargin);
+        final float pageOffset = getResources().getDimensionPixelOffset(R.dimen.offset);
+
+        mPager.setPageTransformer(new ViewPager2.PageTransformer() {
+            @Override
+            public void transformPage(@NonNull View page, float position) {
+                float myOffset = position * -(2 * pageOffset + pageMargin);
+                if (mPager.getOrientation() == ViewPager2.ORIENTATION_HORIZONTAL) {
+                    if (ViewCompat.getLayoutDirection(mPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
+                        page.setTranslationX(-myOffset);
+                    } else {
+                        page.setTranslationX(myOffset);
+                    }
+                } else {
+                    page.setTranslationY(myOffset);
+                }
+            }
+        });
     }
 
     private void getUserData() {
@@ -158,6 +190,8 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         if (timeTable == null) {
             Toast.makeText(this, "생성된 추천 시간표가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
         } else {
+            // indicatorCount = timeTable.size();
+
             for (TimeTableStepEightResponseDto.TimeTableData.TimeTable entry : timeTable) {
                 List<TimeTableStepEightResponseDto.TimeTableData.TimeTable.timetableSubjectResponseDtoList> subjects = entry.getTimetableSubjectResponseDtoList();
 
@@ -180,6 +214,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
             }
         }
     }
+
 
     private int makeDayToInt(String day) {
         if (Objects.equals(day, getString(R.string.monday)))
@@ -255,14 +290,14 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         }
     }
 
-    private void initSaveBtnClickListener() {
-        binding.btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                postSaveTimeTable(accessToken, userId);
-            }
-        });
-    }
+//    private void initSaveBtnClickListener() {
+//        binding.btnNext.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                postSaveTimeTable(accessToken, userId);
+//            }
+//        });
+//    }
 
     private void postSaveTimeTable(String accessToken, Long userId) {
         TimeTableSaveRequestDto timeTableSaveRequestDto = new TimeTableSaveRequestDto();
