@@ -140,12 +140,11 @@ public class SelfAddPersonalTwoActivity extends AppCompatActivity {
         return hours * 60 + minutes;
     }
     void addschedule() {
-        Schedule schedule = new Schedule();
-        schedule.setSubjectId(null);
-        schedule.setSubjectName(subtext);
-        schedule.setProfessor(professor);
-        //리사이클러뷰에 띄울 데이터 넘겨줄 로직 필요
         for(int i=0;i<count;i++){
+            Schedule schedule = new Schedule();
+            schedule.setSubjectId(null);
+            schedule.setSubjectName(subtext);
+            schedule.setProfessor(professor);
             schedule.setClassDay(getday(timeplaceList.get(i).getDay()));
             schedule.setStartTime(timeplaceList.get(i).getStarttime());
             schedule.setEndTime(timeplaceList.get(i).getEndtime());
@@ -153,7 +152,7 @@ public class SelfAddPersonalTwoActivity extends AppCompatActivity {
             scheduleDataList.add(schedule);
         }
         Intent intent = new Intent(SelfAddPersonalTwoActivity.this, SelfAddPersonalOneActivity.class);
-        intent.putExtra("schedule", schedule);
+        intent.putExtra("addedschedulelist", scheduleDataList);
         setResult(RESULT_OK, intent);
         finish();
     }

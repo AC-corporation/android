@@ -18,6 +18,7 @@ import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.TimeTableTwoRequestDto;
 import com.example.allclear.data.response.TimeTableResponseDto;
 import com.example.allclear.databinding.ActivitySelfAddPersonalOneBinding;
+import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.schedule.Schedule;
 import com.example.allclear.timetable.maketimetable.selfadd.subject.SelfAddSubjectOneActivity;
 
@@ -173,16 +174,17 @@ public class SelfAddPersonalOneActivity extends AppCompatActivity {
             return getString(R.string.thursday);
         else if (day == 4)
             return getString(R.string.friday);
-        else
+        else if (day==5)
             return getString(R.string.saturday);
+        else
+            return getString(R.string.sunday);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == RESULT_OK) {
-            Schedule schedule = (Schedule) data.getSerializableExtra("schedule");
-            scheduleDataList.add(schedule);
+            scheduleDataList= (ArrayList<Schedule>) data.getSerializableExtra("addedschedulelist");
             displayDataInRecyclerView(scheduleDataList);
         }
     }
