@@ -43,7 +43,7 @@ public class EditTimeTableTwoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("schedulelist")) {
             scheduleDataList = (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");
-            scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
+            scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(this,scheduleDataList);
             //토요일,일요일 유무에 따라 day 변경
             day = new String[]{"Mon", "Tue", "Wen", "Thu", "Fri"};
             int size = scheduleDataList.size();
@@ -89,7 +89,7 @@ public class EditTimeTableTwoActivity extends AppCompatActivity {
         if (requestCode == 10 && resultCode == RESULT_OK) {
             //사용자가 직접추가한 스케줄데이터를 ScheduleList에 추가
             scheduleDataList= (ArrayList<Schedule>) data.getSerializableExtra("addedschedulelist");
-            scheduleEntityList=ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
+            scheduleEntityList=ChangeSchedule.getInstance().Change_scheduleEntity(this,scheduleDataList);
             //토요일,일요일 유무에 따라 day 변경
             day = new String[]{"Mon", "Tue", "Wen", "Thu", "Fri"};
             int size = scheduleDataList.size();

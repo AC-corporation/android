@@ -88,7 +88,7 @@ public class TimeTableFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra("schedulelist")) {
             scheduleDataList = (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");
-            scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
+            scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(getContext(),scheduleDataList);
             //토요일,일요일 유무에 따라 day 변경
             int size = scheduleDataList.size();
             if (size != 0) {
