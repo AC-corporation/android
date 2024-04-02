@@ -79,27 +79,54 @@ public class SelfAddTwoEditActivity extends AppCompatActivity {
     }
 
     public void checkconflict(){
-        if(size==0){
-            //스케줄데이터를 EditTimeTableTwoActivity로 전달하는 함수
-            addschedule();
-        }
-        else {
-            for(int j=0;j<count;j++){
-                for(int i=0;i<size;i++){
-                    if(getday(timeplaceList.get(j).getDay())==scheduleDataList.get(i).getClassDay()){
-                        int addstart=timeToMinutes(timeplaceList.get(j).getStarttime());
-                        int addend=timeToMinutes(timeplaceList.get(j).getEndtime());
-                        int liststart=timeToMinutes(scheduleDataList.get(i).getStartTime());
-                        int listend=timeToMinutes(scheduleDataList.get(i).getEndTime());
-                        if((addstart<listend)&&(addend>liststart)){
-                            Toast.makeText(SelfAddTwoEditActivity.this, "시간이 겹치는 일정이 존재합니다", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
+       if(hasOverlappingSchedules(timeplaceList)){
+           Toast.makeText(SelfAddTwoEditActivity.this, "압력한 시간 중 겹치는 시간이 존재합니다", Toast.LENGTH_SHORT).show();
+       }
+       else{
+           if(size==0){
+               //스케줄데이터를 EditTimeTableTwoActivity로 전달하는 함수
+               addschedule();
+           }
+           else {
+               for(int j=0;j<count;j++){
+                   for(int i=0;i<size;i++){
+                       if(getday(timeplaceList.get(j).getDay())==scheduleDataList.get(i).getClassDay()){
+                           int addstart=timeToMinutes(timeplaceList.get(j).getStarttime());
+                           int addend=timeToMinutes(timeplaceList.get(j).getEndtime());
+                           int liststart=timeToMinutes(scheduleDataList.get(i).getStartTime());
+                           int listend=timeToMinutes(scheduleDataList.get(i).getEndTime());
+                           if((addstart<listend)&&(addend>liststart)){
+                               Toast.makeText(SelfAddTwoEditActivity.this, "시간이 겹치는 일정이 존재합니다", Toast.LENGTH_SHORT).show();
+                               return;
+                           }
+                       }
+                   }
+               }
+               addschedule();
+           }
+
+       }
+    }
+    public static boolean hasOverlappingSchedules(List<DataModel_timeplace> list) {
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = i + 1; j < list.size(); j++) {
+                DataModel_timeplace first = list.get(i);
+                DataModel_timeplace second = list.get(j);
+                // 같은 요일인지 확인
+                if (first.getDay().equals(second.getDay())) {
+                    //시간이 겹치는지 확인
+                    int firststart=timeToMinutes(first.getStarttime());
+                    int firstend=timeToMinutes(first.getEndtime());
+                    int secondstart=timeToMinutes(second.getStarttime());
+                    int secondend=timeToMinutes(second.getEndtime());
+                    if((firststart<secondend)&&(firstend>secondstart)){
+                        return true;
                     }
                 }
             }
-            addschedule();
         }
+        // 겹치는 일정 없음
+        return false;
     }
     public void checkempty(){
         for(int i=0;i<count;i++){
