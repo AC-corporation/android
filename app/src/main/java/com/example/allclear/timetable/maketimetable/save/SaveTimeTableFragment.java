@@ -5,8 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.allclear.databinding.FragmentSaveTimeTableBinding;
@@ -15,57 +13,61 @@ import com.islandparadise14.mintable.model.ScheduleEntity;
 import java.util.ArrayList;
 
 public class SaveTimeTableFragment extends Fragment {
+    private static final String ARG_TIMETABLE_ID = "timetable_id";
+    private long timetableId;
+    private FragmentSaveTimeTableBinding binding; // 바인딩 객체 선언
 
-    private static final String ARG_STRING_DAY = "stringDay";
-    private static final String ARG_SCHEDULE_ENTITY_LIST = "scheduleEntityList";
-    private FragmentSaveTimeTableBinding binding;
-    private String[] stringDay;
-    private static ArrayList<ScheduleEntity> scheduleEntityList;
+    private String[] tempStringDay;
+    private ArrayList<ScheduleEntity> tempScheduleEntityList;
+    private boolean isDataReady = false; // 데이터가 준비되었는지 확인하는 플래그
 
-    public SaveTimeTableFragment() {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentSaveTimeTableBinding.inflate(inflater, container, false); // 바인딩 객체 초기화
 
+        // 데이터가 준비되었으면 UI 업데이트
+        if (isDataReady) {
+            updateFragmentData(tempStringDay, tempScheduleEntityList);
+        }
+
+        // getArguments()에서 데이터 받아오는 코드 추가
+        if (getArguments() != null) {
+            timetableId = getArguments().getLong(ARG_TIMETABLE_ID);
+        }
+
+        // View 초기화 및 설정
+        return binding.getRoot(); // 루트 뷰 반환
     }
 
-    public static SaveTimeTableFragment newInstance(String[] stringDay, ArrayList<ScheduleEntity> scheduleEntityList) {
+    public static SaveTimeTableFragment newInstance(long timetableId) {
         SaveTimeTableFragment fragment = new SaveTimeTableFragment();
         Bundle args = new Bundle();
-        args.putStringArray(ARG_STRING_DAY, stringDay);
-        args.putSerializable(ARG_SCHEDULE_ENTITY_LIST, SaveTimeTableFragment.scheduleEntityList);
+        args.putLong(ARG_TIMETABLE_ID, timetableId);
         fragment.setArguments(args);
         return fragment;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            stringDay = getArguments().getStringArray(ARG_STRING_DAY);
-            scheduleEntityList = (ArrayList<ScheduleEntity>) getArguments().getSerializable(ARG_SCHEDULE_ENTITY_LIST);
+    public void updateFragmentData(String[] stringDay, ArrayList<ScheduleEntity> scheduleEntityList) {
+        // onCreateView가 호출되기 전이면 임시 변수에 데이터 저장
+        if (binding == null) {
+            tempStringDay = stringDay;
+            tempScheduleEntityList = scheduleEntityList;
+            isDataReady = true;
+            return;
+        }
+
+        // UI 업데이트 작업 수행
+        if (stringDay != null) {
+            binding.table.initTable(stringDay);
+        }
+        if (scheduleEntityList != null) {
+            binding.table.updateSchedules(scheduleEntityList);
         }
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentSaveTimeTableBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
-
-        if (stringDay != null && scheduleEntityList != null) {
-            binding.table.initTable(stringDay);
-            binding.table.updateSchedules(scheduleEntityList);
-        }
-
-        return view;
-    }
-
-    public void setData(String[] stringDay, ArrayList<ScheduleEntity> scheduleEntityList) {
-        this.stringDay = stringDay;
-        this.scheduleEntityList = scheduleEntityList;
-
-        // 데이터가 설정되면 프래그먼트의 UI를 업데이트합니다.
-        if (binding != null && stringDay != null && scheduleEntityList != null) {
-            binding.table.initTable(stringDay);
-            binding.table.updateSchedules(scheduleEntityList);
-        }
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

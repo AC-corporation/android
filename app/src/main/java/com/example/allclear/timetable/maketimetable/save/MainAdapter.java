@@ -5,35 +5,52 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.islandparadise14.mintable.model.ScheduleEntity;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainAdapter extends FragmentStateAdapter {
+    private List<Long> num_page;
+    private String[] stringDay;
+    private ArrayList<ScheduleEntity> scheduleEntityList;
 
-    public int mCount;
+    public MainAdapter(@NonNull FragmentActivity fragmentActivity, List<Long> num_page) {
+        super(fragmentActivity);
+        this.num_page = num_page;
+    }
 
-    public MainAdapter(FragmentActivity fa, int count) {
-        super(fa);
-        mCount = count;
+
+    // 생성자 및 기타 메서드 생략...
+
+    // stringDay를 설정하는 메서드
+    public void setStringDay(String[] stringDay) {
+        this.stringDay = stringDay;
+    }
+
+    // scheduleEntityList를 설정하는 메서드
+    public void setScheduleEntityList(ArrayList<ScheduleEntity> scheduleEntityList) {
+        this.scheduleEntityList = scheduleEntityList;
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        int index = getRealPosition(position);
-
-        // 수정 필요
-        if (index == 0) return new SaveTimeTableFragment();
-        else if (index == 1) return new SaveTimeTableFragment();
-        else if (index == 2) return new SaveTimeTableFragment();
-        else return new SaveTimeTableFragment();
-
+        // 해당 position에 맞는 프래그먼트를 생성하여 반환
+        SaveTimeTableFragment fragment = SaveTimeTableFragment.newInstance(num_page.get(position));
+        fragment.updateFragmentData(stringDay, scheduleEntityList);
+        return fragment;
     }
 
     @Override
     public int getItemCount() {
-        return 2000;
+        return num_page.size();
     }
 
-    public int getRealPosition(int position) {
-        return position % mCount;
+    // 프래그먼트에 데이터 전달을 위한 메서드
+    public void setFragmentData(int position, String[] stringDay, ArrayList<ScheduleEntity> scheduleEntityList) {
+        this.stringDay = stringDay;
+        this.scheduleEntityList = scheduleEntityList;
+        notifyItemChanged(position);
     }
-
 }
