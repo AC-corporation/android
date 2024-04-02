@@ -299,6 +299,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
                             Toast.makeText(SaveTimeTableActivity.this, R.string.timetable_save, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SaveTimeTableActivity.this, MainPageActivity.class);
                             intent.putExtra("scheduleList", scheduleDataList);
+                            intent.putExtra("scheduleList", timetableId);
                             setResult(RESULT_OK, intent);
                             startActivity(intent);
                         }
