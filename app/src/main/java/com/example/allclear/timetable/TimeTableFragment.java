@@ -88,7 +88,7 @@ public class TimeTableFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra("schedulelist")) {
             scheduleDataList = (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");
-            scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
+            scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(getContext(),scheduleDataList);
             //토요일,일요일 유무에 따라 day 변경
             int size = scheduleDataList.size();
             if (size != 0) {
@@ -166,17 +166,51 @@ public class TimeTableFragment extends Fragment {
                 String professor=null;
                 int size=scheduleDataList.size();
                 for(int i=0;i<size;i++){
-                    if(schedulename==scheduleDataList.get(i).getSubjectName())
+                    if(schedulename.equals(scheduleDataList.get(i).getSubjectName()))
                         professor=scheduleDataList.get(i).getProfessor();
                 }
-                String place=scheduleEntity.getRoomInfo();
-                ScheduleBottomSheetFragment bottomSheet = new ScheduleBottomSheetFragment(schedulename,professor,place);
+
+                StringBuilder place_sb = new StringBuilder();
+                for(int i=0;i<size;i++){
+                    if(schedulename.equals(scheduleDataList.get(i).getSubjectName())) {
+                        place_sb.append(scheduleDataList.get(i).getClassRoom()).append(",");
+                    }
+                }
+                String place=place_sb.substring(0, place_sb.length() - 1);
+
+                StringBuilder time_sb = new StringBuilder();
+
+                for(int i=0;i<size;i++){
+                    if(schedulename.equals(scheduleDataList.get(i).getSubjectName())) {
+                        StringBuilder day_sb = new StringBuilder();
+                        day_sb.append(getday(scheduleDataList.get(i).getClassDay())).append(":")
+                                .append(scheduleDataList.get(i).getStartTime()).append("-").append(scheduleDataList.get(i).getEndTime());
+                        time_sb.append(day_sb.toString()).append(",");
+                    }
+                }
+                String time=time_sb.substring(0, time_sb.length() - 1);
+                ScheduleBottomSheetFragment bottomSheet = new ScheduleBottomSheetFragment(schedulename,professor,place,time);
                 bottomSheet.show(getActivity().getSupportFragmentManager(), bottomSheet.getTag());
 
             }
         });
     }
 
+    protected String  getday(int day) {
+        if (day==0)
+            return "월";
+        else if (day==1)
+            return "화";
+        else if (day==2)
+            return "수";
+        else if (day==3)
+            return "목";
+        else if (day==4)
+            return "금";
+        else if (day==5)
+            return "토";
+        else return "일";
+    }
     @Override
     public void onDestroyView() {
         Log.i("Fragment", "onDestroyView()");

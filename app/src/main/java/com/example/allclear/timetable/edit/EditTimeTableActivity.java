@@ -69,7 +69,7 @@ public class EditTimeTableActivity extends AppCompatActivity {
         Intent intent=getIntent();
         if(intent != null && intent.hasExtra("schedulelist")){
             scheduleDataList=(ArrayList<Schedule>)intent.getSerializableExtra("schedulelist");
-            scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
+            scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(this,scheduleDataList);
             //토요일,일요일 유무에 따라 day 변경
             day=new String[]{"Mon", "Tue", "Wen", "Thu", "Fri"};
             int size=scheduleDataList.size();
@@ -138,7 +138,7 @@ public class EditTimeTableActivity extends AppCompatActivity {
 //                            if(name==scheduleDataList.get(i).getSubjectName())
 //                                scheduleDataList.remove(i);
 //                            }
-                        scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
+                        scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(EditTimeTableActivity.this,scheduleDataList);
                         //토요일,일요일 유무에 따라 day 변경
                         day=new String[]{"Mon", "Tue", "Wen", "Thu", "Fri"};
                         int size=scheduleDataList.size();
@@ -223,7 +223,7 @@ public class EditTimeTableActivity extends AppCompatActivity {
         //EditTimeTableTwoActivity에서 액티비티가 전환되었을 때 ScheduleList 갱신
         if (requestCode == 1 && resultCode == RESULT_OK){
             scheduleDataList=(ArrayList<Schedule>)data.getSerializableExtra("schedulelist");
-            scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
+            scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(this,scheduleDataList);
             //토요일,일요일 유무에 따라 day 변경
             day=new String[]{"Mon", "Tue", "Wen", "Thu", "Fri"};
             int size=scheduleDataList.size();

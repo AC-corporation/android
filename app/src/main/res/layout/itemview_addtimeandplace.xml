@@ -14,16 +14,18 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         app:layout_constraintTop_toTopOf="parent"/>
 
 
-    <EditText
+    <TextView
         android:id="@+id/et_starttime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20sp"
-        android:hint="9:00"
-        android:textColor="@color/gray"
+        android:text="09:00"
+        android:textColor="@color/secondary"
         android:textSize="15sp"
         android:textStyle="bold"
-        android:background="@color/transparent"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/day_spinner"
         app:layout_constraintStart_toEndOf="@id/day_spinner"
         app:layout_constraintTop_toTopOf="@id/day_spinner"/>
@@ -41,15 +43,17 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         app:layout_constraintStart_toEndOf="@id/et_starttime"
         app:layout_constraintTop_toTopOf="@id/day_spinner"/>
 
-    <EditText
+    <TextView
         android:id="@+id/et_endtime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="10:30"
-        android:textColor="@color/gray"
+        android:text="11:00"
+        android:textColor="@color/secondary"
         android:textSize="15sp"
         android:textStyle="bold"
-        android:background="@color/transparent"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/day_spinner"
         app:layout_constraintStart_toEndOf="@id/tv_tilde"
         app:layout_constraintTop_toTopOf="@id/day_spinner"/>
