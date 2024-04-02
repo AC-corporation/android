@@ -60,6 +60,11 @@ public class EditTimeTableTwoActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         initDefaultData();
         //스케줄데이터를 전달받아 타임테이블에 보여지는 요소로 전환
+        initCalendar();
+        initRV();
+        clickListener();
+    }
+    private void initCalendar(){
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("schedulelist")) {
             scheduleDataList = (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");
@@ -78,8 +83,6 @@ public class EditTimeTableTwoActivity extends AppCompatActivity {
                 }
             }
         }
-        initRV();
-        clickListener();
     }
     private void initDefaultData(){
         preferenceUtil = MyApplication.getPreferences();
@@ -103,13 +106,28 @@ public class EditTimeTableTwoActivity extends AppCompatActivity {
                 startActivityForResult(intent, 10);
             }
         });
-        binding.spFilterGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),EditTimeTableTwoGroupActivity.class);
-                startActivityForResult(intent,11);
-            }
-        });
+//        binding.spFilterGroup.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(),EditTimeTableTwoGroupActivity.class);
+//                intent.putExtra("schedulelist",scheduleDataList);
+//                startActivityForResult(intent,11);
+//            }
+//        });
+//        binding.spFilterSearch.setOnClickListener(new View.OnClickListener(){
+//
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+//        binding.spFilterGrade.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(),EditTimeTableTwoGradeActivity.class);
+//                startActivityForResult(intent,12);
+//            }
+//        });
     }
     private void initRV(){
         if (subjectSearchsRequestDto == null){
@@ -205,8 +223,30 @@ public class EditTimeTableTwoActivity extends AppCompatActivity {
         }
         //EditTimeTableTwoGroupActivity에서 전환되었을때
         else if (requestCode == 11 && resultCode == RESULT_OK) {
-            subjectSearchsRequestDto.setElectivesClassification(data.getSerializableExtra("electivesClassification").toString());
-
+            // 액티비티 전환됐을때 시간표 안터지는거까지 성공 이제 필터 버튼 구현해야함
+            subjectSearchsRequestDto = new SubjectSearchsRequestDto();
+            if(data.getSerializableExtra("courseClassification")!=null){
+                String courseClassification = data.getStringExtra("courseClassification");
+                subjectSearchsRequestDto.setElectivesClassification(courseClassification);
+            }
+            scheduleDataList= (ArrayList<Schedule>) data.getSerializableExtra("addedschedulelist");
+            scheduleEntityList=ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
+            //토요일,일요일 유무에 따라 day 변경
+            day = new String[]{"Mon", "Tue", "Wen", "Thu", "Fri"};
+            int size = scheduleDataList.size();
+            if (size != 0) {
+                for (int i = 0; i < size; i++) {
+                    if (5 == scheduleDataList.get(i).getClassDay()) {
+                        day = new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat"};
+                    }
+                    if (6 == scheduleDataList.get(i).getClassDay()) {
+                        day = new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"};
+                    }
+                }
+            }
+        }
+        else if (requestCode == 12 && resultCode == RESULT_OK){
+            subjectSearchsRequestDto.setElectivesClassification(data.getSerializableExtra("year").toString());
         }
         //갱신된 ScheduleList를 EditTimeTableActivity로 전달
         binding.btnBack.setOnClickListener(new View.OnClickListener() {

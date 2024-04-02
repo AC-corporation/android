@@ -40,7 +40,7 @@ public class EditTimeTableTwoAdapter extends RecyclerView.Adapter<EditTimeTableT
         SubjectAllDto.SubjectAllResponseDto.SubjectInfoResponseDto subject = subjectResponseDtoList.get(position);
         holder.binding.tvTitle.setText(subject.getSubjectName());
         holder.binding.tvProfessor.setText(subject.getClassInfoResponseDtoList().get(0).getProfessor());
-        holder.binding.tvYear.setText(subject.getSubjectTarget() + subject.getCredit());
+        holder.binding.tvYear.setText(subject.getSubjectTarget() + " / " + subject.getCredit());
     }
 
     public static List<Long> getSelectedSubjectIds() {
