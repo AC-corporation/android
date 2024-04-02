@@ -13,7 +13,7 @@ import com.example.allclear.MyApplication;
 import com.example.allclear.R;
 import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
-//import com.example.allclear.data.request.SubjectSearchsRequestDto;
+import com.example.allclear.data.request.SubjectSearchsRequestDto;
 import com.example.allclear.data.request.TokenRefreshRequestDto;
 import com.example.allclear.data.response.SubjectAllDto;
 //import com.example.allclear.data.response.SubjectDto;
