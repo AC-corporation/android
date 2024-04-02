@@ -8,8 +8,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="400dp"
-        android:background="@drawable/background_vector">
+        android:background="@drawable/background_vector"
+        android:paddingBottom="400dp">
 
         <TextView
             android:id="@+id/tv_graduation_title"
@@ -17,11 +17,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:autoSizeTextType="uniform"
+            android:fontFamily="@font/poppins_bold"
             android:text="시간표"
             android:textColor="@color/black"
             android:textSize="36sp"
             android:textStyle="bold"
-            android:fontFamily="@font/poppins_bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,11 +62,11 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="5dp"
             android:fontFamily=""
-            android:text="20203학년도 1학기"
-            android:textStyle="bold"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_graduation_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_graduation_title"
+            tools:text="20203학년도 1학기" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_graduation_1"
@@ -74,10 +74,10 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="70dp"
+            app:cardCornerRadius="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_graduation_title"
-            app:cardCornerRadius="16dp">
+            app:layout_constraintTop_toBottomOf="@id/tv_graduation_title">
 
             <com.islandparadise14.mintable.MinTimeTableView
                 android:id="@+id/timetable"

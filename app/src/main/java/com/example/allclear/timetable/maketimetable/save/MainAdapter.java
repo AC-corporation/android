@@ -20,9 +20,6 @@ public class MainAdapter extends FragmentStateAdapter {
         this.num_page = num_page;
     }
 
-
-    // 생성자 및 기타 메서드 생략...
-
     // stringDay를 설정하는 메서드
     public void setStringDay(String[] stringDay) {
         this.stringDay = stringDay;

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class SaveTimeTableFragment extends Fragment {
     private static final String ARG_TIMETABLE_ID = "timetable_id";
     private long timetableId;
-    private FragmentSaveTimeTableBinding binding; // 바인딩 객체 선언
+    private FragmentSaveTimeTableBinding binding;
 
     private String[] tempStringDay;
     private ArrayList<ScheduleEntity> tempScheduleEntityList;
@@ -23,7 +23,7 @@ public class SaveTimeTableFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentSaveTimeTableBinding.inflate(inflater, container, false); // 바인딩 객체 초기화
+        binding = FragmentSaveTimeTableBinding.inflate(inflater, container, false);
 
         // 데이터가 준비되었으면 UI 업데이트
         if (isDataReady) {
@@ -35,8 +35,7 @@ public class SaveTimeTableFragment extends Fragment {
             timetableId = getArguments().getLong(ARG_TIMETABLE_ID);
         }
 
-        // View 초기화 및 설정
-        return binding.getRoot(); // 루트 뷰 반환
+        return binding.getRoot();
     }
 
     public static SaveTimeTableFragment newInstance(long timetableId) {
@@ -55,6 +54,9 @@ public class SaveTimeTableFragment extends Fragment {
             isDataReady = true;
             return;
         }
+
+//        binding.table.initTable(stringDay);
+//        binding.table.updateSchedules(scheduleEntityList);
 
         // UI 업데이트 작업 수행
         if (stringDay != null) {

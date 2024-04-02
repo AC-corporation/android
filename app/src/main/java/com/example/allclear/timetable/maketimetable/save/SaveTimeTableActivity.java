@@ -48,6 +48,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     String endTime;
     String place;
     long timetableId;
+    long subjectId;
 
     int day;
     int size;
@@ -56,7 +57,6 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     String selectedSemester;
     String timeTableName;
     int indicatorCount;
-    private ViewPager2 mPager;
     private MainAdapter pagerAdapter;
     private List<Long> num_page = new ArrayList<>();
     private CircleIndicator3 mIndicator;
@@ -67,7 +67,6 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
 
-        initViewPager();
         getUserData();
         getSemesterData();
         setTimeTableName();
@@ -76,37 +75,32 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         initSaveBtnClickListener();
     }
 
-    private void initViewPager() {
-        //ViewPager2
-        mPager = findViewById(R.id.viewpager);
-        //Adapter
+    private void viewPager() {
         pagerAdapter = new MainAdapter(this, num_page);
-        //   mPager.setAdapter(pagerAdapter);
 
         for (int i = 0; i < pagerAdapter.getItemCount(); i++) {
             pagerAdapter.setFragmentData(i, stringDay, scheduleEntityList);
         }
 
         // ViewPager2에 어댑터 설정
-        mPager.setAdapter(pagerAdapter);
+        binding.viewpager.setAdapter(pagerAdapter);
 
         //Indicator
         mIndicator = findViewById(R.id.indicator);
-        mIndicator.setViewPager(mPager);
+        mIndicator.setViewPager(binding.viewpager);
         mIndicator.createIndicators(num_page.size(), 0); // num_page의 크기로 인디케이터 생성
         //ViewPager Setting
-        mPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        mPager.setCurrentItem(0); // 초기 위치 설정
+        binding.viewpager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        binding.viewpager.setCurrentItem(0); // 초기 위치 설정
         //mPager.setOffscreenPageLimit(num_page.size()); // 프래그먼트 미리 로드
-        mPager.setOffscreenPageLimit(10);
+        binding.viewpager.setOffscreenPageLimit(10);
 
-
-        mPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        binding.viewpager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
                 if (positionOffsetPixels == 0) {
-                    mPager.setCurrentItem(position);
+                    binding.viewpager.setCurrentItem(position);
                 }
             }
 
@@ -187,7 +181,9 @@ public class SaveTimeTableActivity extends AppCompatActivity {
                         endTime = classInfo.getEndTime();
                         place = classInfo.getClassRoom();
 
-                        checkConflict();
+                        subjectId = subject.getSubjectId();
+                        //   checkConflict();
+                        addSchedule();
                     }
                 }
             }
@@ -196,12 +192,11 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     }
 
     private void showTimeTable() {
-        // 여기서 stringDay와 scheduleEntityList를 한 번만 설정
+        viewPager();
         pagerAdapter.setStringDay(stringDay);
         pagerAdapter.setScheduleEntityList(scheduleEntityList);
         pagerAdapter.notifyDataSetChanged(); // 변경 내용을 어댑터에 알림
     }
-
 
     private int makeDayToInt(String day) {
         if (Objects.equals(day, getString(R.string.monday)))
@@ -247,7 +242,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
 
     void addSchedule() {
         Schedule schedule = new Schedule();
-        schedule.setSubjectId(32L);
+        schedule.setSubjectId(subjectId);
         schedule.setSubjectName(subtext);
         schedule.setProfessor(professor);
         schedule.setClassDay(day);

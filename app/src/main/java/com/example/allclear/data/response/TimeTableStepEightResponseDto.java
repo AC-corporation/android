@@ -67,6 +67,9 @@ public class TimeTableStepEightResponseDto {
                 public String getSubjectName() {
                     return subjectName;
                 }
+                public long getSubjectId(){
+                    return subjectId;
+                }
 
                 public List<ClassInfo> getClassInfoResponseDtoList() {
                     return classInfoResponseDtoList;
