@@ -80,28 +80,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_professor_name" />
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_addpalcetime"
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="450sp"
+    app:layout_constraintStart_toStartOf="@+id/btn_add"
+    app:layout_constraintTop_toBottomOf="@id/iv_line2">
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        app:layout_constraintStart_toStartOf="@+id/btn_add"
-        app:layout_constraintTop_toBottomOf="@id/iv_line2"/>
+        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_addpalcetime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/tv_add_place_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@color/transparent"
-        android:text="장소 및 시간 추가"
-        android:textColor="@color/gray"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/btn_add"
-        app:layout_constraintTop_toBottomOf="@id/rv_addpalcetime" />
-
+        <TextView
+            android:id="@+id/tv_add_place_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:background="@color/transparent"
+            android:text="장소 및 시간 추가"
+            android:textColor="@color/gray"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+</ScrollView>
     <Button
         android:id="@+id/btn_add"
         android:layout_width="360dp"
