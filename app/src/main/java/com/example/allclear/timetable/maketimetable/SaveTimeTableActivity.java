@@ -208,7 +208,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
 
     private void showTimeTable(Schedule newSchedule) {
         scheduleDataList.add(newSchedule);
-        scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(scheduleDataList);
+        scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(this,scheduleDataList);
 
         // 토요일, 일요일 유무에 따라 day 변경
         stringDay = new String[]{getString(R.string.Mon), getString(R.string.Tue), getString(R.string.Wen), getString(R.string.Thu), getString(R.string.Fri)};

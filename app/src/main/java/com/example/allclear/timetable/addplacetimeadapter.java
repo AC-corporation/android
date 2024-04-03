@@ -1,5 +1,9 @@
 package com.example.allclear.timetable;
 
+import android.app.TimePickerDialog;
+import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,13 +25,16 @@ import com.example.allclear.databinding.SpinnerCustomBinding;
 import com.example.allclear.schedule.AdapterSpinner;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class addplacetimeadapter extends RecyclerView.Adapter<addplacetimeadapter.ViewHolder> {
     private SpinnerCustomBinding spinnerCustomBinding;
     private List<DataModel_timeplace> dataList;
-    public addplacetimeadapter(List<DataModel_timeplace> dataList) {
+    private Context context;
+    public addplacetimeadapter(Context context,List<DataModel_timeplace> dataList) {
         this.dataList = dataList;
+        this.context=context;
     }
     @NonNull
     @Override
@@ -42,35 +50,21 @@ public class addplacetimeadapter extends RecyclerView.Adapter<addplacetimeadapte
         holder.endtime.setText(data.getEndtime());
         holder.place.setText(data.getPlace());
         holder.spinner.setSelection(getday(data.getDay()));
-        data.setStarttime(holder.starttime.getText().toString());
-        data.setEndtime(holder.endtime.getText().toString());
-        data.setPlace(holder.place.getText().toString());
-        data.setDay(holder.spinner.getSelectedItem().toString());
+        holder.place.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-        holder.starttime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    data.setStarttime(holder.starttime.getText().toString());
-                }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                data.setPlace(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
-        holder.endtime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if(!hasFocus){
-                    data.setEndtime(holder.endtime.getText().toString());
-                }
-            }
-        });
-        holder.place.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    data.setPlace(holder.place.getText().toString());
-                }
-            }
-        });
+
         holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -83,15 +77,44 @@ public class addplacetimeadapter extends RecyclerView.Adapter<addplacetimeadapte
 
             }
         });
+        holder.starttime.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int minute = calendar.get(Calendar.MINUTE);
+
+            TimePickerDialog timePickerDialog = new TimePickerDialog(context,android.R.style.Theme_Holo_Light_Dialog_NoActionBar, (view, hourOfDay, minuteOfHour) -> {
+                String startTime = String.format("%02d:%02d", hourOfDay, minuteOfHour);
+                data.setStarttime(startTime);
+                holder.starttime.setText(startTime);
+            }, hour, minute, true);
+
+            timePickerDialog.show();
+        });
+
+        // 종료 시간 설정
+        holder.endtime.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int minute = calendar.get(Calendar.MINUTE);
+
+            TimePickerDialog timePickerDialog = new TimePickerDialog(context,android.R.style.Theme_Holo_Light_Dialog_NoActionBar,(view, hourOfDay, minuteOfHour) -> {
+                String endTime = String.format("%02d:%02d", hourOfDay, minuteOfHour);
+                data.setEndtime(endTime);
+                holder.endtime.setText(endTime);
+            }, hour, minute, true);
+
+            timePickerDialog.show();
+        });
     }
+
 
     @Override
     public int getItemCount() {
         return dataList.size();
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        EditText starttime;
-        EditText endtime;
+        TextView starttime;
+        TextView endtime;
         Spinner spinner;
         EditText place;
         AdapterSpinner adapterSpinner;

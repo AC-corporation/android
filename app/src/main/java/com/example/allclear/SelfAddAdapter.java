@@ -69,7 +69,9 @@ public class SelfAddAdapter extends RecyclerView.Adapter<SelfAddAdapter.ViewHold
             return "목";
         else if (day==4)
             return "금";
-        else
+        else if (day==5)
             return "토";
+        else
+            return "일";
     }
 }
