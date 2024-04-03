@@ -81,6 +81,10 @@ public class TimeTableFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentTimeTableBinding.inflate(inflater, container, false);
 
+        addClickListener();
+        editClickListener();
+        menuClickListener();
+
         // 기본 시간표 아이디 가져오기
         preferenceUtil = MyApplication.getPreferences();
         defaultTimetableId = preferenceUtil.getDefaultTableId(-1L);
@@ -97,15 +101,16 @@ public class TimeTableFragment extends Fragment {
                     // DB 작업은 여기서 비동기적으로 실행됩니다.
                     scheduleDataList = new ArrayList<>(timetableDao.getAllSchedulesByTimeTableId(defaultTimetableId));
 
+                    for (Schedule data: scheduleDataList) {
+                        Log.d("TAG", "run: " + data.getSubjectName());
+                    }
+
                     // UI 업데이트는 메인 스레드에서 실행되어야 합니다.
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             getScheduleData();
                             timeTableClickListener();
-                            addClickListener();
-                            editClickListener();
-                            menuClickListener();
                         }
                     });
                 }
