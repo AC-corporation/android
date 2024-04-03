@@ -25,5 +25,9 @@ public interface TimetableDao {
 
     @Query("DELETE FROM timetable")
     void deleteAll();
-    // 필요한 메서드 추가...
+
+    // 서버에서의 TimeTable ID를 timetableId를 기준으로 조회하는 메서드 추가
+    @Query("SELECT serverId FROM TimeTable WHERE id = :timetableId")
+    Long getServerIdByTimetableId(Long timetableId);
+
 }

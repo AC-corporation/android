@@ -141,6 +141,7 @@ public class ListTimeTableActivity extends AppCompatActivity {
                 TimeTable timetable = new TimeTable();
                 timetable.setName(timetableResponseDto.getTableName());
                 timetable.setSemesterId(semesterId);  // 삽입된 학기의 ID를 시간표에 설정
+                timetable.setServerId(timetableResponseDto.getTimetableId());
                 long timetableId = timetableDao.insert(timetable);  // 삽입된 row ID를 저장
 
                 List<TimetableListResponseDto.Data.TimetableResponseDto.timetableSubjectResponseDto> subjects = timetableResponseDto.getTimetableSubjectResponseDtoList();

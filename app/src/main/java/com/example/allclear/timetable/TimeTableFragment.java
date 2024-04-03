@@ -44,6 +44,7 @@ public class TimeTableFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private Long defaultTimetableId = -1L;
+    private Long serverTiemtableId;
     public TimeTableFragment() {
         // Required empty public constructor
     }
@@ -94,12 +95,16 @@ public class TimeTableFragment extends Fragment {
             AppDatabase db = AppDatabase.getDatabase(getContext());
             TimetableDao timetableDao = db.timetableDao();
 
-            Log.d("TAG", "onCreateView: " + defaultTimetableId);
+            Log.d("TAG", "default: " + defaultTimetableId);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     // DB 작업은 여기서 비동기적으로 실행됩니다.
                     scheduleDataList = new ArrayList<>(timetableDao.getAllSchedulesByTimeTableId(defaultTimetableId));
+
+                    //시간표 서버 아이디 가져오기
+                    serverTiemtableId = timetableDao.getServerIdByTimetableId(defaultTimetableId);
+                    Log.d("TAG", "server: " + serverTiemtableId);
 
                     for (Schedule data: scheduleDataList) {
                         Log.d("TAG", "run: " + data.getSubjectName());

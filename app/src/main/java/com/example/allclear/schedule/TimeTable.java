@@ -15,6 +15,15 @@ public class TimeTable {
     public String name;  // 시간표 이름 (예: "시간표1")
 
     public Long semesterId;  // 속한 학기의 ID
+    public Long serverId; //서버 에서의 시간표 id
+
+    public Long getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(Long serverId) {
+        this.serverId = serverId;
+    }
 
     public Long getId() {
         return id;
