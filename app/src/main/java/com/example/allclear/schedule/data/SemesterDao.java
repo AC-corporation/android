@@ -13,8 +13,6 @@ import java.util.Locale;
 
 @Dao
 public interface SemesterDao {
-    @Query("SELECT * FROM Semester")
-    List<Semester> getAll();
 
     @Insert
     Long insert(Semester semester);
@@ -22,8 +20,12 @@ public interface SemesterDao {
     @Query("SELECT * FROM Semester")
     List<Semester> getAllSemesters();
 
-    @Delete
-    void delete(Semester semester);
+    @Query("DELETE FROM semester")
+    void deleteAll();
+
+    @Query("SELECT * FROM semester WHERE name = :name LIMIT 1")
+    Semester findByName(String name);
+
 
     @Update
     void update(Semester semester);

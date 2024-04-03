@@ -6,8 +6,9 @@ import androidx.room.PrimaryKey;
 
 @Entity(foreignKeys = @ForeignKey(entity = Semester.class,
         parentColumns = "id",
-        childColumns = "semesterId"))
-public class Timetable {
+        childColumns = "semesterId",
+        onDelete = ForeignKey.CASCADE))
+public class TimeTable {
     @PrimaryKey(autoGenerate = true)
     public Long id;
 

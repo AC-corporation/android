@@ -14,29 +14,36 @@ import android.view.ViewTreeObserver;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.allclear.MyApplication;
+import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.databinding.FragmentTimeTableBinding;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.schedule.Schedule;
 import com.example.allclear.databinding.FragmentTimeTableBinding;
+import com.example.allclear.schedule.data.AppDatabase;
+import com.example.allclear.schedule.data.TimetableDao;
 import com.example.allclear.timetable.edit.EditTimeTableActivity;
 import com.example.allclear.timetable.maketimetable.SelectSemesterActivity;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 import com.islandparadise14.mintable.tableinterface.OnScheduleClickListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TimeTableFragment extends Fragment {
     static final String ACCESS_TOKEN = "Access_Token";
     static final String REFRESH_TOKEN = "Refresh_Token";
     static final String USER_ID = "User_Id";
     static final String DB = "allClear";
+    PreferenceUtil preferenceUtil;
+    ArrayList<Schedule> schedules;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     private String mParam1;
     private String mParam2;
-
+    private Long defaultTimetableId = -1L;
     public TimeTableFragment() {
         // Required empty public constructor
     }
@@ -74,12 +81,36 @@ public class TimeTableFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentTimeTableBinding.inflate(inflater, container, false);
 
-        getScheduleData();
-        timeTableClickListener();
-        addClickListener();
-        editClickListener();
-        menuClickListener();
+        // 기본 시간표 아이디 가져오기
+        preferenceUtil = MyApplication.getPreferences();
+        defaultTimetableId = preferenceUtil.getDefaultTableId(-1L);
 
+        if (defaultTimetableId != -1L) {
+            // 스케쥴 가져오기
+            AppDatabase db = AppDatabase.getDatabase(getContext());
+            TimetableDao timetableDao = db.timetableDao();
+
+            Log.d("TAG", "onCreateView: " + defaultTimetableId);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // DB 작업은 여기서 비동기적으로 실행됩니다.
+                    scheduleDataList = new ArrayList<>(timetableDao.getAllSchedulesByTimeTableId(defaultTimetableId));
+
+                    // UI 업데이트는 메인 스레드에서 실행되어야 합니다.
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getScheduleData();
+                            timeTableClickListener();
+                            addClickListener();
+                            editClickListener();
+                            menuClickListener();
+                        }
+                    });
+                }
+            }).start();
+        }
         return binding.getRoot();
     }
 

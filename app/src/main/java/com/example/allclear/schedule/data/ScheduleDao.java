@@ -13,6 +13,9 @@ public interface ScheduleDao {
     @Query("SELECT * FROM Schedule WHERE timetableId = :timetableId")
     List<Schedule> getAllByTimetable(int timetableId);
 
+    @Query("DELETE FROM schedule")
+    void deleteAll();
+
     @Insert
     void insert(Schedule schedule);
 

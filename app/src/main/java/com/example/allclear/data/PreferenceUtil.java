@@ -10,6 +10,24 @@ public class PreferenceUtil {
     private static final String Refresh_Token = "Refresh_Token";
     private static final Long User_Id = -1L;
     private static final boolean AUTO_LOGIN = false;
+    private static final Long DEFAULT_TABLE_ID = -1L;
+
+    public SharedPreferences getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(SharedPreferences preferences) {
+        this.preferences = preferences;
+    }
+
+
+    public void setDefaultTableId(Long value){
+        preferences.edit().putLong("DEFAULT_TABLE_ID", value).commit();
+    }
+
+    public Long getDefaultTableId(Long defId) {
+        return preferences.getLong("DEFAULT_TABLE_ID", defId);
+    }
 
     public void setAutoLogin(Boolean bool) {
         preferences.edit().putBoolean("AUTO_LOGIN", bool).commit();

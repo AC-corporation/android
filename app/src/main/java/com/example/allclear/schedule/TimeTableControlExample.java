@@ -43,7 +43,7 @@ public class TimeTableControlExample extends AppCompatActivity {
         semesterDao.insert(semester);
 
         // 시간표 추가
-        Timetable timetable = new Timetable();
+        TimeTable timetable = new TimeTable();
         timetable.name = "시간표1";
         timetable.semesterId = semester.id;  // 학기 ID 설정
         timetableDao.insert(timetable);

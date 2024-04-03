@@ -6,28 +6,30 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.allclear.AppExecutors;
 import com.example.allclear.MyApplication;
 import com.example.allclear.auth.LoginActivity;
 import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.request.TimeTableListRequestDto;
-import com.example.allclear.data.response.TimeTableListResponseDto;
+import com.example.allclear.data.response.TimetableListResponseDto;
 import com.example.allclear.data.service.TimeTableListRequestService;
 import com.example.allclear.databinding.ActivityListTimeTableBinding;
 import com.example.allclear.schedule.Schedule;
 import com.example.allclear.schedule.Semester;
-import com.example.allclear.schedule.Timetable;
+import com.example.allclear.schedule.TimeTable;
 import com.example.allclear.schedule.data.AppDatabase;
 import com.example.allclear.schedule.data.ScheduleDao;
 import com.example.allclear.schedule.data.SemesterAdapter;
 import com.example.allclear.schedule.data.SemesterDao;
 import com.example.allclear.schedule.data.TimetableDao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -69,7 +71,7 @@ public class ListTimeTableActivity extends AppCompatActivity {
         userId = preferenceUtil.getUserId(-1L);
 
         //로그인 정보 체크
-        if(accessToken.equals("Fail") || refreshToken.equals("Fail") || userId == -1L){
+        if(accessToken.equals("Fail") || refreshToken.equals("Fail") || userId == -1L) {
             Toast.makeText(getApplicationContext(),"로그인 정보 만료 다시 로그인해 주세요", Toast.LENGTH_SHORT);
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
@@ -81,76 +83,142 @@ public class ListTimeTableActivity extends AppCompatActivity {
             @Override
             public void run() {
                 updateList();
-
-                AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                                AppDatabase.class, "DB")
-                        .fallbackToDestructiveMigration()
-                        .build();
-
-                SemesterDao semesterDao = db.semesterDao();
-                List<Semester> semesters = semesterDao.getAllSemesters();  // 모든 학기 가져오기
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // UI 업데이트
-                        SemesterAdapter semesterAdapter = new SemesterAdapter(ListTimeTableActivity.this, semesters, db);
-                        semestersRecyclerView.setAdapter(semesterAdapter);
-                    }
-                });
             }
         });
     }
 
     void updateList() {
         ServicePool.timeTableListRequestService.GetTimeTable("Bearer " + accessToken, userId)
-                .enqueue(new Callback<TimeTableListResponseDto>() {
+                .enqueue(new Callback<TimetableListResponseDto>() {
                     @Override
-                    public void onResponse(Call<TimeTableListResponseDto> call, Response<TimeTableListResponseDto> response) {
-                        if(response.body() != null) {
+                    public void onResponse(Call<TimetableListResponseDto> call, Response<TimetableListResponseDto> response) {
+                        if(response.isSuccessful()) {
                             updateLocalDB(response.body());
                         }
                     }
-
                     @Override
-                    public void onFailure(Call<TimeTableListResponseDto> call, Throwable t) {
+                    public void onFailure(Call<TimetableListResponseDto> call, Throwable t) {
 
                     }
                 });
     }
 
-    void updateLocalDB(TimeTableListResponseDto timeTableListResponseDto) {
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                        AppDatabase.class, "DB")
-                .fallbackToDestructiveMigration()
-                .build();
+    void updateLocalDB(TimetableListResponseDto timeTableListResponseDto) {
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
 
-        SemesterDao semesterDao = db.semesterDao();
-        TimetableDao timetableDao = db.timetableDao();
-        ScheduleDao scheduleDao = db.scheduleDao();
+            SemesterDao semesterDao = db.semesterDao();
+            TimetableDao timetableDao = db.timetableDao();
+            ScheduleDao scheduleDao = db.scheduleDao();
 
-        List<TimeTableListResponseDto.TimeTableResponseDto> timeTables = timeTableListResponseDto.getData();
-        for (TimeTableListResponseDto.TimeTableResponseDto timetableResponseDto : timeTables) {
-            // 학기 추가
-            Semester semester = new Semester();
-            semester.setName(timetableResponseDto.getTableName());
-            long semesterId = semesterDao.insert(semester);  // 삽입된 row ID를 저장
+            scheduleDao.deleteAll();
+            timetableDao.deleteAll();
+            semesterDao.deleteAll();
 
-            // 시간표 추가
-            Timetable timetable = new Timetable();
-            timetable.setName(timetableResponseDto.getTableName());
-            timetable.setSemesterId(semesterId);  // 삽입된 학기의 ID를 시간표에 설정
-            long timetableId = timetableDao.insert(timetable);  // 삽입된 row ID를 저장
+            TimetableListResponseDto.Data data = timeTableListResponseDto.getData();
+            List<TimetableListResponseDto.Data.TimetableResponseDto> timeTables =  data.getTimetableResponseDtoList();
+            for (TimetableListResponseDto.Data.TimetableResponseDto timetableResponseDto : timeTables) {
 
-            List<TimeTableListResponseDto.TimeTableResponseDto.TimeTableSubjectResponseDto> subjects = timetableResponseDto.getTimetableSubjectResponseDtoList();
-            for (TimeTableListResponseDto.TimeTableResponseDto.TimeTableSubjectResponseDto subjectResponseDto : subjects) {
-                // 스케쥴 추가
-                Schedule schedule = new Schedule();
+                // 학기 이름 생성
+                String semesterName = timetableResponseDto.getYear() + "년 " + timetableResponseDto.getSemester() + "학기";
 
-                // 스케쥴 정보 설정...
-                schedule.setTimetableId(timetableId);  // 삽입된 시간표의 ID를 스케쥴에 설정
-                scheduleDao.insert(schedule);
+                // 데이터베이스에서 동일한 이름을 가진 학기 검색
+                Semester existingSemester = semesterDao.findByName(semesterName);
+                long semesterId;
+
+                if (existingSemester == null) {
+                    // 동일한 이름의 학기가 존재하지 않는 경우, 새 학기 추가
+                    Semester newSemester = new Semester();
+                    newSemester.setName(semesterName);
+                    // 새 학기 삽입 후, 생성된 학기 ID 저장
+                    semesterId = semesterDao.insert(newSemester);
+                } else {
+                    // 이미 존재하는 학기의 경우, 해당 학기 ID 재사용
+                    semesterId = existingSemester.getId();
+                }
+
+                // 시간표 추가
+                TimeTable timetable = new TimeTable();
+                timetable.setName(timetableResponseDto.getTableName());
+                timetable.setSemesterId(semesterId);  // 삽입된 학기의 ID를 시간표에 설정
+                long timetableId = timetableDao.insert(timetable);  // 삽입된 row ID를 저장
+
+                List<TimetableListResponseDto.Data.TimetableResponseDto.timetableSubjectResponseDto> subjects = timetableResponseDto.getTimetableSubjectResponseDtoList();
+                for (TimetableListResponseDto.Data.TimetableResponseDto.timetableSubjectResponseDto subjectResponseDto : subjects) {
+                    // parseSchedules 함수를 이용해 스케쥴 리스트를 파싱
+                    List<Schedule> schedules = parseSchedules(subjectResponseDto);
+
+                    // 파싱된 스케쥴 객체들을 데이터베이스에 저장
+                    for (Schedule schedule : schedules) {
+                        schedule.setTimetableId(timetableId); // 삽입된 시간표의 ID를 스케쥴에 설정
+                        scheduleDao.insert(schedule);
+                    }
+                }
             }
-        }
+
+            AppExecutors.getInstance().diskIO().execute(() -> {
+                        List<Semester> semesters = semesterDao.getAllSemesters();  // 모든 학기 가져오기
+
+                        for(Semester semester : semesters) {
+                            Log.d("TAG", "info " + semester.name);
+
+                        }
+                        // UI 스레드로 전환하여 UI 업데이트
+                        runOnUiThread(() -> {
+                            // UI 업데이트 코드
+                            SemesterAdapter semesterAdapter = new SemesterAdapter(ListTimeTableActivity.this, semesters, db);
+                            semestersRecyclerView.setAdapter(semesterAdapter);
+                        });
+            });
+        });
     }
 
+
+    public List<Schedule> parseSchedules(TimetableListResponseDto.Data.TimetableResponseDto.timetableSubjectResponseDto dto) {
+        List<Schedule> schedules = new ArrayList<>();
+
+        // dto에서 classInfoResponseDtoList를 가져옵니다.
+        List<TimetableListResponseDto.Data.TimetableResponseDto.timetableSubjectResponseDto.classInfoResponseDto> classInfoResponseDtoList = dto.getClassInfoResponseDtoList();
+
+        // classInfoResponseDtoList의 각 요소에 대해 반복 처리합니다.
+        for (TimetableListResponseDto.Data.TimetableResponseDto.timetableSubjectResponseDto.classInfoResponseDto classInfo : classInfoResponseDtoList) {
+            Schedule schedule = new Schedule();
+            schedule.setSubjectId(dto.getSubjectId());
+            schedule.setSubjectName(dto.getSubjectName());
+            schedule.setProfessor(classInfo.getProfessor());
+            schedule.setClassDay(dayOfWeekToInt(classInfo.getClassDay()));
+            schedule.setStartTime(classInfo.getStartTime());
+            schedule.setEndTime(classInfo.getEndTime());
+            schedule.setClassRoom(classInfo.getClassRoom());
+            schedule.setTimetableId(dto.getTimetableSubjectId());
+
+            // 설정된 schedule 객체를 리스트에 추가합니다.
+            schedules.add(schedule);
+        }
+
+        return schedules;
+    }
+
+    // 요일을 숫자로 변환하는 메소드
+    private int dayOfWeekToInt(String day) {
+        switch (day) {
+            case "월":
+                return 1;
+            case "화":
+                return 2;
+            case "수":
+                return 3;
+            case "목":
+                return 4;
+            case "금":
+                return 5;
+            case "토":
+                return 6;
+            case "일":
+                return 7;
+            default:
+                throw new IllegalArgumentException("Invalid day of week: " + day);
+
+        }
+    }
 }

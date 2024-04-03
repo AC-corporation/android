@@ -6,12 +6,22 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity(foreignKeys = @ForeignKey(entity = Timetable.class,
+@Entity(foreignKeys = @ForeignKey(entity = TimeTable.class,
         parentColumns = "id",
         childColumns = "timetableId"))
 
 public class Schedule implements Serializable {
     @PrimaryKey(autoGenerate = true)
+    private  Long scheduleId;
+
+    public void setScheduleId(Long scheduleId) {
+        this.scheduleId = scheduleId;
+    }
+
+    public Long getScheduleId() {
+        return scheduleId;
+    }
+
     private Long subjectId;
     private String subjectName;
     private String professor;
