@@ -1,5 +1,6 @@
 package com.example.allclear.grade;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,11 +9,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.allclear.MyApplication;
+import com.example.allclear.R;
 import com.example.allclear.data.PreferenceUtil;
 import com.example.allclear.data.ServicePool;
 import com.example.allclear.data.response.GradeResponseDto;
@@ -131,6 +134,7 @@ public class GradeFragment extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);  // X축을 하단에 위치
         xAxis.setValueFormatter(new IndexAxisValueFormatter(semesters));
         xAxis.setDrawGridLines(false); // X축 그리드 라인 제거
+        xAxis.setDrawLabels(false);
 
         // Y축 라벨을 설정
         YAxis yAxisLeft = chart.getAxisLeft();
@@ -147,6 +151,25 @@ public class GradeFragment extends Fragment {
         // 범례 제거
         Legend legend = chart.getLegend();
         legend.setEnabled(false);
+
+        //디자인 적용
+        int blue = ContextCompat.getColor(getContext(), R.color.first_blue);
+        // 데이터 세트에 스타일 적용
+        dataSet.setColor(blue); // 라인 색상 변경
+        dataSet.setLineWidth(2f); // 라인 두께 변경
+        dataSet.setDrawCircles(true); // 데이터 포인트에 원 그리기
+        dataSet.setCircleColor(blue); // 원 색상 변경
+        dataSet.setCircleRadius(5f); // 원 크기 변경
+        dataSet.setDrawCircleHole(false); // 원 중심에 구멍 없애기
+        dataSet.setHighlightEnabled(true); // 선택 시 하이라이트 효과 적용
+        dataSet.setDrawHighlightIndicators(true); // 하이라이트 인디케이터 적용
+        dataSet.setHighLightColor(Color.WHITE); // 하이라이트 색상 변경
+        dataSet.setValueTextSize(12);
+
+        chart.setScaleEnabled(false); // 스케일링 비활성화
+        chart.setDragEnabled(false); // 드래깅 비활성화
+        chart.setPinchZoom(false); // 핀치 줌 비활성화
+
 
         //차트 내 학기 선택시 리스너
         chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
