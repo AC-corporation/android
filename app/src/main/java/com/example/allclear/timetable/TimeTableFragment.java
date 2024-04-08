@@ -126,9 +126,9 @@ public class TimeTableFragment extends Fragment {
 
     private void getScheduleData() {
         //스케줄데이터를 전달받아 타임테이블에 보여지는 요소로 전환
-        Intent intent = getActivity().getIntent();
-        if (intent != null && intent.hasExtra("schedulelist")) {
-            scheduleDataList = (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");
+        //Intent intent = getActivity().getIntent();
+        //if (intent != null && intent.hasExtra("schedulelist")) {
+            //scheduleDataList = (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");
             scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(getContext(),scheduleDataList);
             //토요일,일요일 유무에 따라 day 변경
             int size = scheduleDataList.size();
@@ -142,7 +142,7 @@ public class TimeTableFragment extends Fragment {
                     }
                 }
             }
-        }
+       // }
     }
 
     private void timeTableClickListener() {

@@ -169,7 +169,7 @@ public class EditTimeTableActivity extends AppCompatActivity {
                         if(response.isSuccessful()){
                             System.out.println("서버 통신 성공");
                             Intent intent=new Intent(EditTimeTableActivity.this, MainPageActivity.class);
-                            intent.putExtra("schedulelist",scheduleDataList);
+                            //intent.putExtra("schedulelist",scheduleDataList);
                             startActivity(intent);
                         }else{
                             if(response.code() == 403){
