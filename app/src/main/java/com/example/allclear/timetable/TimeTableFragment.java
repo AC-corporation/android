@@ -115,7 +115,7 @@ public class TimeTableFragment extends Fragment {
                         @Override
                         public void run() {
                             getScheduleData();
-                            timeTableClickListener();
+
                         }
                     });
                 }
@@ -125,6 +125,7 @@ public class TimeTableFragment extends Fragment {
     }
 
     private void getScheduleData() {
+        Log.d("TAG", "getSchedule");
         //스케줄데이터를 전달받아 타임테이블에 보여지는 요소로 전환
         //Intent intent = getActivity().getIntent();
         //if (intent != null && intent.hasExtra("schedulelist")) {
@@ -142,10 +143,12 @@ public class TimeTableFragment extends Fragment {
                     }
                 }
             }
+        timeTableClickListener();
        // }
     }
 
     private void timeTableClickListener() {
+        Log.d("TAG", "timetable");
         binding.timetable.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
