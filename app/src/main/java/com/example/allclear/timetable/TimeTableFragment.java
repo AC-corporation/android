@@ -73,6 +73,7 @@ public class TimeTableFragment extends Fragment {
     private ArrayList<ScheduleEntity> scheduleEntityList = new ArrayList<>();
 
     public void setTimeTable() {
+        Log.d("TAG", "settimetable" );
         binding.timetable.initTable(day);
         binding.timetable.updateSchedules(scheduleEntityList);
     }
@@ -131,6 +132,9 @@ public class TimeTableFragment extends Fragment {
         //if (intent != null && intent.hasExtra("schedulelist")) {
             //scheduleDataList = (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");
             scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(getContext(),scheduleDataList);
+            for (ScheduleEntity data: scheduleEntityList) {
+                Log.d("TAG", "run: " + data.getScheduleName());
+            }
             //토요일,일요일 유무에 따라 day 변경
             int size = scheduleDataList.size();
             if (size != 0) {
@@ -144,6 +148,7 @@ public class TimeTableFragment extends Fragment {
                 }
             }
         timeTableClickListener();
+        setTimeTable();
        // }
     }
 
@@ -156,7 +161,7 @@ public class TimeTableFragment extends Fragment {
                     @Override
                     public void onWindowFocusChanged(boolean hasFocus) {
                         if (hasFocus) {
-                            setTimeTable();
+
                             // Window has gained focus
                             // Perform your actions here when window gains focus
                         } else {
