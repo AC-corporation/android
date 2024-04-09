@@ -43,19 +43,54 @@
         app:layout_constraintEnd_toStartOf="@+id/tv_title"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_save_time_table"
-        android:layout_width="0dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginVertical="10dp"
-        android:scrollbarFadeDuration="0"
-        android:scrollbars="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="40dp"
         app:layout_constraintBottom_toTopOf="@id/btn_next"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_sub_title"
-        tools:listitem="@layout/item_save_time_table" />
+        app:layout_constraintTop_toBottomOf="@id/tv_sub_title">
+
+        <com.islandparadise14.mintable.MinTimeTableView
+            android:id="@+id/table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_timetable_previous"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/big_button"
+        android:backgroundTint="@color/first_blue"
+        android:fontFamily="@font/poppins_bold"
+        android:text="이전"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_timetable_next"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/big_button"
+        android:backgroundTint="@color/first_blue"
+        android:fontFamily="@font/poppins_bold"
+        android:text="다음"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_sub_title"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_next"

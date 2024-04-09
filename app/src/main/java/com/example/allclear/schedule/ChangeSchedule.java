@@ -9,8 +9,6 @@ import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 //ArrayList<Schedule>을 ArrayList<ScheduleEntity>로 바꾸는 싱글턴 패턴 클래스
 public class ChangeSchedule {
