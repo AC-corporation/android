@@ -198,6 +198,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
 
     private void showTimeTable() {
         if (isFirst) {
+            Toast.makeText(SaveTimeTableActivity.this, "다음을 눌러 시간표를 확인해주세요.", Toast.LENGTH_SHORT).show();
             binding.table.initTable(stringDay);
             binding.table.updateSchedules(saveSchedule.get(0));
             isFirst = false;
