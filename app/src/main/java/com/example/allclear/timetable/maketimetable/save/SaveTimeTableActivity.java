@@ -39,8 +39,9 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     private String[] stringDay;
     private ArrayList<Schedule> scheduleDataList = new ArrayList<Schedule>();
     private ArrayList<ScheduleEntity> scheduleEntityList = new ArrayList<>();
-    private ArrayList<ArrayList<ScheduleEntity>> madeSchedule = new ArrayList<ArrayList<ScheduleEntity>>();
+    private ArrayList<ArrayList<ScheduleEntity>> saveSchedule = new ArrayList<ArrayList<ScheduleEntity>>();
 
+    private ArrayList<Long> saveId = new ArrayList<>();
     String subtext;
     String professor;
     String startTime;
@@ -161,7 +162,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
 
     void addSchedule() {
         Schedule schedule = new Schedule();
-        schedule.setSubjectId(32L);
+        schedule.setSubjectId(timetableId);
         schedule.setSubjectName(subtext);
         schedule.setProfessor(professor);
         schedule.setClassDay(day);
@@ -175,7 +176,8 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     private void saveTimeTable() {
         scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(SaveTimeTableActivity.this, scheduleDataList);
 
-        madeSchedule.add(scheduleEntityList);
+        saveSchedule.add(scheduleEntityList);
+        saveId.add(timetableId);
 
         stringDay = new String[]{getString(R.string.Mon), getString(R.string.Tue), getString(R.string.Wen), getString(R.string.Thu), getString(R.string.Fri)};
         int size = scheduleDataList.size();
@@ -197,16 +199,16 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     private void showTimeTable() {
         if (isFirst) {
             binding.table.initTable(stringDay);
-            binding.table.updateSchedules(madeSchedule.get(0));
+            binding.table.updateSchedules(saveSchedule.get(0));
             isFirst = false;
         }
         binding.btnTimetableNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (i < madeSchedule.size() - 1) { // 다음 인덱스가 유효한지 확인
+                if (i < saveSchedule.size() - 1) { // 다음 인덱스가 유효한지 확인
                     i++;
                     binding.table.initTable(stringDay);
-                    binding.table.updateSchedules(madeSchedule.get(i));
+                    binding.table.updateSchedules(saveSchedule.get(i));
                 } else {
                     Toast.makeText(SaveTimeTableActivity.this, "더 이상 시간표가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
                 }
@@ -218,7 +220,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
                 if (i > 0) { // 이전 인덱스가 유효한지 확인
                     i--;
                     binding.table.initTable(stringDay);
-                    binding.table.updateSchedules(madeSchedule.get(i));
+                    binding.table.updateSchedules(saveSchedule.get(i));
                 } else {
                     Toast.makeText(SaveTimeTableActivity.this, "더 이상 시간표가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
                 }
@@ -247,7 +249,8 @@ public class SaveTimeTableActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             Toast.makeText(SaveTimeTableActivity.this, R.string.timetable_save, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SaveTimeTableActivity.this, MainPageActivity.class);
-                            intent.putExtra("scheduleList", scheduleDataList);
+                            intent.putExtra("scheduleList", saveSchedule.get(i));
+                            intent.putExtra("timetableid", saveId.get(i));
                             setResult(RESULT_OK, intent);
                             startActivity(intent);
                         }
