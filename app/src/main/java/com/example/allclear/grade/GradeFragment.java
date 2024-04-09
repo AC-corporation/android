@@ -121,7 +121,7 @@ public class GradeFragment extends Fragment {
         ValueFormatter formatter = new ValueFormatter() {
             @Override
             public String getPointLabel(Entry entry) {
-                return String.format("%.1f", entry.getY());
+                return String.format("%.2f", entry.getY());
             }
         };
 
