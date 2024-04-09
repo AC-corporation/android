@@ -2,7 +2,6 @@ package com.example.allclear.timetable.maketimetable;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,7 +19,6 @@ import com.example.allclear.data.response.TimeTableStepEightResponseDto;
 import com.example.allclear.databinding.ActivitySaveTimeTableBinding;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.schedule.Schedule;
-import com.example.allclear.timetable.TimeTableFragment;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
@@ -144,10 +142,10 @@ public class SaveTimeTableActivity extends AppCompatActivity {
                         endTime = classInfo.getEndTime();
                         place = classInfo.getClassRoom();
 
-                        checkConflict();
                     }
                 }
             }
+            addSchedule();
         }
     }
 
@@ -164,26 +162,6 @@ public class SaveTimeTableActivity extends AppCompatActivity {
             return 4;
         else
             return 5;
-    }
-
-    private void checkConflict() {
-        if (size == 0) {
-            addSchedule();
-        } else {
-            for (int i = 0; i < size; i++) {
-                if (day == scheduleDataList.get(i).getClassDay()) {
-                    int addStart = timeToMinutes(startTime);
-                    int addEnd = timeToMinutes(endTime);
-                    int listStart = timeToMinutes(scheduleDataList.get(i).getStartTime());
-                    int listEnd = timeToMinutes(scheduleDataList.get(i).getEndTime());
-                    if ((addStart < listEnd) && (addEnd > listStart)) {
-                        Toast.makeText(SaveTimeTableActivity.this, "시간이 겹치는 일정이 존재합니다", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                }
-            }
-            addSchedule();
-        }
     }
 
     private static int timeToMinutes(String time) {
@@ -208,7 +186,7 @@ public class SaveTimeTableActivity extends AppCompatActivity {
 
     private void showTimeTable(Schedule newSchedule) {
         scheduleDataList.add(newSchedule);
-        scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(this,scheduleDataList);
+        scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(this, scheduleDataList);
 
         // 토요일, 일요일 유무에 따라 day 변경
         stringDay = new String[]{getString(R.string.Mon), getString(R.string.Tue), getString(R.string.Wen), getString(R.string.Thu), getString(R.string.Fri)};
