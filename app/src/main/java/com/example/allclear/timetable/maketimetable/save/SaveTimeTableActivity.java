@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.allclear.MainPageActivity;
 import com.example.allclear.MyApplication;
@@ -19,6 +20,7 @@ import com.example.allclear.data.response.TimeTableStepEightResponseDto;
 import com.example.allclear.databinding.ActivitySaveTimeTableBinding;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.schedule.Schedule;
+import com.example.allclear.timetable.maketimetable.save.TimeTableAdapter;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
@@ -71,8 +73,12 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        binding.table.initTable(stringDay);
-        binding.table.updateSchedules(scheduleEntityList);
+        //   binding.table.initTable(stringDay);
+
+        // 리사이클러뷰 설정
+        TimeTableAdapter adapter = new TimeTableAdapter(stringDay, scheduleEntityList);
+        binding.rvSaveTimeTable.setAdapter(adapter);
+        binding.rvSaveTimeTable.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void getUserData() {
@@ -142,10 +148,10 @@ public class SaveTimeTableActivity extends AppCompatActivity {
                         endTime = classInfo.getEndTime();
                         place = classInfo.getClassRoom();
 
+                        addSchedule();
                     }
                 }
             }
-            addSchedule();
         }
     }
 
@@ -162,13 +168,6 @@ public class SaveTimeTableActivity extends AppCompatActivity {
             return 4;
         else
             return 5;
-    }
-
-    private static int timeToMinutes(String time) {
-        String[] parts = time.split(":");
-        int hours = Integer.parseInt(parts[0]);
-        int minutes = Integer.parseInt(parts[1]);
-        return hours * 60 + minutes;
     }
 
     void addSchedule() {
