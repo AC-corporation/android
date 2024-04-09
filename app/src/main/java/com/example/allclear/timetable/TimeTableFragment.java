@@ -73,6 +73,7 @@ public class TimeTableFragment extends Fragment {
     private ArrayList<ScheduleEntity> scheduleEntityList = new ArrayList<>();
 
     public void setTimeTable() {
+        Log.d("TAG", "settimetable" );
         binding.timetable.initTable(day);
         binding.timetable.updateSchedules(scheduleEntityList);
     }
@@ -115,7 +116,7 @@ public class TimeTableFragment extends Fragment {
                         @Override
                         public void run() {
                             getScheduleData();
-                            timeTableClickListener();
+
                         }
                     });
                 }
@@ -125,11 +126,15 @@ public class TimeTableFragment extends Fragment {
     }
 
     private void getScheduleData() {
+        Log.d("TAG", "getSchedule");
         //스케줄데이터를 전달받아 타임테이블에 보여지는 요소로 전환
-        Intent intent = getActivity().getIntent();
-        if (intent != null && intent.hasExtra("schedulelist")) {
-            scheduleDataList = (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");
+        //Intent intent = getActivity().getIntent();
+        //if (intent != null && intent.hasExtra("schedulelist")) {
+            //scheduleDataList = (ArrayList<Schedule>) intent.getSerializableExtra("schedulelist");
             scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(getContext(),scheduleDataList);
+            for (ScheduleEntity data: scheduleEntityList) {
+                Log.d("TAG", "run: " + data.getScheduleName());
+            }
             //토요일,일요일 유무에 따라 day 변경
             int size = scheduleDataList.size();
             if (size != 0) {
@@ -142,10 +147,13 @@ public class TimeTableFragment extends Fragment {
                     }
                 }
             }
-        }
+        timeTableClickListener();
+        setTimeTable();
+       // }
     }
 
     private void timeTableClickListener() {
+        Log.d("TAG", "timetable");
         binding.timetable.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
@@ -153,7 +161,7 @@ public class TimeTableFragment extends Fragment {
                     @Override
                     public void onWindowFocusChanged(boolean hasFocus) {
                         if (hasFocus) {
-                            setTimeTable();
+
                             // Window has gained focus
                             // Perform your actions here when window gains focus
                         } else {

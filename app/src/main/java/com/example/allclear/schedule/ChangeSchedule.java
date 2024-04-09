@@ -77,7 +77,7 @@ public class ChangeSchedule {
                             starttime,               // startTime format: "HH:mm"
                             endtime,              // endTime format: "HH:mm"
                             actualColorCode,          // backgroundColor (optional)
-                            "#000000"             // textColor (optional)
+                            "#FFFFFFFF"             // textColor (optional)
                     );
                     scheduleEntityList.add(added_schedule);
                 }
