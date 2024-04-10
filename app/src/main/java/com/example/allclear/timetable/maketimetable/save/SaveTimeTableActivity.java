@@ -1,8 +1,7 @@
-package com.example.allclear.timetable.maketimetable;
+package com.example.allclear.timetable.maketimetable.save;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,7 +19,6 @@ import com.example.allclear.data.response.TimeTableStepEightResponseDto;
 import com.example.allclear.databinding.ActivitySaveTimeTableBinding;
 import com.example.allclear.schedule.ChangeSchedule;
 import com.example.allclear.schedule.Schedule;
-import com.example.allclear.timetable.TimeTableFragment;
 import com.islandparadise14.mintable.model.ScheduleEntity;
 
 import java.util.ArrayList;
@@ -41,7 +39,9 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     private String[] stringDay;
     private ArrayList<Schedule> scheduleDataList = new ArrayList<Schedule>();
     private ArrayList<ScheduleEntity> scheduleEntityList = new ArrayList<>();
+    private ArrayList<ArrayList<ScheduleEntity>> saveSchedule = new ArrayList<ArrayList<ScheduleEntity>>();
 
+    private ArrayList<Long> saveId = new ArrayList<>();
     String subtext;
     String professor;
     String startTime;
@@ -50,7 +50,6 @@ public class SaveTimeTableActivity extends AppCompatActivity {
     long timetableId;
 
     int day;
-    int size;
 
     String selectedYear;
     String selectedSemester;
@@ -68,13 +67,6 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         initBackBtnClickListener();
         getTimeTableGenerator();
         initSaveBtnClickListener();
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        binding.table.initTable(stringDay);
-        binding.table.updateSchedules(scheduleEntityList);
     }
 
     private void getUserData() {
@@ -144,10 +136,12 @@ public class SaveTimeTableActivity extends AppCompatActivity {
                         endTime = classInfo.getEndTime();
                         place = classInfo.getClassRoom();
 
-                        checkConflict();
+                        addSchedule();
                     }
                 }
+                saveTimeTable();
             }
+            showTimeTable();
         }
     }
 
@@ -166,36 +160,9 @@ public class SaveTimeTableActivity extends AppCompatActivity {
             return 5;
     }
 
-    private void checkConflict() {
-        if (size == 0) {
-            addSchedule();
-        } else {
-            for (int i = 0; i < size; i++) {
-                if (day == scheduleDataList.get(i).getClassDay()) {
-                    int addStart = timeToMinutes(startTime);
-                    int addEnd = timeToMinutes(endTime);
-                    int listStart = timeToMinutes(scheduleDataList.get(i).getStartTime());
-                    int listEnd = timeToMinutes(scheduleDataList.get(i).getEndTime());
-                    if ((addStart < listEnd) && (addEnd > listStart)) {
-                        Toast.makeText(SaveTimeTableActivity.this, "시간이 겹치는 일정이 존재합니다", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                }
-            }
-            addSchedule();
-        }
-    }
-
-    private static int timeToMinutes(String time) {
-        String[] parts = time.split(":");
-        int hours = Integer.parseInt(parts[0]);
-        int minutes = Integer.parseInt(parts[1]);
-        return hours * 60 + minutes;
-    }
-
     void addSchedule() {
         Schedule schedule = new Schedule();
-        schedule.setSubjectId(32L);
+        schedule.setSubjectId(timetableId);
         schedule.setSubjectName(subtext);
         schedule.setProfessor(professor);
         schedule.setClassDay(day);
@@ -203,14 +170,15 @@ public class SaveTimeTableActivity extends AppCompatActivity {
         schedule.setEndTime(endTime);
         schedule.setClassRoom(place);
 
-        showTimeTable(schedule);
+        scheduleDataList.add(schedule);
     }
 
-    private void showTimeTable(Schedule newSchedule) {
-        scheduleDataList.add(newSchedule);
-        scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(this,scheduleDataList);
+    private void saveTimeTable() {
+        scheduleEntityList = ChangeSchedule.getInstance().Change_scheduleEntity(SaveTimeTableActivity.this, scheduleDataList);
 
-        // 토요일, 일요일 유무에 따라 day 변경
+        saveSchedule.add(scheduleEntityList);
+        saveId.add(timetableId);
+
         stringDay = new String[]{getString(R.string.Mon), getString(R.string.Tue), getString(R.string.Wen), getString(R.string.Thu), getString(R.string.Fri)};
         int size = scheduleDataList.size();
         if (size != 0) {
@@ -223,6 +191,42 @@ public class SaveTimeTableActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private int i = 0;
+    private boolean isFirst = true;
+
+    private void showTimeTable() {
+        if (isFirst) {
+            Toast.makeText(SaveTimeTableActivity.this, "다음을 눌러 시간표를 확인해주세요.", Toast.LENGTH_SHORT).show();
+            binding.table.initTable(stringDay);
+            binding.table.updateSchedules(saveSchedule.get(0));
+            isFirst = false;
+        }
+        binding.btnTimetableNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (i < saveSchedule.size() - 1) { // 다음 인덱스가 유효한지 확인
+                    i++;
+                    binding.table.initTable(stringDay);
+                    binding.table.updateSchedules(saveSchedule.get(i));
+                } else {
+                    Toast.makeText(SaveTimeTableActivity.this, "더 이상 시간표가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        binding.btnTimetablePrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (i > 0) { // 이전 인덱스가 유효한지 확인
+                    i--;
+                    binding.table.initTable(stringDay);
+                    binding.table.updateSchedules(saveSchedule.get(i));
+                } else {
+                    Toast.makeText(SaveTimeTableActivity.this, "더 이상 시간표가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void initSaveBtnClickListener() {
@@ -246,7 +250,8 @@ public class SaveTimeTableActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             Toast.makeText(SaveTimeTableActivity.this, R.string.timetable_save, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SaveTimeTableActivity.this, MainPageActivity.class);
-                            intent.putExtra("scheduleList", scheduleDataList);
+                            intent.putExtra("scheduleList", saveSchedule.get(i));
+                            intent.putExtra("timetableId", saveId.get(i));
                             setResult(RESULT_OK, intent);
                             startActivity(intent);
                         }
