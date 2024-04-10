@@ -45,7 +45,7 @@ public class EditTimeTableActivity extends AppCompatActivity {
     private ArrayList<Schedule> scheduleDataList=new ArrayList<Schedule>();
     public ArrayList<ScheduleEntity> scheduleEntityList= new ArrayList<>();
     //시간표에 맞게 할당해야 함
-    long timetableId=4;
+    long timetableId;
     static final String DB = "allClear";
 
     private PreferenceUtil preferenceUtil;
@@ -67,6 +67,8 @@ public class EditTimeTableActivity extends AppCompatActivity {
 
         //스케줄데이터를 전달받아 타임테이블에 보여지는 요소로 전환
         Intent intent=getIntent();
+        timetableId=intent.getLongExtra("timetableid",0);
+        Log.d("TAG", "edittimetableid:"+timetableId);
         if(intent != null && intent.hasExtra("schedulelist")){
             scheduleDataList=(ArrayList<Schedule>)intent.getSerializableExtra("schedulelist");
             scheduleEntityList= ChangeSchedule.getInstance().Change_scheduleEntity(this,scheduleDataList);
@@ -102,6 +104,7 @@ public class EditTimeTableActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 TimeTableUpdateToServer(accessToken,timetableId,scheduleDataList);
+                Log.d("TAG", "servertimetableid:"+timetableId);
             }
         });
         binding.table.setOnScheduleClickListener(new OnScheduleClickListener() {
